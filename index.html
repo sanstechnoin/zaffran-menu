@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - Zaffran Delight</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css?v=24">
+    <style>
+        /* Styles for the splash page */
+        html, body {
+            height: 100%;
+            overflow: hidden; /* Prevent scrolling on splash */
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-dark);
+        }
+        .splash-main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        /* Animation for logo */
+        .splash-logo {
+            max-width: 250px;
+            height: auto;
+            opacity: 0;
+            animation: fadeIn 1s ease 0.5s forwards;
+        }
+        
+        /* Animation for hands */
+        .welcome-hands {
+            max-width: 200px;
+            height: auto;
+            opacity: 0;
+            transform: translateY(200px); /* Start from bottom */
+            animation: flyIn 1s ease 1s forwards;
+        }
+        
+        /* Animation for buttons */
+        .splash-buttons {
+            margin-top: 40px;
+            opacity: 0;
+            animation: fadeIn 1s ease 2s forwards;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 300px;
+        }
+        .splash-btn {
+            display: block;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .btn-pickup {
+            background-color: var(--gold);
+            color: #000;
+        }
+        .btn-dinein {
+            background-color: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes flyIn {
+            from { opacity: 0; transform: translateY(200px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="splash-main">
+        <img src="logo.png" alt="Zaffran Logo" class="splash-logo">
+        <img src="image_eef865.png" alt="Welcome" class="welcome-hands">
+        
+        <div class="splash-buttons">
+            <a href="dine-in.html" class="splash-btn btn-dinein">Dine In</a>
+            <a href="pickup.html" class="splash-btn btn-pickup">Pickup</a>
+        </div>
+    </main>
+    
+</body>
+</html>
