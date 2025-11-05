@@ -221,6 +221,8 @@ li:last-child { border-bottom: none; }
     cursor: pointer;
     flex-shrink: 0;
     transition: transform 0.1s ease;
+    line-height: 25px;
+    padding: 0;
 }
 .add-btn:active { transform: scale(0.9); }
 
@@ -773,5 +775,6 @@ address {
         height: 220px;
     }
 }
+
 
 
