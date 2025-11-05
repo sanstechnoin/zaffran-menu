@@ -180,16 +180,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     consentCheckbox.addEventListener('change', toggleCheckoutButtons);
 
-    addButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const id = button.dataset.id;
-            const name = button.dataset.name;
-            const price = parseFloat(button.dataset.price);
-            const category = button.dataset.category;
-            addToCart(id, name, price, category);
+    // New function to initialize ALL item controls
+    function initItemControls() {
+        document.querySelectorAll('.add-btn').forEach(button => {
+            // Remove previous listeners to prevent duplicates
+            button.removeEventListener('click', handleAddToCartClick);
+            button.addEventListener('click', handleAddToCartClick);
         });
-    });
+        document.querySelectorAll('.menu-btn-minus').forEach(button => {
+            button.removeEventListener('click', handleRemoveFromCartClick);
+            button.addEventListener('click', handleRemoveFromCartClick);
+        });
+    }
 
+    function handleAddToCartClick() {
+        const button = this; // 'this' refers to the button clicked
+        const id = button.dataset.id;
+        const name = button.dataset.name;
+        const price = parseFloat(button.dataset.price);
+        const category = button.dataset.category;
+        addToCart(id, name, price, category);
+    }
+    
+    function handleRemoveFromCartClick() {
+        const button = this;
+        adjustQuantity(button.dataset.id, -1);
+    }
+    
+    // Initial call to set up listeners
+    initItemControls(); 
+    
+    // Original addToCart logic
     function addToCart(id, name, price, category) {
         const existingItem = cart.find(item => item.id === id);
         if (existingItem) {
@@ -204,6 +225,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         cartItemsContainer.innerHTML = "";
         let subtotal = 0;
         let itemCount = 0;
+
+        document.querySelectorAll('.item-qty').forEach(qtyEl => {
+            const id = qtyEl.dataset.id;
+            const item = cart.find(i => i.id === id);
+            const controlsDiv = qtyEl.closest('.quantity-controls');
+            
+            if (item) {
+                qtyEl.innerText = item.quantity;
+                controlsDiv.classList.remove('hidden');
+            } else {
+                qtyEl.innerText = '1'; // Reset count display
+                controlsDiv.classList.add('hidden');
+            }
+        });
 
         if (cart.length === 0) {
             cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
@@ -508,3 +543,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Initial check on page load
     toggleCheckoutButtons();
 });
+
