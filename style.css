@@ -206,23 +206,59 @@ li:last-child { border-bottom: none; }
     font-weight: bold;
     color: var(--gold);
     white-space: nowrap;
-    min-width: 60px;
+    min-width: 50px;
     text-align: right;
 }
 .add-btn {
     background-color: var(--gold);
     color: #000;
     border: none;
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: bold;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
     flex-shrink: 0;
     transition: transform 0.1s ease;
 }
 .add-btn:active { transform: scale(0.9); }
+
+/* --- New Menu Item Quantity Controls --- */
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+    margin-right: 5px; /* Adds space before the '+' button */
+}
+.quantity-controls.hidden {
+    display: none !important;
+}
+.item-qty {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--text-main);
+    min-width: 15px;
+    text-align: center;
+}
+.menu-btn-minus {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 25px;
+    font-size: 1.1em;
+    flex-shrink: 0;
+    transition: transform 0.1s ease;
+}
+.menu-btn-minus:active {
+    transform: scale(0.9);
+}
 
 /* --- Floating Cart Button --- */
 #cart-toggle-btn {
@@ -737,4 +773,5 @@ address {
         height: 220px;
     }
 }
+
 
