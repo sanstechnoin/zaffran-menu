@@ -86,7 +86,7 @@ header {
     100% { transform: translateX(-100%); }
 }
 #marquee-container {
-    background-color: #111;
+    background-color: var(--card-bg);
     color: var(--gold);
     overflow: hidden;
     white-space: nowrap;
@@ -756,6 +756,7 @@ address {
         height: 220px;
     }
 }
+
 
 
 
