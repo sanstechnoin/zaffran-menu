@@ -79,6 +79,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
     
+    // CALL IT IMMEDIATELY HERE
+    showMarquee();
+    
     if (marqueeContainer) {
         marqueeContainer.addEventListener('mouseover', () => {
             marqueeText.classList.add('paused');
@@ -106,9 +109,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 promoPopup.classList.remove('hidden');
                 localStorage.setItem('promoLastShown', now.toString());
             }, 10000);
-            showMarquee(); // Also show the main marquee
+        
         } else {
-            showMarquee(); // Just show the main marquee
+       
         }
 
         closePromoBtn.addEventListener('click', () => {
@@ -543,4 +546,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Initial check on page load
     toggleCheckoutButtons();
 });
+
 
