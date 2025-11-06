@@ -198,7 +198,7 @@ li:last-child { border-bottom: none; }
 .price-action {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
     flex-shrink: 0;
 }
 .price {
@@ -775,6 +775,7 @@ address {
         height: 220px;
     }
 }
+
 
 
 
