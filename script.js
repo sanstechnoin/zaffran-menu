@@ -542,9 +542,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         let total = subtotal - discountAmount;
         return { summaryText, subtotal, discountText, total };
     }
-    
-    // Initial check on page load
+        // Initial check on page load
     toggleCheckoutButtons();
 });
+
 
 
