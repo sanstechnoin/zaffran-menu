@@ -6,6 +6,8 @@
     --text-main: #f0f0f0;
     --text-subtle: #aaa;
     --border-color: #444;
+    --veg-icon: #32c832;      /* Green for veg */
+    --non-veg-icon: #e04040;  /* Red for non-veg */
 }
 html { scroll-behavior: smooth; }
 body {
@@ -116,7 +118,39 @@ nav { display: flex; background-color: var(--bg-dark); width: 100%; }
     align-items: center;
     width: 100%;
     box-sizing: border-box;
+    position: relative;
 }
+/* Fades for scrolling nav */
+.nav-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 30px; 
+    background: linear-gradient(to right, var(--bg-dark), transparent); 
+    pointer-events: none; 
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.nav-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 30px; 
+    background: linear-gradient(to left, var(--bg-dark), transparent); 
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.nav-wrapper.fade-left::before { opacity: 1; }
+.nav-wrapper.fade-right::after { opacity: 1; }
+/* End Fades */
+
 .nav-links-container {
     display: flex;
     flex-grow: 1;
@@ -497,6 +531,14 @@ li:last-child { border-bottom: none; }
 
 .checkout-email { background-color: var(--gold); color: #000; }
 .checkout-whatsapp { background-color: #25D366; color: #fff; }
+.checkout-kitchen {
+    background-color: var(--card-bg); /* Dark */
+    color: var(--gold);
+    border: 1px solid var(--gold);
+}
+.checkout-kitchen:hover {
+    background-color: #333; /* Darker */
+}
 
 /* --- Order Confirmation Screen --- */
 #order-confirmation h2 { color: var(--gold); }
@@ -626,7 +668,7 @@ address {
     border-radius: 4px;
 }
 
-/* --- NEW: Dine-in Table Clock Styles --- */
+/* --- Dine-in Table Clock Styles --- */
 .table-selection-main {
     display: flex;
     flex-direction: column;
@@ -687,7 +729,6 @@ address {
     transform: rotate(var(--angle)) translate(150px) rotate(calc(-1 * var(--angle))) scale(1.1);
 }
 
-/* This is the pre-selected style for Table 1 */
 .table-btn.selected,
 .table-btn.selected:hover {
     background-color: var(--gold);
@@ -704,8 +745,6 @@ address {
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
     z-index: 1; /* Behind buttons */
 }
-/* --- END Dine-in Styles --- */
-
 
 /* --- PC/Large Screen Layout --- */
 @media (min-width: 1024px) {
@@ -757,5 +796,982 @@ address {
     }
 }
 
+/* --- Menu Item Icons (Jhasvik) --- */
+.item-details {
+    display: flex;
+    flex-direction: column;
+}
+.item-details strong {
+    display: flex; 
+    align-items: center; 
+    line-height: 1.3; 
+    font-size: 1.1em;
+    color: var(--text-main);
+}
+.item-icon {
+    font-size: 0.8em;
+    font-weight: bold;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 3px;
+    margin-right: 5px; 
+    color: #fff;
+    flex-shrink: 0;
+}
+.item-icon.veg {
+    background-color: var(--veg-icon);
+}
+.item-icon.non-veg {
+    background-color: var(--non-veg-icon);
+}
+.item-icon.chef {
+    background-color: transparent; 
+    color: var(--gold); 
+    font-size: 1.1em; 
+}
+
+/* --- Allergen Superscript Style (Jhasvik) --- */
+.allergen-sup {
+    font-size: 0.7em;
+    vertical-align: super;
+    color: var(--text-subtle); 
+    margin-left: 5px;
+    font-weight: normal; 
+    letter-spacing: 0.5px;
+}
 
 
+/* ===============================================
+   ADMIN & KDS STYLES (Kitchen, Waiter, Billing, Records)
+=============================================== 
+*/
+
+.kitchen-body,
+.billing-body,
+.records-body {
+    background-color: var(--bg-dark);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- KDS Header --- */
+.kitchen-header {
+    background-color: var(--card-bg); 
+    color: var(--gold); 
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    border-bottom: 1px solid var(--border-color); 
+    position: sticky; 
+    top: 0;
+    z-index: 100;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-logo img {
+    height: 40px; 
+    width: auto;
+}
+
+.kitchen-header h1 {
+    margin: 0;
+    font-size: 1.2em; 
+    color: var(--gold); /* Ensure title is gold */
+    border: none; /* Override base h2 */
+    padding: 0;
+}
+
+#connection-icon {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 0.8em;
+}
+
+#connection-status {
+    display: none; 
+}
+
+
+/* --- KDS Content & Grid --- */
+.kitchen-main {
+    padding: 10px;
+    flex-grow: 1; 
+    max-width: none; /* Override base 'main' */
+}
+
+#kds-content-wrapper {
+    width: 100%;
+    max-width: 1200px; /* Max width for the grid */
+    margin: 0 auto; /* Centers the KDS content horizontally */
+    margin-top: 0;
+}
+
+.table-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 15px;
+}
+
+.table-box {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--gold);
+    padding: 10px 15px;
+}
+
+.table-header h2 {
+    color: var(--gold);
+    margin: 0;
+    font-size: 1.2em;
+    border-bottom: none; 
+    padding: 0;
+}
+
+.order-time {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--text-subtle);
+}
+
+.table-box .order-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-grow: 1; 
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.order-list-empty {
+    color: var(--text-subtle);
+    font-style: italic;
+    padding: 15px;
+    display: block; 
+    flex-grow: 1; 
+    list-style-type: none; 
+}
+
+/* Styles for Appended Order Groups */
+.order-group {
+    padding: 10px 15px;
+    border-bottom: 1px dashed var(--border-color);
+}
+.order-group:last-child {
+    border-bottom: none;
+}
+.order-group h4 {
+    margin: 0 0 5px 0;
+    color: var(--gold);
+    font-size: 0.9em;
+    font-weight: bold;
+}
+.order-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.order-group li {
+    padding: 2px 0 2px 10px;
+    font-size: 0.95em;
+    line-height: 1.4;
+    border-bottom: none; 
+    display: block; 
+    list-style-type: none; 
+}
+
+
+/* "Clear Order" Button */
+.clear-table-btn {
+    background-color: #8B0000; /* Dark Red */
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    border-bottom-left-radius: 8px; 
+    border-bottom-right-radius: 8px; 
+    transition: background-color 0.2s;
+    margin-top: auto; /* Pushes button to the bottom */
+}
+.clear-table-btn:hover {
+    background-color: #a10000; /* Brighter Red */
+}
+.clear-table-btn:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+/* --- KDS Popups (Login & New Order) --- */
+
+.kitchen-popup-overlay {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); 
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    z-index: 5000; 
+    padding: 20px;
+    box-sizing: border-box;
+}
+.kitchen-popup-overlay.hidden {
+    display: none;
+}
+
+.kitchen-popup-box {
+    background: var(--card-bg); 
+    color: var(--text-main);
+    padding: 30px; 
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 100%;
+    z-index: 5001; 
+    margin: 0; 
+}
+
+.kitchen-popup-box h3 {
+    color: var(--gold);
+    font-size: 1.8em;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+/* KDS Login Input */
+#kitchen-password,
+#billing-password,
+#records-password {
+    background-color: var(--bg-dark); 
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 12px;
+    width: 100%; 
+    box-sizing: border-box; 
+    border-radius: 4px;
+    margin-top: 15px;  
+    margin-bottom: 10px; 
+}
+
+/* KDS Login Button */
+.kitchen-popup-box button {
+    background-color: var(--gold); 
+    color: #000;
+    border: none;
+    padding: 12px 30px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%; 
+    box-sizing: border-box; 
+    margin-top: 15px; 
+}
+
+.kitchen-popup-box button:hover {
+    background-color: #b8860b;
+}
+
+
+/* New Order Popup Specifics */
+#popup-order-details {
+    text-align: left;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 15px 0;
+    max-height: 300px;
+    overflow-y: auto;
+    color: var(--bg-dark); 
+}
+
+#popup-order-details h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.4em;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    color: var(--bg-dark); 
+}
+
+#popup-order-details ul {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0;
+    font-size: 1.1em;
+    line-height: 1.7;
+}
+
+#popup-order-details li {
+    padding: 0;
+    border-bottom: none;
+    display: list-item;
+}
+
+#accept-order-btn {
+    background-color: #006400; /* Dark Green */
+    color: white;
+}
+#accept-order-btn:hover {
+    background-color: #008000; /* Brighter Green */
+}
+
+/* Animation for flashing new orders */
+@keyframes newOrderFlash {
+    0% { background-color: var(--card-bg); }
+    50% { background-color: var(--gold); }
+    100% { background-color: var(--card-bg); }
+}
+
+.table-box.new-order-flash {
+    animation: newOrderFlash 1s ease-in-out;
+}
+
+/* KDS Responsive Grid */
+@media (max-width: 1200px) {
+    .table-grid {
+        grid-template-columns: repeat(3, 1fr); 
+    }
+}
+@media (max-width: 768px) {
+    .table-grid {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+@media (max-width: 500px) {
+    .table-grid {
+        grid-template-columns: 1fr; 
+    }
+    .kitchen-header h1 {
+        font-size: 1.0em; 
+    }
+    .header-logo img {
+        height: 30px; 
+    }
+    .header-logo {
+        gap: 8px;
+        min-width: 0; 
+    }
+}
+
+/* ===============================================
+   SPLIT-SCREEN KDS STYLES
+=============================================== 
+*/
+
+.kds-section-header {
+    padding: 20px 10px 10px 10px;
+    border-bottom: 2px solid var(--gold);
+    margin-bottom: 15px;
+    margin-top: 20px;
+}
+.kds-section-header h2 {
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-size: 1.8em;
+}
+
+/* --- Pickup Grid Layout --- */
+.pickup-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns on desktop */
+    gap: 15px;
+}
+
+.pickup-box {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.pickup-box .order-list {
+    list-style: none;
+    padding: 15px;
+    margin: 0;
+    flex-grow: 1; 
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.pickup-box .order-list li {
+    padding: 0 0 0 10px; 
+    border-bottom: none;
+    font-size: 0.95em;
+    line-height: 1.6;
+    display: block; 
+    list-style-type: none; 
+}
+
+/* Header for pickup box */
+.pickup-box .table-header h2 {
+    font-size: 1.1em; 
+}
+
+/* Empty placeholder */
+.pickup-box-empty {
+    grid-column: 1 / -1; 
+    text-align: center;
+    color: var(--text-subtle);
+    font-style: italic;
+    padding: 20px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    border: 1px dashed var(--border-color);
+}
+
+/* "Order Complete" Button */
+.clear-pickup-btn {
+    background-color: #006400; /* Dark Green */
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    border-bottom-left-radius: 8px; 
+    border-bottom-right-radius: 8px; 
+    transition: background-color 0.2s;
+    margin-top: auto; 
+}
+.clear-pickup-btn:hover {
+    background-color: #008000; /* Brighter Green */
+}
+.clear-pickup-btn:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+/* Responsive Grid for Pickup */
+@media (max-width: 1200px) {
+    .pickup-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (max-width: 768px) {
+    .pickup-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 500px) {
+    .pickup-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===============================================
+   ORDER NOTES STYLES
+=============================================== 
+*/
+
+/* Style for notes in the table/pickup box */
+.order-notes {
+    font-size: 0.95em;
+    font-weight: bold;
+    color: #e04040; /* Red */
+    padding: 10px 15px 5px 15px;
+    margin: 0;
+    border-top: 1px dashed var(--border-color);
+}
+
+/* Style for notes in the popup */
+.popup-notes {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #8B0000; /* Darker Red */
+    background-color: #fdd;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+/* ===============================================
+   BILLING PAGE STYLES
+=============================================== 
+*/
+
+.billing-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-dark);
+}
+
+.billing-main {
+    flex-grow: 1;
+    max-width: none; 
+    padding: 10px;
+}
+
+#billing-content-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px; 
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+/* --- Left Column: Table List --- */
+#table-list-container {
+    flex: 0 0 250px; 
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+}
+#table-list-container h2 {
+    font-size: 1.3em;
+    margin: 5px 5px 15px 5px;
+    padding-bottom: 10px;
+}
+#table-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#table-list p {
+    font-style: italic;
+    color: var(--text-subtle);
+    padding: 0 10px;
+}
+.table-list-btn {
+    background-color: #0d163d;
+    color: var(--gold);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+.table-list-btn:hover {
+    background-color: #333d6b;
+}
+.table-list-btn.selected {
+    background-color: var(--gold);
+    color: #000;
+}
+
+/* --- Right Column: Bill View --- */
+#bill-view-container {
+    flex: 1; 
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+}
+#bill-view-container.hidden {
+    display: none;
+}
+.bill-title {
+    font-size: 1.5em;
+    margin-top: 0;
+}
+#bill-item-list {
+    margin: 20px 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--border-color);
+}
+/* Price alignment fix */
+.bill-item {
+    display: grid; 
+    grid-template-columns: 1fr auto auto; /* Name | Price | Button */
+    align-items: center;
+    gap: 15px; 
+    padding: 15px 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+.bill-item .item-name {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+.bill-item .item-price {
+    font-size: 1.1em;
+    font-weight: bold;
+    min-width: 80px; 
+    text-align: right;
+}
+.bill-delete-item {
+    background-color: #8B0000;
+    color: white;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 28px;
+}
+.bill-delete-item:hover {
+    background-color: #a10000;
+}
+.bill-delete-item:disabled {
+    background-color: #555;
+}
+
+.bill-total {
+    font-size: 1.8em;
+    color: var(--gold);
+    text-align: right;
+    margin-top: 20px;
+}
+.billing-hr {
+    border: none;
+    border-top: 1px dashed var(--border-color);
+    margin: 25px 0;
+}
+
+/* --- Add Item Form --- */
+#add-item-form {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 15px;
+    align-items: flex-end;
+}
+#add-item-form h3 {
+    width: 100%;
+    margin: 0 0 10px 0;
+    font-size: 1.2em;
+}
+.form-row {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+}
+.form-row-small {
+    flex: 0 0 100px; 
+}
+.form-row label {
+    font-size: 0.9em;
+    color: var(--text-subtle);
+    margin-bottom: 5px;
+}
+.form-row input {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 1em;
+}
+#add-item-btn {
+    background-color: #006400;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 42px; /* Match input height */
+}
+#add-item-btn:hover {
+    background-color: #008000;
+}
+
+/* --- Close Bill Button --- */
+#close-bill-btn {
+    background-color: #8B0000;
+    color: white;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#close-bill-btn:hover {
+    background-color: #a10000;
+}
+
+/* --- Responsive Billing Page --- */
+@media (max-width: 768px) {
+    #billing-content-wrapper {
+        flex-direction: column;
+    }
+    #table-list-container {
+        flex: 0 0 auto; 
+        width: 100%;
+        box-sizing: border-box;
+    }
+    #add-item-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .form-row-small {
+        flex: 1; 
+    }
+    #add-item-btn {
+        height: auto; 
+    }
+}
+
+/* ===============================================
+   SALES RECORDS PAGE STYLES
+=============================================== 
+*/
+
+.records-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-dark);
+}
+
+.records-main {
+    flex-grow: 1;
+    max-width: none; 
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.records-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    align-items: flex-end;
+}
+.date-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.date-filter label {
+    font-size: 0.9em;
+    color: var(--text-subtle);
+}
+.date-filter input {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-family: inherit;
+}
+#filter-btn {
+    margin-left: auto; /* Pushes buttons to the right */
+}
+.records-controls button {
+    padding: 10px 15px;
+    height: 42px; /* Align with inputs */
+}
+
+/* Summary Boxes */
+.records-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+.summary-box {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-left: 4px solid var(--gold);
+}
+.summary-title {
+    font-size: 1.1em;
+    color: var(--text-subtle);
+    margin-bottom: 5px;
+}
+.summary-value {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--text-main);
+}
+
+/* Results List */
+.records-results {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+}
+.record-item {
+    border-bottom: 1px solid var(--border-color);
+}
+.record-item:last-child {
+    border-bottom: none;
+}
+.record-summary {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 15px;
+    padding: 15px 10px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.2s;
+}
+.record-summary:hover {
+    background-color: #333;
+}
+.record-date {
+    font-weight: bold;
+}
+.record-table {
+    color: var(--text-subtle);
+}
+.record-total {
+    font-weight: bold;
+    color: var(--gold);
+    text-align: right;
+}
+.record-item-details {
+    padding: 15px 20px 20px 40px;
+    background-color: var(--bg-dark);
+    border-top: 1px solid var(--border-color);
+}
+.record-item-details ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+.record-item-details li {
+    padding: 5px 0;
+    border: none;
+    font-size: 1em;
+}
+
+/* --- PRINTING STYLES --- */
+@media print {
+    body.records-body,
+    body {
+        background-color: #fff !important;
+        color: #000 !important;
+    }
+    .kitchen-header, .records-controls, #records-login-overlay, #footer-bar {
+        display: none !important;
+    }
+    .records-main {
+        padding: 0;
+        max-width: 100%;
+        color: #000 !important;
+    }
+    .records-summary {
+        border-bottom: 2px solid #666;
+        padding-bottom: 15px;
+    }
+    .summary-box {
+        background-color: #eee !important;
+        color: #000 !important;
+        border: 1px solid #ccc !important;
+        border-left: 4px solid #333 !important;
+    }
+    .summary-title, .summary-value {
+        color: #000 !important;
+    }
+    .records-results {
+        background-color: #fff !important;
+        padding: 0;
+        color: #000 !important;
+    }
+    .record-item {
+        border: 1px solid #ccc !important;
+        margin-bottom: 10px;
+        page-break-inside: avoid;
+    }
+    .record-item details[open] {
+        display: block;
+    }
+    .record-item details {
+        display: block;
+    }
+    .record-summary {
+        background-color: #f0f0f0 !important;
+        color: #000 !important;
+    }
+    .record-total {
+        color: #000 !important;
+    }
+    .record-table {
+        color: #333 !important;
+    }
+    .record-item-details {
+        background-color: #fff !important;
+        border-top: 1px solid #ccc !important;
+        color: #000 !important;
+    }
+    .record-item-details li {
+        color: #000 !important;
+    }
+}
+
+/* ===============================================
+   WAITER STATION STYLES
+=============================================== 
+*/
+
+/* Styles the <li> for an item on the waiter page */
+.waiter-item {
+    display: flex !important; /* Override default */
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 5px 0 !important;
+    border-bottom: 1px dotted var(--border-color) !important;
+}
+.waiter-item:last-child {
+    border-bottom: none !important;
+}
+
+/* Styles the "X" button */
+.delete-item-btn {
+    background-color: #8B0000;
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 24px;
+    padding: 0;
+    margin-left: 10px;
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+}
+.delete-item-btn:hover {
+    background-color: #a10000;
+}
+.delete-item-btn:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
