@@ -1028,17 +1028,22 @@
                 
                 <hr>
                 
-                <form id="order-form" action="https://formbold.com/s/9Xr8q" method="POST">
+                    <form id="order-form">
                     
                     <h3 id="formbold-table-title" style="margin: 0 0 15px 0; color: var(--gold);"></h3>
 
-                    <input type="hidden" id="table-number-input" name="Table Number"> 
-                    <input type="hidden" id="order-details-input" name="Order Details"> 
+                   
+                    <label for="dine-in-notes" style="font-size: 0.9em; margin-bottom: 5px; display: block;">Allergies or Notes (Optional):</label>
+                    <textarea id="dine-in-notes" rows="2" style="background-color: #0d163d; border-color: var(--border-color); color: var(--text-main); width: 100%; border-radius: 4px; padding: 8px; margin-bottom: 15px;"></textarea>
+             
+
+                    <input type="hidden" id="table-number-input" name="Table Number">
+                    <input type="hidden" id="order-details-input" name="Order Details">
                     <input type="hidden" id="order-total-input" name="Total">
 
                     <div class="checkout-buttons">
-                        <button type="submit" class="checkout-email">
-                            Order Now
+                        <button type="button" id="firebase-btn" class="checkout-kitchen">
+                            An Küche senden (Live)
                         </button>
                     </div>
                 </form>
@@ -1050,6 +1055,10 @@
                 <h3>Your Order Summary:</h3>
                 <div id="confirmation-summary">
                     </div>
+                <p id="cancel-timer-text" style="color: var(--gold); display: none;"></p>
+                <button type="button" id="cancel-order-btn" class="checkout-kitchen" style="display: none; background-color: #8B0000; border-color: #8B0000; color: white;">
+                    Cancel Order
+                </button>
                 <button type="button" id="confirmation-close-btn" class="checkout-email">Close</button>
             </div>
         </div>
