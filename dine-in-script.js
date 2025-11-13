@@ -204,10 +204,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         // --- END OF FIX ---
     }
     function addCartItemControls() {
-        document.querySelectorAll('.cart-btn-plus').forEach(btn => {
+        document.querySelectorAll('#cart-items-container .cart-btn-plus').forEach(btn => {
             btn.addEventListener('click', () => adjustQuantity(btn.dataset.id, 1));
         });
-        document.querySelectorAll('.cart-btn-minus').forEach(btn => {
+        document.querySelectorAll('#cart-items-container .cart-btn-minus').forEach(btn => {
             btn.addEventListener('click', () => adjustQuantity(btn.dataset.id, -1));
         });
     }
