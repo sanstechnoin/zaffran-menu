@@ -1,192 +1,111 @@
+// --- 1. ZAFFRAN FIREBASE CONFIG ---
+const firebaseConfig = {
+  apiKey: "AIzaSyAVh2kVIuFcrt8Dg88emuEd9CQlqjJxDrA",
+  authDomain: "zaffran-delight.firebaseapp.com",
+  projectId: "zaffran-delight",
+  storageBucket: "zaffran-delight.firebasestorage.app",
+  messagingSenderId: "1022960860126",
+  appId: "1:1022960860126:web:1e06693dea1d0247a0bb4f"
+};
+// --- END OF FIREBASE CONFIG ---
+
+// --- 2. Initialize Firebase ---
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 // Global cart variables
 let cart = [];
-let appliedCoupon = null;
+// Note: Zaffran script does not use coupons yet.
+// let appliedCoupon = null; 
 
-// --- Main function to load config first ---
+// --- Main function ---
 document.addEventListener("DOMContentLoaded", async () => {
     
     let config;
     try {
-        // Fetch the config file (add cache-buster)
-        const response = await fetch('config.json?v=23'); // Match v=23
+        // We still fetch config for WhatsApp number
+        const response = await fetch('config.json?v=23'); 
         config = await response.json();
     } catch (error) {
         console.error("Failed to load config.json", error);
-        // If config fails, use empty defaults
-        config = { promoPopup: {}, coupons: [], whatsappNumber: "", featuredCouponCode: "" };
+        config = { whatsappNumber: "" };
     }
 
     // --- 1. Sticky Header Scroll Padding ---
     const header = document.querySelector('header');
+    const headerNav = document.querySelector('header nav');
     function updateScrollPadding() {
         if (header) {
             const headerHeight = header.offsetHeight;
             document.documentElement.style.setProperty('scroll-padding-top', `${headerHeight}px`);
+
+            if (headerNav) {
+                const navHeight = headerNav.offsetHeight;
+                const topPartHeight = headerHeight - navHeight;
+                headerNav.style.top = `${topPartHeight}px`;
+            }
         }
     }
     updateScrollPadding();
     window.addEventListener('resize', updateScrollPadding);
-
-    // --- 2. Nav Scroller ---
-    const navLinksContainer = document.getElementById('nav-links-container');
-    const scrollLeftBtn = document.getElementById('scroll-left-btn');
-    const scrollRightBtn = document.getElementById('scroll-right-btn');
-    if (navLinksContainer && scrollLeftBtn && scrollRightBtn) {
-        const scrollAmount = 150;
-        const updateArrowVisibility = () => {
-            const maxScroll = navLinksContainer.scrollWidth - navLinksContainer.clientWidth;
-            scrollRightBtn.classList.toggle('hidden', navLinksContainer.scrollLeft >= maxScroll - 1);
-            scrollLeftBtn.classList.toggle('hidden', navLinksContainer.scrollLeft <= 0);
-        };
-        scrollLeftBtn.addEventListener('click', () => navLinksContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
-        scrollRightBtn.addEventListener('click', () => navLinksContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
-        navLinksContainer.addEventListener('scroll', updateArrowVisibility);
-        window.addEventListener('resize', updateArrowVisibility);
-        if (typeof ResizeObserver === 'function') {
-            new ResizeObserver(updateArrowVisibility).observe(navLinksContainer);
-        }
-        setTimeout(updateArrowVisibility, 100);
-    }
-
-    // --- 3. DYNAMIC Promotional Popup & Marquee ---
-    const promo = config.promoPopup;
-    const promoPopup = document.getElementById('popup-overlay');
-    const closePromoBtn = document.getElementById('close-popup');
-    const marqueeContainer = document.getElementById('marquee-container');
-    const marqueeText = document.getElementById('marquee-text');
-
-    function isPromoActive() {
-        if (!promo || !promo.startDate || !promo.endDate) return false;
-        try {
-            const today = new Date();
-            const [startYear, startMonth, startDay] = promo.startDate.split('-').map(Number);
-            const [endYear, endMonth, endDay] = promo.endDate.split('-').map(Number);
-            const startDate = new Date(startYear, startMonth - 1, startDay);
-            const endDate = new Date(endYear, endMonth - 1, endDay);
-            endDate.setHours(23, 59, 59, 999);
-            return (today >= startDate && today <= endDate);
-        } catch (e) {
-            console.error("Error with promo dates:", e);
-            return false;
-        }
-    }
-
-    function showMarquee() {
-        // Use the marqueeLines from config.json
-        if (marqueeText && marqueeContainer && config.marqueeLines && config.marqueeLines.length > 0) {
-            marqueeText.innerText = config.marqueeLines.join(" --- "); // Join with separators
-            marqueeContainer.classList.remove('hidden');
-        }
-    }
     
-    // CALL IT IMMEDIATELY HERE
-    showMarquee();
-    
-    if (marqueeContainer) {
-        marqueeContainer.addEventListener('mouseover', () => {
-            marqueeText.classList.add('paused');
-        });
-        marqueeContainer.addEventListener('mouseout', () => {
-            marqueeText.classList.remove('paused');
-        });
-        marqueeContainer.addEventListener('touchstart', () => {
-            marqueeText.classList.add('paused');
-        }, { passive: true });
-        marqueeContainer.addEventListener('touchend', () => {
-            marqueeText.classList.remove('paused');
-        });
-    }
-
-    if (promoPopup && closePromoBtn) {
-        const lastShown = localStorage.getItem('promoLastShown');
-        const twentyFourHours = 24 * 60 * 60 * 1000;
-        const now = new Date().getTime();
-
-        if (isPromoActive() && (!lastShown || (now - lastShown > twentyFourHours))) {
-            document.getElementById('promo-line-1').innerText = promo.line1;
-            document.getElementById('promo-line-2').innerText = promo.line2;
-            setTimeout(() => {
-                promoPopup.classList.remove('hidden');
-                localStorage.setItem('promoLastShown', now.toString());
-            }, 10000);
-        
-        } else {
-       
-        }
-
-        closePromoBtn.addEventListener('click', () => {
-            promoPopup.classList.add('hidden');
-            // No need to call showMarquee(), it's already running
-        });
-    }
-
     // --- 4. Shopping Cart Logic ---
     const cartToggleBtn = document.getElementById('cart-toggle-btn');
     const cartOverlay = document.getElementById('cart-overlay');
     const cartCloseBtn = document.getElementById('cart-close-btn');
-    const addButtons = document.querySelectorAll('.add-btn');
     const cartItemsContainer = document.getElementById('cart-items-container');
     const cartItemCountEl = document.getElementById('cart-item-count');
 
-    const subtotalAmountEl = document.getElementById('subtotal-amount');
-    const discountAmountEl = document.getElementById('discount-amount');
     const totalAmountEl = document.getElementById('total-amount');
-    const summaryDiscountEl = document.getElementById('summary-discount');
-    const applyCouponBtn = document.getElementById('apply-coupon-btn');
-    const couponCodeInput = document.getElementById('coupon-code');
-    const couponMessageEl = document.getElementById('coupon-message');
     const cartContentEl = document.getElementById('cart-content');
     const orderConfirmationEl = document.getElementById('order-confirmation');
     const confirmationSummaryEl = document.getElementById('confirmation-summary');
     const confirmationCloseBtn = document.getElementById('confirmation-close-btn');
-    
-    // --- THIS IS THE MISSING CODE ---
-    const couponHintEl = document.getElementById('coupon-hint');
-    if (config.featuredCouponCode && couponHintEl) {
-        const featuredCoupon = config.coupons.find(c => c.code === config.featuredCouponCode);
-        if (featuredCoupon) {
-            let hintText = `Use code ${featuredCoupon.code} for ${featuredCoupon.value * 100}% off`;
-            if (featuredCoupon.discountType === 'fixed') {
-                hintText = `Use code ${featuredCoupon.code} for ${featuredCoupon.value.toFixed(2)}€ off`;
-            }
-            if (featuredCoupon.minValue > 0) {
-                hintText += ` on orders over ${featuredCoupon.minValue.toFixed(2)}€!`;
-            }
-            couponHintEl.innerText = hintText;
-            couponHintEl.classList.remove('hidden');
-        }
-    }
-    // --- END OF MISSING CODE ---
 
     const consentCheckbox = document.getElementById('privacy-consent');
     const orderForm = document.getElementById('order-form');
-    const emailSubmitBtn = orderForm.querySelector('.checkout-email');
     const whatsappBtn = document.getElementById('whatsapp-btn');
+    const firebaseBtn = document.getElementById('firebase-btn'); 
     
     if (cartToggleBtn) cartToggleBtn.addEventListener('click', openCart);
     if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
     if (confirmationCloseBtn) confirmationCloseBtn.addEventListener('click', closeCart);
     
     function openCart() {
-        cartContentEl.classList.remove('hidden');
-        orderConfirmationEl.classList.add('hidden');
+        cartContentEl.style.display = 'block'; 
+        orderConfirmationEl.style.display = 'none'; 
         cartOverlay.classList.remove('hidden');
         updateCart();
         toggleCheckoutButtons();
     }
-    function closeCart() { cartOverlay.classList.add('hidden'); }
+    function closeCart() { 
+        cartOverlay.classList.add('hidden'); 
+        setTimeout(() => {
+            cartContentEl.style.display = 'block';
+            orderConfirmationEl.style.display = 'none';
+        }, 500);
+    }
 
     function toggleCheckoutButtons() {
-        const isChecked = consentCheckbox.checked;
-        emailSubmitBtn.disabled = !isChecked;
-        whatsappBtn.disabled = !isChecked;
+        // Check if consentCheckbox exists before adding listener
+        if (consentCheckbox) {
+            const isChecked = consentCheckbox.checked;
+            if (whatsappBtn) whatsappBtn.disabled = !isChecked;
+            if (firebaseBtn) firebaseBtn.disabled = !isChecked; 
+        } else {
+            // If there's no checkbox, buttons are always enabled
+            if (whatsappBtn) whatsappBtn.disabled = false;
+            if (firebaseBtn) firebaseBtn.disabled = false;
+        }
     }
-    consentCheckbox.addEventListener('change', toggleCheckoutButtons);
+    
+    if (consentCheckbox) {
+        consentCheckbox.addEventListener('change', toggleCheckoutButtons);
+    }
+    toggleCheckoutButtons(); // Initial check
 
-    // New function to initialize ALL item controls
     function initItemControls() {
         document.querySelectorAll('.add-btn').forEach(button => {
-            // Remove previous listeners to prevent duplicates
             button.removeEventListener('click', handleAddToCartClick);
             button.addEventListener('click', handleAddToCartClick);
         });
@@ -197,7 +116,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function handleAddToCartClick() {
-        const button = this; // 'this' refers to the button clicked
+        const button = this; 
         const id = button.dataset.id;
         const name = button.dataset.name;
         const price = parseFloat(button.dataset.price);
@@ -206,14 +125,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     
     function handleRemoveFromCartClick() {
-        const button = this;
-        adjustQuantity(button.dataset.id, -1);
+        adjustQuantity(this.dataset.id, -1);
     }
     
-    // Initial call to set up listeners
     initItemControls(); 
     
-    // Original addToCart logic
     function addToCart(id, name, price, category) {
         const existingItem = cart.find(item => item.id === id);
         if (existingItem) {
@@ -238,14 +154,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 qtyEl.innerText = item.quantity;
                 controlsDiv.classList.remove('hidden');
             } else {
-                qtyEl.innerText = '1'; // Reset count display
+                qtyEl.innerText = '1'; 
                 controlsDiv.classList.add('hidden');
             }
         });
 
         if (cart.length === 0) {
-            cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
-            appliedCoupon = null;
+            cartItemsContainer.innerHTML = "<p>Ihre Bestellung ist leer.</p>";
         }
 
         cart.forEach(item => {
@@ -264,89 +179,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             subtotal += item.price * item.quantity;
             itemCount += item.quantity;
         });
-
-        let discountAmount = 0;
-        let discountText = "Discount:";
-
-        if (appliedCoupon) {
-            let isValid = true;
-            let validationMessage = `Code "${appliedCoupon.code}" applied!`;
-            let validationClass = 'success';
-
-            const minValue = appliedCoupon.minValue || 0;
-            if (subtotal < minValue) {
-                isValid = false;
-                validationMessage = `Your total is now below ${minValue.toFixed(2)} €. Coupon removed.`;
-                validationClass = 'error';
-            }
-
-            if (isValid) {
-                const category = appliedCoupon.appliesToCategory.toLowerCase();
-                if (category !== "all") {
-                    const hasMatchingItem = cart.some(item => item.category.toLowerCase() === category);
-                    if (!hasMatchingItem) {
-                        isValid = false;
-                        validationMessage = `Coupon removed (no matching items in cart).`;
-                        validationClass = 'error';
-                    }
-                }
-            }
-
-            if (isValid) {
-                couponMessageEl.innerText = validationMessage;
-                couponMessageEl.className = validationClass;
-                
-                let discountableSubtotal = 0;
-                const category = appliedCoupon.appliesToCategory.toLowerCase();
-
-                if (category === "all") {
-                    discountableSubtotal = subtotal;
-                } else {
-                    cart.forEach(item => {
-                        if (item.category.toLowerCase() === category) {
-                            discountableSubtotal += item.price * item.quantity;
-                        }
-                    });
-                }
-
-                if (appliedCoupon.discountType === 'fixed') {
-                     let applicableItems = 0;
-                    cart.forEach(item => {
-                        if (item.category.toLowerCase() === category) {
-                            applicableItems += item.quantity;
-                        }
-                    });
-                    discountAmount = appliedCoupon.value * applicableItems;
-                    discountText = `Discount (${appliedCoupon.code})`;
-                } 
-                else if (appliedCoupon.discountType === 'percent') {
-                    discountAmount = discountableSubtotal * appliedCoupon.value;
-                    discountText = `Discount (${(appliedCoupon.value * 100).toFixed(0)}%)`;
-                }
-                
-                discountAmount = Math.min(subtotal, discountAmount);
-            } else {
-                appliedCoupon = null;
-                couponMessageEl.innerText = validationMessage;
-                couponMessageEl.className = validationClass;
-            }
-        }
         
-        if (discountAmount > 0) {
-            summaryDiscountEl.classList.remove('hidden');
-            summaryDiscountEl.querySelector('span').innerText = discountText;
-            discountAmountEl.innerText = `-${discountAmount.toFixed(2)} €`;
-        } else {
-            summaryDiscountEl.classList.add('hidden');
-            if (couponMessageEl.className === "success") {
-                 couponMessageEl.innerText = "";
-                 couponCodeInput.value = "";
-            }
-        }
-        
-        let total = subtotal - discountAmount;
+        let total = subtotal;
 
-        subtotalAmountEl.innerText = `${subtotal.toFixed(2)} €`;
         totalAmountEl.innerText = `${total.toFixed(2)} €`;
         cartItemCountEl.innerText = itemCount;
         
@@ -372,179 +207,144 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         updateCart();
     }
-
-    // --- 5. Coupon Logic ---
-    applyCouponBtn.addEventListener('click', () => {
-        const code = couponCodeInput.value.trim().toUpperCase();
-        const coupon = config.coupons.find(c => c.code.toUpperCase() === code);
-
-        appliedCoupon = null;
-        couponMessageEl.innerText = "";
-        couponMessageEl.className = "";
-
-        if (coupon) {
-            let currentSubtotal = 0;
-            cart.forEach(item => {
-                currentSubtotal += item.price * item.quantity;
-            });
-            const minValue = coupon.minValue || 0;
-            if (currentSubtotal < minValue) {
-                couponMessageEl.innerText = `You must spend at least ${minValue.toFixed(2)} € to use this code.`;
-                couponMessageEl.className = 'error';
-                updateCart();
-                return;
-            }
-            
-            const category = coupon.appliesToCategory.toLowerCase();
-            if (category !== "all") {
-                const hasMatchingItem = cart.some(item => item.category.toLowerCase() === category);
-                if (!hasMatchingItem) {
-                    couponMessageEl.innerText = `You need a '${category}' item to use this code.`;
-                    couponMessageEl.className = 'error';
-                    updateCart();
-                    return;
-                }
-            }
-
-            appliedCoupon = coupon;
-            couponMessageEl.innerText = `Code "${coupon.code}" applied!`;
-            couponMessageEl.className = 'success';
-        } else {
-            couponMessageEl.innerText = "Invalid code.";
-            couponMessageEl.className = 'error';
-        }
-        updateCart();
-    });
-
-    // --- 6. Checkout Logic (AJAX submission) ---
-    orderForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const { summaryText, total, discountText } = generateOrderSummary();
+    
+    // --- 6. Helper function to build the order data ---
+    function getOrderData() {
+        const { summaryText, total, itemsOnly } = generateOrderSummary();
         const customerName = document.getElementById('customer-name').value;
         const customerPhone = document.getElementById('customer-phone').value;
         const customerNotes = document.getElementById('customer-notes').value;
+        
+        if (!customerName || !customerPhone) {
+            alert("Bitte geben Sie Ihren Namen und Ihre Telefonnummer ein.");
+            return null; // Return null if validation fails
+        }
 
-        document.getElementById('order-details-input').value = `${summaryText}\n${discountText}`;
-        document.getElementById('order-total-input').value = `${total.toFixed(2)} €`;
+        const orderId = `pickup-${new Date().getTime()}`;
+        
+        // This is the unique identifier for billing
+        const billingIdentifier = `${customerName} (${customerPhone})`; 
+        
+        const orderData = {
+            id: orderId,
+            table: billingIdentifier, // Use "Name (Phone)" as the "table" identifier
+            customerName: customerName,
+            customerPhone: customerPhone, 
+            notes: customerNotes || null, 
+            items: itemsOnly,
+            status: "new",
+            orderType: "pickup", 
+            createdAt: new Date()
+        };
+        
+        const summary = {
+            summaryText,
+            total,
+            customerName,
+            customerPhone,
+            customerNotes
+        };
+        
+        return { orderData, summary };
+    }
+    
+    // --- 7. Helper function to show confirmation ---
+    function showConfirmationScreen(summary) {
+        let finalSummary = `Kunde: ${summary.customerName}\nTelefon: ${summary.customerPhone}\n\n${summary.summaryText}\nTotal: ${summary.total.toFixed(2)} €`;
+        if (summary.customerNotes) {
+            finalSummary += `\n\nAnmerkungen:\n${summary.customerNotes}`;
+        }
+        
+        confirmationSummaryEl.innerText = finalSummary;
+        cartContentEl.style.display = 'none'; 
+        orderConfirmationEl.style.display = 'block'; 
+        cart = [];
+        // appliedCoupon = null;
+        orderForm.reset();
+        if (consentCheckbox) {
+            consentCheckbox.checked = false;
+        }
+        updateCart();
+    }
 
-        const formData = new FormData(orderForm);
-        emailSubmitBtn.innerText = "Sending...";
-        emailSubmitBtn.disabled = true;
 
-        fetch(orderForm.action, {
-            method: 'POST',
-            body: formData,
-            headers: { 'Accept': 'application/json' }
-        }).then(response => {
-            if (response.ok) {
-                let finalSummary = `Customer: ${customerName}\nPhone: ${customerPhone}\n\n${summaryText}\n${discountText}Total: ${total.toFixed(2)} €`;
-                if (customerNotes) {
-                    finalSummary += `\n\nNotes:\n${customerNotes}`;
-                }
-                
-                confirmationSummaryEl.innerText = finalSummary;
-                cartContentEl.classList.add('hidden');
-                orderConfirmationEl.classList.remove('hidden');
-                cart = [];
-                appliedCoupon = null;
-                orderForm.reset();
-                consentCheckbox.checked = false;
-                updateCart();
-            } else {
-                response.json().then(data => {
-                    if (Object.hasOwn(data, 'errors')) {
-                        alert(data["errors"].map(error => error["message"]).join(", "));
-                    } else {
-                        alert("Error sending order. Please try again later.");
-                    }
-                });
+    // --- 8. Kitchen Button (Firebase Only) ---
+    if(firebaseBtn) {
+        firebaseBtn.addEventListener('click', async () => {
+            const orderPayload = getOrderData();
+            if (!orderPayload) return; // Validation failed
+            
+            const { orderData, summary } = orderPayload;
+
+            firebaseBtn.innerText = "Senden...";
+            firebaseBtn.disabled = true;
+
+            try {
+                await db.collection("orders").doc(orderData.id).set(orderData);
+                showConfirmationScreen(summary);
+            } catch (error) {
+                console.error("Error sending order to Firebase: ", error);
+                alert("Fehler beim Senden der Bestellung. Bitte versuchen Sie es erneut.");
+            } finally {
+                firebaseBtn.innerText = "An Küche senden (Live)";
+                toggleCheckoutButtons();
             }
-        }).catch(error => {
-            alert("Error sending order. Please check your internet connection.");
-        }).finally(() => {
-            emailSubmitBtn.innerText = "Send via Email";
-            toggleCheckoutButtons();
         });
-    });
+    }
 
-    // WhatsApp Submit
-    whatsappBtn.addEventListener('click', () => {
-        const name = document.getElementById('customer-name').value;
-        const phone = document.getElementById('customer-phone').value;
-        const notes = document.getElementById('customer-notes').value;
-        
-        if (!name || !phone) {
-            alert("Please enter your name and phone number.");
-            return;
-        }
-        const { summaryText, total, discountText } = generateOrderSummary();
-        
-        const WHATSAPP_NUMBER = config.whatsappNumber;
-        if (!WHATSAPP_NUMBER) {
-            alert("WhatsApp number is not configured.");
-            return;
-        }
+    // --- 9. WhatsApp Submit ---
+    if(whatsappBtn) {
+        whatsappBtn.addEventListener('click', () => {
+            const orderPayload = getOrderData();
+            if (!orderPayload) return; // Validation failed
+            
+            const { orderData, summary } = orderPayload;
+            
+            // Save to Firebase
+            db.collection("orders").doc(orderData.id).set(orderData)
+                .catch(e => console.error("Could not save order to Firebase KDS", e));
+            
+            const WHATSAPP_NUMBER = config.whatsappNumber;
+            if (!WHATSAPP_NUMBER) {
+                alert("WhatsApp-Nummer ist nicht konfiguriert.");
+                return;
+            }
 
-        let whatsappMessage = `*New Pickup Order*\n\n*Customer:* ${name}\n*Phone:* ${phone}\n\n*Order:*\n${summaryText}\n${discountText}*Total: ${total.toFixed(2)} €*`;
-        
-        if (notes) {
-            whatsappMessage += `\n\n*Notes:*\n${notes}`;
-        }
+            let whatsappMessage = `*Neue Abholbestellung*\n\n*Kunde:* ${summary.customerName}\n*Telefon:* ${summary.customerPhone}\n\n*Bestellung:*\n${summary.summaryText}\n*Total: ${summary.total.toFixed(2)} €*`;
+            
+            if (summary.customerNotes) {
+                whatsappMessage += `\n\n*Anmerkungen:*\n${summary.customerNotes}`;
+            }
 
-        let encodedMessage = encodeURIComponent(whatsappMessage);
-        let whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-        window.open(whatsappURL, '_blank');
-    });
+            let encodedMessage = encodeURIComponent(whatsappMessage);
+            let whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+            window.open(whatsappURL, '_blank');
+        });
+    }
 
+    // --- 10. GenerateOrderSummary ---
     function generateOrderSummary() {
         let summaryText = "";
         let subtotal = 0;
+        let itemsOnly = [];
+        
         cart.forEach(item => {
             summaryText += `${item.quantity}x ${item.name} (${(item.price * item.quantity).toFixed(2)} €)\n`;
             subtotal += item.price * item.quantity;
+            
+            itemsOnly.push({
+                quantity: item.quantity,
+                name: item.name,
+                price: item.price
+            });
         });
 
-        let discountAmount = 0;
-        let discountText = "";
-        if (appliedCoupon) {
-            let discountableSubtotal = 0;
-            const category = appliedCoupon.appliesToCategory.toLowerCase();
-
-            if (category === "all") {
-                discountableSubtotal = subtotal;
-            } else {
-                cart.forEach(item => {
-                    if (item.category.toLowerCase() === category) {
-                        discountableSubtotal += item.price * item.quantity;
-                    }
-                });
-            }
-
-            if (appliedCoupon.discountType === 'fixed') {
-                 let applicableItems = 0;
-                cart.forEach(item => {
-                    if (item.category.toLowerCase() === category) {
-                        applicableItems += item.quantity;
-                    }
-                });
-                discountAmount = appliedCoupon.value * applicableItems;
-            } 
-            else if (appliedCoupon.discountType === 'percent') {
-                discountAmount = discountableSubtotal * appliedCoupon.value;
-            }
-            discountAmount = Math.min(subtotal, discountAmount);
-            
-            if(discountAmount > 0) {
-                 discountText = `Discount (${appliedCoupon.code}): -${discountAmount.toFixed(2)} €\n`;
-            }
-        }
+        // No coupon logic for Zaffran yet
+        let total = subtotal;
         
-        let total = subtotal - discountAmount;
-        return { summaryText, subtotal, discountText, total };
+        return { summaryText, total, itemsOnly };
     }
-        // Initial check on page load
+    
+    // Initial check on page load
     toggleCheckoutButtons();
 });
-
-
-
