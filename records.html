@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaffran Sales Records</title>
+    <link rel="stylesheet" href="style.css?v=33">
+    <link rel="icon" type="image/png" href="favlogo.png">
+</head>
+<body class="records-body"> <!-- Use a new class for sticky footer -->
+
+    <header class="kitchen-header"> <!-- Re-using KDS header style -->
+        <div class="header-logo">
+            <img src="logo.png" alt="Zaffran Logo">
+            <h1>Sales Records</h1>
+            <span id="connection-icon">...</span>
+        </div>
+    </header>
+
+    <main class="records-main" id="records-content-wrapper">
+        <!-- Control Bar for filters and printing -->
+        <div class="records-controls" id="controls-bar">
+            <div class="date-filter">
+                <label for="start-date">From:</label>
+                <input type="date" id="start-date">
+            </div>
+            <div class="date-filter">
+                <label for="end-date">To:</label>
+                <input type="date" id="end-date">
+            </div>
+            <button id="filter-btn" class="checkout-kitchen">Filter Records</button>
+            <button id="print-btn" class="checkout-email">Print / Save as PDF</button>
+        </div>
+
+        <!-- Summary KPIs -->
+        <div class="records-summary" id="summary-boxes">
+            <div class="summary-box">
+                <span class="summary-title">Total Revenue</span>
+                <span class="summary-value" id="total-revenue">0.00 €</span>
+            </div>
+            <div class="summary-box">
+                <span class="summary-title">Total Orders</span>
+                <span class="summary-value" id="total-orders">0</span>
+            </div>
+        </div>
+        
+        <!-- Results List -->
+        <div class="records-results" id="records-list-container">
+            <div id="records-list">
+                <p>Please select a date range and click "Filter".</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Simple sticky footer -->
+    <footer class="site-credit-footer" id="footer-bar">
+        <div class="footer-line-one">
+            <p class="footer-developer">
+                Created & Developed by <a href="https://sanstechno.in/" target="_blank" rel="noopener">Shri Avinash Narendhran S V</a> +49 162 3757839
+            </p>
+            <p class="footer-copyright">
+                &copy; Zaffran Delight, Euskirchen 2025
+            </p>
+        </div>
+   </footer>   
+
+    <!-- Login Overlay (same as KDS/Billing) -->
+    <div id="records-login-overlay" class="kitchen-popup-overlay">
+        <div class="kitchen-popup-box">
+            <h3>Records Login</h3>
+            <p>Please enter the management password.</p>
+            <input type="password" id="records-password" placeholder="Password">
+            <p id="login-error" style="color: red; display: none;">Invalid Password</p>
+            <button id="login-button">Login</button>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <!-- New JS file for this page -->
+    <script src="records-script.js?v=1"></script>
+
+</body>
+</html>
