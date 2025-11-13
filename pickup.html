@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zafran Delight - Restaurant</title>
+    <title>Zafran Delight - Abholung</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" type="image/png" href="favlogo.png"> <link rel="stylesheet" href="style.css?v=22">
+    <link rel="icon" type="image/png" href="favlogo.png"> 
+    <link rel="stylesheet" href="style.css?v=32">
 </head>
 <body>
     <header>
@@ -26,7 +27,6 @@
         </div>
         <nav>
             <div class="nav-wrapper">
-
                 <div class="nav-links-container" id="nav-links-container">
                     <a href="#suppen">Suppen</a>
                     <a href="#vorspeisen">Vorspeisen</a>
@@ -45,7 +45,6 @@
                     <a href="#dessert">Dessert</a>
                     <a href="#getraenke">Getränke</a>
                 </div>
-
             </div>
         </nav>
     </header>
@@ -925,7 +924,7 @@
             </ul>
         </section>
 
-        <section id="biryani">
+       <section id="biryani">
             <h2>Biryani</h2>
             <p class="section-note">Alle Biryanis werden mit einer milden Currysoße serviert.</p>
             <ul>
@@ -1214,7 +1213,7 @@
             </ul>
         </section>
 
-        <section id="reis">
+       <section id="reis">
             <h2>Reis</h2>
             <ul>
                 <li>
@@ -1253,7 +1252,7 @@
             </ul>
         </section>
 
-        <section id="salate">
+       <section id="salate">
             <h2>Salate</h2>
             <ul>
                 <li>
@@ -1353,7 +1352,7 @@
             </ul>
         </section>
 
-        <section id="getraenke">
+       <section id="getraenke">
             <h2>Getränke</h2>
             <ul>
                 <li>
@@ -1489,6 +1488,7 @@
         <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank" rel="noopener">Shri Avinash Narendhran S V</a> +49 162 3757839</p>
     </div>
 
+    <!-- ADDED ALL THE CART HTML HERE -->
     <button id="cart-toggle-btn" class="hidden">
         <span class="cart-icon">🛒</span>
         <span id="cart-item-count">0</span>
@@ -1499,28 +1499,14 @@
             <button id="cart-close-btn">&times;</button>
             
             <div id="cart-content">
-                <h2>Your Order</h2>
-                <p>Payment at the restaurant (Cash or Card).</p>
+                <h2>Ihre Bestellung</h2>
+                <p>Zahlung im Restaurant (Bar oder Karte).</p>
                 
                 <div id="cart-items-container">
-                    </div>
-                <p id="coupon-hint" class="hidden"></p>
-                <div class="coupon-area">
-                    <label for="coupon-code">Coupon Code:</label>
-                    <input type="text" id="coupon-code" placeholder="e.g. LAMM2">
-                    <button type="button" id="apply-coupon-btn">Apply</button>
+                    <!-- Cart items here -->
                 </div>
-                <div id="coupon-message"></div>
                 
                 <div id="cart-summary">
-                    <div class="summary-line" id="summary-subtotal">
-                        <span>Subtotal:</span>
-                        <span id="subtotal-amount">0,00 €</span>
-                    </div>
-                    <div class="summary-line hidden" id="summary-discount">
-                        <span>Discount:</span>
-                        <span id="discount-amount">-0,00 €</span>
-                    </div>
                     <div class="summary-line" id="summary-total">
                         <span>Total:</span>
                         <span id="total-amount">0,00 €</span>
@@ -1529,21 +1515,18 @@
                 
                 <hr>
                 
-                <h3>Your Details</h3>
+                <h3>Ihre Details</h3>
                 
-                <form id="order-form" action="https://formbold.com/s/9Xr8q" method="POST">
+                <form id="order-form">
                     <label for="customer-name">Name:</label>
                     <input type="text" id="customer-name" name="name" required>
                     
-                    <label for="customer-phone">Phone (for questions):</label>
+                    <label for="customer-phone">Telefon (für Rückfragen):</label>
                     <input type="tel" id="customer-phone" name="phone" required>
                     
-                    <label for="customer-notes">Notes (optional for allergies, etc.):</label>
+                    <label for="customer-notes">Anmerkungen (Allergien etc.):</label>
                     <textarea id="customer-notes" name="notes" rows="3"></textarea>
                     
-                    <input type="hidden" id="order-details-input" name="order_details">
-                    <input type="hidden" id="order-total-input" name="total">
-
                     <div class="consent-checkbox">
                         <input type="checkbox" id="privacy-consent" name="privacy-consent" required>
                         <label for="privacy-consent">
@@ -1552,57 +1535,36 @@
                         </label>
                     </div>
 
+                    <!-- NEW BUTTON LAYOUT - FORMBOLD IS REMOVED -->
                     <div class="checkout-buttons">
-                        <button type="submit" class="checkout-email">
-                            Send via Email
+                        <button type="button" id="firebase-btn" class="checkout-kitchen">
+                            An Küche senden (Live)
                         </button>
                         
                         <button type="button" id="whatsapp-btn" class="checkout-whatsapp">
-                            Send via WhatsApp
+                            per WhatsApp senden
                         </button>
                     </div>
                 </form>
             </div>
             
             <div id="order-confirmation" class="hidden">
-                <h2>Order Sent!</h2>
-                <p>Thank you, your order has been received and is being prepared.</p>
-                <h3>Your Order Summary:</h3>
+                <h2>Bestellung gesendet!</h2>
+                <p>Danke, Ihre Bestellung ist eingegangen.</p>
+                <h3>Ihre Bestellübersicht:</h3>
                 <div id="confirmation-summary">
-                    </div>
+                    <!-- Summary here -->
+                </div>
                 <button type="button" id="confirmation-close-btn" class="checkout-email">Close</button>
             </div>
 
         </div>
     </div>
 
-    <div id="popup-overlay" class="hidden">
-        <div id="popup-box">
-            <h3 id="promo-line-1"></h3>
-            <p id="promo-line-2"></p>
-            <button id="close-popup">Close</button>
-        </div>
-    </div>
-
-    <script src="script.js?v=22"></script>
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    
+    <script src="script.js?v=1"></script> <!-- New script file -->
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
