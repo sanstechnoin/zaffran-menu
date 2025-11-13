@@ -1,11 +1,11 @@
-// --- 1. FIREBASE CONFIG (NEW ZAFFRAN) ---
+// --- 1. ZAFFRAN FIREBASE CONFIG ---
 const firebaseConfig = {
   apiKey: "AIzaSyAVh2kVIuFcrt8Dg88emuEd9CQlqjJxDrA",
   authDomain: "zaffran-delight.firebaseapp.com",
   projectId: "zaffran-delight",
   storageBucket: "zaffran-delight.firebasestorage.app",
   messagingSenderId: "1022960860126",
-  appId: "1:1022960860126:web:1e06693dea1d0247a0bb4f"
+  appId: "1:102296POST_YOUR_CHOSEN_CODE_HERE_TO_VERIFY_THE_FIX"
 };
 // --- END OF FIREBASE CONFIG ---
 
@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     function handleRemoveFromCartClick() {
         adjustQuantity(this.dataset.id, -1);
     }
-    initItemControls(); 
+    initItemControls(); // <-- Initial call to add listeners
 
     function addToCart(id, name, price, category) {
         const existingItem = cart.find(item => item.id === id);
@@ -195,7 +195,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         totalAmountEl.innerText = `${total.toFixed(2)} €`;
         cartItemCountEl.innerText = itemCount;
         cartToggleBtn.classList.toggle('hidden', itemCount === 0);
-        addCartItemControls(); 
+        
+        addCartItemControls(); // This adds listeners inside the cart modal
+        
+        // --- THIS IS THE FIX ---
+        // This re-adds listeners to the main menu buttons after they are updated.
+        initItemControls();    
+        // --- END OF FIX ---
     }
     function addCartItemControls() {
         document.querySelectorAll('.cart-btn-plus').forEach(btn => {
