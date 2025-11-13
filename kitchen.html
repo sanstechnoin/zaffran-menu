@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaffran Kitchen Display</title>
+    <link rel="stylesheet" href="style.css?v=33"> <!-- Incremented version -->
+    <link rel="icon" type="image/png" href="favlogo.png">
+</head>
+<body class="kitchen-body">
+
+    <header class="kitchen-header">
+        <div class="header-logo">
+            <img src="logo.png" alt="Zaffran Logo">
+            <h1>Kitchen Display System</h1>
+            <span id="connection-icon">...</span>
+        </div>
+    </header>
+
+    <main class="kitchen-main">
+        <div id="kds-content-wrapper">
+            
+            <!-- SECTION 1: DINE-IN ORDERS -->
+            <div class="kds-section-header">
+                <h2>Dine-In Orders</h2>
+            </div>
+            <div class="table-grid" id="dine-in-grid">
+                <!-- Dine-in tables will be created here by JS -->
+                <!-- We will create 12 tables for Zaffran as well -->
+            </div>
+
+            <!-- SECTION 2: PICKUP ORDERS -->
+            <div class="kds-section-header">
+                <h2>Pickup Orders</h2>
+            </div>
+            <div class="pickup-grid" id="pickup-grid">
+                <!-- Pickup orders will be created here by JS -->
+                <div class="pickup-box-empty">
+                    <p>Waiting for pickup orders...</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Simple sticky footer -->
+    <footer class="site-credit-footer" id="footer-bar">
+        <div class="footer-line-one">
+            <p class="footer-developer">
+                Created & Developed by <a href="https://sanstechno.in/" target="_blank" rel="noopener">Shri Avinash Narendhran S V</a> +49 162 3757839
+            </p>
+            <p class="footer-copyright">
+                &copy; Zaffran Delight, Euskirchen 2025
+            </p>
+        </div>
+   </footer>   
+
+    <!-- New Order Popup -->
+    <div id="new-order-popup-overlay" class="kitchen-popup-overlay hidden">
+        <div class="kitchen-popup-box">
+            <h3>🔔 New Order! 🔔</h3>
+            <div id="popup-order-details">
+                <!-- Content injected by JS -->
+            </div>
+            <button id="accept-order-btn">Accept Order</button>
+        </div>
+    </div>
+    
+    <!-- Login Overlay -->
+    <div id="kitchen-login-overlay" class="kitchen-popup-overlay">
+        <div class="kitchen-popup-box">
+            <h3>KDS Login</h3>
+            <p>Please enter the kitchen password.</p>
+            <input type="password" id="kitchen-password" placeholder="Password">
+            <p id="login-error" style="color: red; display: none;">Invalid Password</p>
+            <button id="login-button">Login</button>
+        </div>
+    </div>
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <!-- New Script for this page -->
+    <script src="kitchen-script.js?v=1"></script> 
+
+</body>
+</html>
