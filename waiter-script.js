@@ -9,6 +9,131 @@ const firebaseConfig = {
 };
 // --- END OF FIREBASE CONFIG ---
 
+// --- NEW: MASTER MENU LIST FOR WAITER ORDERS ---
+const MENU_ITEMS = [
+    { name: "Tomatensuppe", price: 5.00 },
+    { name: "Daal Linsensuppe", price: 5.00 },
+    { name: "Hähnchen Suppe", price: 6.00 },
+    { name: "Mulligatawny Suppe", price: 6.50 },
+    { name: "Veg. Samosa", price: 5.00 },
+    { name: "Chicken Samosa", price: 5.50 },
+    { name: "Aloo Tiki", price: 5.00 },
+    { name: "Mix Pakora", price: 5.50 },
+    { name: "Paneer Pakora", price: 6.00 },
+    { name: "Aloo Pakora", price: 5.50 },
+    { name: "Gobi Pakora", price: 5.50 },
+    { name: "Mashroom Pakora", price: 5.50 },
+    { name: "Chicken Pakora", price: 6.00 },
+    { name: "Prawn Pakora", price: 7.50 },
+    { name: "Vegi Mix", price: 13.00 },
+    { name: "Palak Aallu", price: 13.00 },
+    { name: "Saag Aallu", price: 13.00 },
+    { name: "Tarka Daal", price: 12.50 },
+    { name: "Bhindi Masala", price: 13.00 },
+    { name: "Baingen Aallu", price: 13.00 },
+    { name: "Mushroom Aallu", price: 13.00 },
+    { name: "Gobi Aallu", price: 13.00 },
+    { name: "Channa Masala", price: 12.50 },
+    { name: "Veg. Korma", price: 13.50 },
+    { name: "Nauratan Korma", price: 14.00 },
+    { name: "Shahi Paneer", price: 14.00 },
+    { name: "Paneer Tikka Masala", price: 14.50 },
+    { name: "Paneer Jalfrezi", price: 14.00 },
+    { name: "Paneer Bhunna Masala", price: 14.00 },
+    { name: "Palak Paneer", price: 14.00 },
+    { name: "Paneer Muttar Aallu", price: 14.50 },
+    { name: "Chicken Curry", price: 14.50 },
+    { name: "Chicken Tikka Masala", price: 15.50 },
+    { name: "Chicken Korma", price: 15.00 },
+    { name: "Butter Chicken", price: 15.50 },
+    { name: "Kashmiri Chicken", price: 15.50 },
+    { name: "Chicken Goan Curry", price: 15.50 },
+    { name: "Chicken Jalfrezi", price: 15.50 },
+    { name: "Chicken Kadai", price: 15.50 },
+    { name: "Chicken Bhuna", price: 15.50 },
+    { name: "Vegi Chicken", price: 15.00 },
+    { name: "Chicken Palak", price: 15.50 },
+    { name: "Chicken Dhansik", price: 15.50 },
+    { name: "Chicken Madras", price: 15.50 },
+    { name: "Chicken Vindalo", price: 15.50 },
+    { name: "Lamb Curry", price: 17.00 },
+    { name: "Lamb Tikka Masala", price: 17.50 },
+    { name: "Lamb Korma", price: 17.00 },
+    { name: "Butter Lamb", price: 17.50 },
+    { name: "Kashmiri Lamb", price: 17.50 },
+    { name: "Lamb Goan Curry", price: 17.50 },
+    { name: "Lamb Jalfrezi", price: 17.50 },
+    { name: "Lamb Kadai", price: 17.50 },
+    { name: "Lamb Bhuna", price: 17.50 },
+    { name: "Vegi Lamb", price: 17.00 },
+    { name: "Lamb Palak", price: 17.50 },
+    { name: "Lamb Dhansik", price: 17.50 },
+    { name: "Lamb Madras", price: 17.50 },
+    { name: "Lamb Vindalo", price: 17.50 },
+    { name: "Prawn Curry", price: 18.50 },
+    { name: "Prawn Korma", price: 18.50 },
+    { name: "Prawn Tikka Masala", price: 18.50 },
+    { name: "Fish Curry", price: 18.50 },
+    { name: "Fish Tikka Masala", price: 18.50 },
+    { name: "Chicken Tikka", price: 17.50 },
+    { name: "Tandoori Chicken", price: 17.50 },
+    { name: "Malai Tikka", price: 17.50 },
+    { name: "Haryali Tikka", price: 17.50 },
+    { name: "Lamb Tikka", price: 18.50 },
+    { name: "Lamb Chops", price: 20.50 },
+    { name: "Seekh Kabab", price: 19.50 },
+    { name: "Prawn Tikka", price: 20.50 },
+    { name: "Paneer Tikka", price: 17.50 },
+    { name: "Fish Tawa Fry", price: 20.50 },
+    { name: "Zafrani Mix Grill", price: 24.00 },
+    { name: "Vegi Biryani", price: 14.50 },
+    { name: "Chicken Bombay Biryani", price: 16.50 },
+    { name: "Lamb Karachi Biryani", price: 17.50 },
+    { name: "Prawn Zafran Biryani", price: 20.50 },
+    { name: "Frisches Tandoori Brot", price: 3.50 },
+    { name: "Chapati Roti", price: 3.50 },
+    { name: "Naan", price: 3.00 },
+    { name: "Allo Naan", price: 4.50 },
+    { name: "Cheese Naan", price: 5.00 },
+    { name: "Butter Naan", price: 3.50 },
+    { name: "Garlic Naan", price: 4.50 },
+    { name: "Tandoori Parantha", price: 4.50 },
+    { name: "Mint Sauce", price: 3.00 },
+    { name: "Natur Joghurt", price: 2.50 },
+    { name: "Raita", price: 4.00 },
+    { name: "Mango Chutney", price: 3.00 },
+    { name: "Imli (Tamarind) Chutney", price: 3.00 },
+    { name: "Laal Chutney (scharfe...)", price: 3.50 },
+    { name: "Green Chutney", price: 3.50 },
+    { name: "Pickles", price: 3.50 },
+    { name: "Soße nach Wahl", price: 5.00 },
+    { name: "Gemüse-Frühlingsrollen", price: 5.00 },
+    { name: "Pommes frites", price: 3.50 },
+    { name: "Chicken Nuggets (6 Stk.)", price: 4.50 },
+    { name: "Basmati - Reis", price: 3.50 },
+    { name: "Zeera - Reis", price: 4.00 },
+    { name: "Zafrani - Reis", price: 5.50 },
+    { name: "Gemischter Salat", price: 6.00 },
+    { name: "Chicken Salat", price: 7.50 },
+    { name: "Zafrani Chicken Salat", price: 8.50 },
+    { name: "Mango Kulfi", price: 5.50 },
+    { name: "Almond Kulfi", price: 5.50 },
+    { name: "Pista Kulfi", price: 5.50 },
+    { name: "Gulab Jamun", price: 5.50 },
+    { name: "Ras Malai", price: 5.50 },
+    { name: "Lassi", price: 4.00 },
+    { name: "Mango Lassi", price: 4.50 },
+    { name: "Rosé Lassi", price: 4.50 },
+    { name: "Coca Cola", price: 3.50 },
+    { name: "Cola Zero", price: 3.50 },
+    { name: "Sprite", price: 3.50 },
+    { name: "Fanta", price: 3.50 },
+    { name: "Pinacolada", price: 5.50 },
+    { name: "Mint-Margarita", price: 5.50 },
+    { name: "Ipanema", price: 5.50 }
+];
+// --- END MASTER MENU LIST ---
+
 // --- 2. Initialize Firebase ---
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -28,7 +153,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const dineInGrid = document.getElementById('dine-in-grid');
     const pickupGrid = document.getElementById('pickup-grid');
 
+    // Waiter Order Popup Elements
+    const waiterModal = document.getElementById('waiter-order-modal');
+    const closeModalX = document.getElementById('close-modal-x');
+    const cancelModalBtn = document.getElementById('btn-cancel-modal');
+    const submitModalBtn = document.getElementById('btn-submit-modal');
+    const menuSearchInput = document.getElementById('menu-search');
+    const menuListContainer = document.getElementById('menu-list');
+    const currentOrderPreview = document.getElementById('new-order-items-list');
+    const modalTableTitle = document.getElementById('modal-table-title');
+
     let allOrders = {}; // Holds all active orders, keyed by order.id
+    
+    // State for the new order being created
+    let activeTableId = null; 
+    let currentDraftOrder = []; 
 
     const KITCHEN_PASSWORD = "zafran"; // <-- NEW PASSWORD
     const TOTAL_DINE_IN_TABLES = 12;
@@ -57,10 +196,10 @@ document.addEventListener("DOMContentLoaded", () => {
             tableBox.innerHTML = `
                 <div class="table-header">
                     <h2>Table ${i}</h2>
+                    <button class="add-order-btn" data-table-id="${i}">➕ Order</button>
                 </div>
                 <ul class="order-list" data-table-id="${i}">
-                    <!-- Orders will be injected here -->
-                </ul>
+                    </ul>
                 <p class="order-list-empty" data-table-id="${i}">Waiting for order...</p>
                 <button class="clear-table-btn" data-table-id="${i}">Clear Table ${i}</button>
             `;
@@ -71,9 +210,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function initializeWaiterStation() {
         createDineInTables();
 
-        // Add listeners for all "Clear" buttons (Dine-In)
+        // Add listeners for "Clear" buttons
         dineInGrid.querySelectorAll('.clear-table-btn').forEach(btn => {
             btn.addEventListener('click', () => handleClearOrder(btn.dataset.tableId, 'dine-in', btn));
+        });
+
+        // Add listeners for "Add Order" buttons
+        dineInGrid.querySelectorAll('.add-order-btn').forEach(btn => {
+            btn.addEventListener('click', () => openOrderModal(btn.dataset.tableId));
         });
 
         // Start the main listener
@@ -90,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const orderData = change.doc.data();
                     
                     if(orderData.orderType === 'pickup') {
-                        changedPickupCustomers.add(orderData.table); // 'table' holds "Name (Phone)"
+                        changedPickupCustomers.add(orderData.table); 
                     } else {
                         changedTables.add(orderData.table); 
                     }
@@ -160,7 +304,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     minute: '2-digit'
                 });
                 
-                // --- Add Delete 'X' button to each item ---
                 let itemsHtml = order.items.map((item, index) => `
                     <li class="waiter-item">
                         <span>${item.quantity}x ${item.name}</span>
@@ -207,7 +350,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 minute: '2-digit'
             });
             
-            // --- Add Delete 'X' button to each item ---
             let itemsHtml = order.items.map((item, index) => `
                 <li class="waiter-item">
                     <span>${item.quantity}x ${item.name}</span>
@@ -225,7 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
             pickupBox.id = `pickup-${order.id}`;
             pickupBox.innerHTML = `
                 <div class="table-header">
-                    <h2>🛍️ ${order.table}</h2> <!-- 'table' holds "Name (Phone)" -->
+                    <h2>🛍️ ${order.table}</h2>
                     <span class="order-time">@ ${orderTimestamp}</span>
                 </div>
                 <ul class="order-list">
@@ -243,7 +385,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // This "Clear" function is the same as the KDS one
     async function handleClearOrder(identifier, type, buttonElement) {
         let ordersToClear = [];
         let buttonsToDisable = [buttonElement]; 
@@ -258,9 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        if (ordersToClear.length === 0) {
-            return;
-        }
+        if (ordersToClear.length === 0) return;
 
         buttonsToDisable.forEach(btn => {
             btn.disabled = true;
@@ -285,19 +424,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // --- 6. Logic to delete a single item ---
     function addDeleteItemListeners() {
         document.querySelectorAll('.delete-item-btn').forEach(btn => {
-            // A simple way to prevent duplicate listeners
             btn.onclick = async () => {
                 const orderId = btn.dataset.orderId;
                 const itemIndex = parseInt(btn.dataset.itemIndex); 
                 
                 if (isNaN(itemIndex)) return;
                 
-                if (!confirm("Are you sure you want to remove this item from the order? This cannot be undone.")) {
-                    return;
-                }
+                if (!confirm("Remove this item?")) return;
 
                 btn.disabled = true;
 
@@ -305,34 +440,141 @@ document.addEventListener("DOMContentLoaded", () => {
                     const docRef = db.collection("orders").doc(orderId);
                     const doc = await docRef.get();
 
-                    if (!doc.exists) {
-                        console.error("Document does not exist, cannot delete item.");
-                        return;
-                    }
+                    if (!doc.exists) return;
 
                     const orderData = doc.data();
                     const items = orderData.items;
 
-                    if (!items) return; // Safety check
+                    if (!items) return; 
 
-                    // Case 1: The order has only one item.
-                    // Delete the entire order document.
                     if (items.length === 1) {
                         await docRef.delete();
                     } else {
-                    // Case 2: The order has multiple items.
                         items.splice(itemIndex, 1);
                         await docRef.update({ items: items });
                     }
-                    
-                    // The onSnapshot listener will automatically handle the UI update
-
                 } catch (err) {
                     console.error("Error deleting item:", err);
-                    btn.disabled = false; // Re-enable on error
+                    btn.disabled = false; 
                 }
             };
         });
     }
+
+    // --- 6. WAITER ORDER POPUP LOGIC ---
+
+    function openOrderModal(tableId) {
+        activeTableId = tableId;
+        currentDraftOrder = []; 
+        modalTableTitle.textContent = `Order for Table ${tableId}`;
+        waiterModal.classList.remove('hidden');
+        renderMenu(""); // Show all items initially
+        renderDraftOrder();
+        menuSearchInput.value = "";
+        menuSearchInput.focus();
+    }
+
+    function closeOrderModal() {
+        waiterModal.classList.add('hidden');
+        activeTableId = null;
+        currentDraftOrder = [];
+    }
+
+    closeModalX.addEventListener('click', closeOrderModal);
+    cancelModalBtn.addEventListener('click', closeOrderModal);
+
+    // Filter menu items on typing
+    menuSearchInput.addEventListener('input', (e) => {
+        renderMenu(e.target.value.toLowerCase());
+    });
+
+    function renderMenu(query) {
+        menuListContainer.innerHTML = "";
+        const filteredItems = MENU_ITEMS.filter(item => item.name.toLowerCase().includes(query));
+        
+        filteredItems.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'menu-selection-item';
+            div.innerHTML = `
+                <span>${item.name}</span>
+                <span style="color: var(--gold);">${item.price.toFixed(2)} €</span>
+            `;
+            div.addEventListener('click', () => addItemToDraft(item));
+            menuListContainer.appendChild(div);
+        });
+    }
+
+    function addItemToDraft(item) {
+        // Check if item already exists in draft to increment qty
+        const existing = currentDraftOrder.find(i => i.name === item.name);
+        if (existing) {
+            existing.quantity++;
+        } else {
+            currentDraftOrder.push({
+                name: item.name,
+                price: item.price,
+                quantity: 1
+            });
+        }
+        renderDraftOrder();
+    }
+
+    function renderDraftOrder() {
+        currentOrderPreview.innerHTML = "";
+        if (currentDraftOrder.length === 0) {
+            currentOrderPreview.innerHTML = '<p style="color:#aaa; font-style:italic;">No items selected.</p>';
+            return;
+        }
+
+        currentDraftOrder.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'preview-item';
+            div.innerHTML = `
+                <span>${item.quantity}x ${item.name}</span>
+                <button style="background:#8B0000;color:white;border:none;border-radius:50%;width:20px;height:20px;cursor:pointer;" onclick="removeDraftItem(${index})">×</button>
+            `;
+            currentOrderPreview.appendChild(div);
+        });
+    }
+
+    // Expose remove function to window so the inline onclick works
+    window.removeDraftItem = function(index) {
+        if (currentDraftOrder[index].quantity > 1) {
+            currentDraftOrder[index].quantity--;
+        } else {
+            currentDraftOrder.splice(index, 1);
+        }
+        renderDraftOrder();
+    };
+
+    submitModalBtn.addEventListener('click', async () => {
+        if (!activeTableId || currentDraftOrder.length === 0) return;
+
+        submitModalBtn.textContent = "Sending...";
+        submitModalBtn.disabled = true;
+
+        const orderId = `${activeTableId}-${new Date().getTime()}`;
+        
+        const newOrder = {
+            id: orderId,
+            table: activeTableId,
+            items: currentDraftOrder,
+            status: "new",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            orderType: "dine-in",
+            notes: "Waiter Order" 
+        };
+
+        try {
+            await db.collection("orders").doc(orderId).set(newOrder);
+            closeOrderModal();
+        } catch (e) {
+            console.error("Error submitting waiter order:", e);
+            alert("Failed to submit order.");
+        } finally {
+            submitModalBtn.textContent = "Submit Order";
+            submitModalBtn.disabled = false;
+        }
+    });
 
 }); // --- END OF DOMContentLoaded WRAPPER ---
