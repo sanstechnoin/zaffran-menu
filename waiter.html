@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zaffran Waiter Station</title>
-    <link rel="stylesheet" href="style.css?v=33"> 
+    <link rel="stylesheet" href="style.css?v=34"> 
     <link rel="icon" type="image/png" href="favlogo.png">
 </head>
 <body class="kitchen-body">
@@ -12,28 +12,23 @@
     <header class="kitchen-header">
         <div class="header-logo">
             <img src="logo.png" alt="Zaffran Logo">
-            <h1>Waiter Station</h1> <!-- New Title -->
-            <span id="connection-icon">...</span>
+            <h1>Waiter Station</h1> <span id="connection-icon">...</span>
         </div>
     </header>
 
     <main class="kitchen-main">
         <div id="kds-content-wrapper">
             
-            <!-- SECTION 1: DINE-IN ORDERS -->
             <div class="kds-section-header">
                 <h2>Dine-In Orders</h2>
             </div>
             <div class="table-grid" id="dine-in-grid">
-                <!-- Dine-in tables 1-12 will be created here by JS -->
-            </div>
+                </div>
 
-            <!-- SECTION 2: PICKUP ORDERS -->
             <div class="kds-section-header">
                 <h2>Pickup Orders</h2>
             </div>
             <div class="pickup-grid" id="pickup-grid">
-                <!-- Pickup orders will be created here by JS -->
                 <div class="pickup-box-empty">
                     <p>Waiting for pickup orders...</p>
                 </div>
@@ -42,7 +37,6 @@
         </div>
     </main>
 
-    <!-- Simple sticky footer -->
     <footer class="site-credit-footer" id="footer-bar">
         <div class="footer-line-one">
             <p class="footer-developer">
@@ -54,14 +48,12 @@
         </div>
    </footer>   
 
-    <!-- NOTE: This popup is NOT used, but we keep the element for CSS compatibility -->
     <div id="new-order-popup-overlay" class="kitchen-popup-overlay hidden">
         <div class="kitchen-popup-box">
             <h3>🔔 New Order! 🔔</h3>
         </div>
     </div>
     
-    <!-- Login Overlay -->
     <div id="kitchen-login-overlay" class="kitchen-popup-overlay">
         <div class="kitchen-popup-box">
             <h3>Waiter Station Login</h3>
@@ -71,11 +63,35 @@
             <button id="login-button">Login</button>
         </div>
     </div>
+
+    <div id="waiter-order-modal" class="hidden">
+        <div class="waiter-popup-content">
+            <div class="waiter-popup-header">
+                <h3 id="modal-table-title">Order for Table ?</h3>
+                <button id="close-modal-x" style="background:none;border:none;color:white;font-size:1.5em;cursor:pointer;">&times;</button>
+            </div>
+            <div class="waiter-popup-body">
+                <input type="text" id="menu-search" class="menu-search-bar" placeholder="Search item...">
+                <div id="menu-list" class="menu-selection-list">
+                    </div>
+                
+                <div class="current-order-preview">
+                    <h4>Current Selection:</h4>
+                    <div id="new-order-items-list">
+                        <p style="color:#aaa; font-style:italic;">No items selected.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="waiter-popup-footer">
+                <button class="btn-cancel-order" id="btn-cancel-modal">Cancel</button>
+                <button class="btn-submit-order" id="btn-submit-modal">Submit Order</button>
+            </div>
+        </div>
+    </div>
     
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-    <!-- NEW SCRIPT FILE -->
-    <script src="waiter-script.js?v=1"></script> 
+    <script src="waiter-script.js?v=2"></script> 
 
 </body>
 </html>
