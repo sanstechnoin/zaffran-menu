@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const tableBox = document.createElement('div');
             tableBox.className = 'table-box';
             tableBox.id = `table-${i}`; // e.g., table-1
+            // Removed the bottom "Clear Table" button here
             tableBox.innerHTML = `
                 <div class="table-header">
                     <h2>Table ${i}</h2>
@@ -72,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 <ul class="order-list" data-table-id="${i}">
                     </ul>
                 <p class="order-list-empty" data-table-id="${i}">Waiting for order...</p>
-                <button class="clear-table-btn" data-table-id="${i}">Mark Ready</button>
             `;
             dineInGrid.appendChild(tableBox);
         }
@@ -85,14 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // 1. Create the empty tables first
         createDineInTables();
 
-        // 2. Add listeners for all "Clear" buttons (Dine-In)
-        dineInGrid.querySelectorAll('.clear-table-btn').forEach(btn => {
-            btn.addEventListener('click', () => handleClearOrder(btn.dataset.tableId, 'dine-in', btn));
-        });
-
-        // 3. Start the main listener
+        // 2. Start the main listener
+        // We listen for 'new', 'seen', AND 'ready' so ready orders stay visible until served
         db.collection("orders")
-          .where("status", "in", ["new", "seen"]) 
+          .where("status", "in", ["new", "seen", "ready"]) 
           .onSnapshot(
             (snapshot) => {
                 connectionIconEl.textContent = '✅'; 
@@ -104,30 +100,30 @@ document.addEventListener("DOMContentLoaded", () => {
                     const orderData = change.doc.data();
                     
                     if(orderData.orderType === 'pickup') {
-                        changedPickupCustomers.add(orderData.table); // 'table' holds the "Name (Phone)"
+                        changedPickupCustomers.add(orderData.table); 
                     } else {
                         changedTables.add(orderData.table); 
                     }
                     
                     if (change.type === "added") {
-                        console.log("New order received:", orderData.id);
                         allOrders[orderData.id] = orderData;
                         
-                        orderQueue.push(orderData);
-                        if (orderQueue.length === 1 && newOrderPopup.classList.contains('hidden')) {
-                            showNextOrderInQueue();
+                        // Only show popup if it's genuinely new
+                        if (orderData.status === 'new') {
+                            orderQueue.push(orderData);
+                            if (orderQueue.length === 1 && newOrderPopup.classList.contains('hidden')) {
+                                showNextOrderInQueue();
+                            }
                         }
                     }
                     
                     if (change.type === "removed") {
-                        console.log("Order removed:", orderData.id);
                         if (allOrders[orderData.id]) {
                             delete allOrders[orderData.id];
                         }
                     }
                     
                     if (change.type === "modified") {
-                        console.log("Order modified (seen):", orderData.id);
                         allOrders[orderData.id] = orderData;
                     }
                 });
@@ -158,7 +154,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const orderList = tableBox.querySelector('.order-list');
         const emptyMsg = tableBox.querySelector('.order-list-empty');
-        const clearBtn = tableBox.querySelector('.clear-table-btn'); 
 
         const ordersForThisTable = Object.values(allOrders).filter(o => o.table === tableId && o.orderType !== 'pickup');
         
@@ -166,16 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (ordersForThisTable.length === 0) {
             orderList.style.display = 'none';
-            
-            // --- FIX for "Clearing..." text bug ---
-            emptyMsg.textContent = "Waiting for order..."; 
             emptyMsg.style.display = 'block';
-            
-            // --- FIX for "Greyed out" button bug ---
-            clearBtn.disabled = false;
-            clearBtn.textContent = `Mark Ready`;
-            // --- END OF FIXES ---
-
         } else {
             orderList.style.display = 'block';
             emptyMsg.style.display = 'none';
@@ -190,26 +176,43 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 let itemsHtml = order.items.map(item => `<li>${item.quantity}x ${item.name}</li>`).join('');
                 
-                // --- ADDED NOTES ---
                 let notesHtml = '';
                 if (order.notes && order.notes.trim() !== '') {
                     notesHtml = `<p class="order-notes">⚠️ Notes: ${order.notes}</p>`;
                 }
 
+                // Determine button/display based on status
+                const isReady = order.status === 'ready';
+                let actionBtnHtml = '';
+                let readyClass = '';
+
+                if (isReady) {
+                    // If already ready, kitchen sees "Waiting for Waiter"
+                    readyClass = 'kitchen-ready-highlight'; 
+                    actionBtnHtml = `<div class="kitchen-status-badge">✅ Waiting for Waiter</div>`;
+                } else {
+                    // If new/seen, kitchen sees "Mark Ready"
+                    actionBtnHtml = `<button class="btn-mark-ready" onclick="handleMarkReady('${order.id}')">Mark Ready</button>`;
+                }
+
                 const orderGroupHtml = `
-                    <div class="order-group" id="${order.id}">
+                    <div class="order-group ${readyClass}" id="${order.id}">
                         <h4>Order @ ${orderTimestamp}</h4>
                         <ul>
                             ${itemsHtml}
                         </ul>
                         ${notesHtml} 
+                        ${actionBtnHtml}
                     </div>
                 `;
                 orderList.innerHTML += orderGroupHtml;
             });
 
-            tableBox.classList.add('new-order-flash');
-            setTimeout(() => tableBox.classList.remove('new-order-flash'), 1500);
+            // Flash effect if there is at least one new order
+            if (ordersForThisTable.some(o => o.status === 'new')) {
+                tableBox.classList.add('new-order-flash');
+                setTimeout(() => tableBox.classList.remove('new-order-flash'), 1500);
+            }
         }
     }
 
@@ -238,14 +241,25 @@ document.addEventListener("DOMContentLoaded", () => {
             
             let itemsHtml = order.items.map(item => `<li>${item.quantity}x ${item.name}</li>`).join('');
 
-            // --- ADDED NOTES ---
             let notesHtml = '';
             if (order.notes && order.notes.trim() !== '') {
                 notesHtml = `<p class="order-notes">⚠️ Notes: ${order.notes}</p>`;
             }
 
+            // Status Logic for Pickup
+            const isReady = order.status === 'ready';
+            let actionBtnHtml = '';
+            let readyClass = '';
+
+            if (isReady) {
+                readyClass = 'kitchen-ready-highlight';
+                actionBtnHtml = `<div class="kitchen-status-badge">✅ Ready for Pickup</div>`;
+            } else {
+                actionBtnHtml = `<button class="clear-pickup-btn" onclick="handleMarkReady('${order.id}')">Mark Ready</button>`;
+            }
+
             const pickupBox = document.createElement('div');
-            pickupBox.className = 'pickup-box';
+            pickupBox.className = `pickup-box ${readyClass}`;
             pickupBox.id = `pickup-${order.id}`;
             pickupBox.innerHTML = `
                 <div class="table-header">
@@ -255,66 +269,35 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${itemsHtml}
                 </ul>
                 ${notesHtml} 
-                <button class="clear-pickup-btn" data-order-id="${order.id}">Mark Ready</button>
+                ${actionBtnHtml}
             `;
             pickupGrid.appendChild(pickupBox);
-
-            // Add listener for this new button
-            const clearBtn = pickupBox.querySelector('.clear-pickup-btn');
-            clearBtn.addEventListener('click', () => {
-                handleClearOrder(order.id, 'pickup', clearBtn);
-            });
         });
     }
 
 
     /**
-     * Handles "Mark Ready" or "Order Complete" button clicks
+     * Handles "Mark Ready" button clicks.
+     * Accessible globally for inline onclicks.
      */
-    async function handleClearOrder(identifier, type, buttonElement) {
-        let ordersToClear = [];
-        // --- FIX for "Clearing..." text bug ---
-        // Only select the button element, not the text
-        let buttonsToDisable = [buttonElement]; 
-
-        if (type === 'dine-in') {
-            ordersToClear = Object.values(allOrders).filter(o => o.table === identifier && o.orderType !== 'pickup');
-            buttonsToDisable = document.querySelectorAll(`button[data-table-id="${identifier}"]`);
-        } else {
-            // 'identifier' is the unique order.id
-            const orderToClear = allOrders[identifier];
-            if (orderToClear) {
-                ordersToClear = [orderToClear];
-            }
-        }
-
-        if (ordersToClear.length === 0) {
-            console.log(`No orders to clear for ${identifier}.`);
-            return;
-        }
-
-        buttonsToDisable.forEach(btn => {
+    window.handleMarkReady = async function(orderId) {
+        // Find the button to show loading state
+        const btn = document.querySelector(`button[onclick="handleMarkReady('${orderId}')"]`);
+        if(btn) {
             btn.disabled = true;
-            btn.textContent = "Updating...";
-        });
-
-        const batch = db.batch();
-        ordersToClear.forEach(order => {
-            const docRef = db.collection("orders").doc(order.id);
-            // CHANGE: Set status to 'ready' instead of 'cooked'
-            batch.update(docRef, { status: "ready" }); 
-        });
+            btn.textContent = "...";
+        }
 
         try {
-            await batch.commit();
-            console.log(`Successfully marked all orders 'ready' for ${identifier}.`);
-            // onSnapshot will handle the UI update
+            // Update ONLY this specific order to 'ready'
+            await db.collection("orders").doc(orderId).update({ status: "ready" });
+            console.log(`Order ${orderId} marked ready.`);
         } catch (e) {
-            console.error(`Error clearing ${identifier}: `, e);
-            buttonsToDisable.forEach(btn => {
+            console.error("Error updating order:", e);
+            if(btn) {
                 btn.disabled = false;
-                btn.textContent = `Mark Ready`;
-            });
+                btn.textContent = "Error";
+            }
         }
     }
 
@@ -332,12 +315,11 @@ document.addEventListener("DOMContentLoaded", () => {
         
         let title = '';
         if (currentPopupOrder.orderType === 'pickup') {
-            title = `🛍️ Pickup for ${currentPopupOrder.table}`; // 'table' holds "Name (Phone)"
+            title = `🛍️ Pickup for ${currentPopupOrder.table}`; 
         } else {
             title = `🔔 Table ${currentPopupOrder.table}`;
         }
 
-        // --- ADDED NOTES ---
         let notesHtml = '';
         if (currentPopupOrder.notes && currentPopupOrder.notes.trim() !== '') {
             notesHtml = `<p class="popup-notes">⚠️ Notes: ${currentPopupOrder.notes}</p>`;
