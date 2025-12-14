@@ -70,10 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h2>Table ${i}</h2>
                 </div>
                 <ul class="order-list" data-table-id="${i}">
-                    <!-- Orders will be injected here -->
-                </ul>
+                    </ul>
                 <p class="order-list-empty" data-table-id="${i}">Waiting for order...</p>
-                <button class="clear-table-btn" data-table-id="${i}">Clear Table ${i}</button>
+                <button class="clear-table-btn" data-table-id="${i}">Mark Ready</button>
             `;
             dineInGrid.appendChild(tableBox);
         }
@@ -174,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // --- FIX for "Greyed out" button bug ---
             clearBtn.disabled = false;
-            clearBtn.textContent = `Clear Table ${tableId}`;
+            clearBtn.textContent = `Mark Ready`;
             // --- END OF FIXES ---
 
         } else {
@@ -250,14 +249,13 @@ document.addEventListener("DOMContentLoaded", () => {
             pickupBox.id = `pickup-${order.id}`;
             pickupBox.innerHTML = `
                 <div class="table-header">
-                    <h2>🛍️ ${order.table}</h2> <!-- 'table' holds "Name (Phone)" -->
-                    <span class="order-time">@ ${orderTimestamp}</span>
+                    <h2>🛍️ ${order.table}</h2> <span class="order-time">@ ${orderTimestamp}</span>
                 </div>
                 <ul class="order-list">
                     ${itemsHtml}
                 </ul>
                 ${notesHtml} 
-                <button class="clear-pickup-btn" data-order-id="${order.id}">Order Complete</button>
+                <button class="clear-pickup-btn" data-order-id="${order.id}">Mark Ready</button>
             `;
             pickupGrid.appendChild(pickupBox);
 
@@ -271,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /**
-     * Handles "Clear Table" or "Order Complete" button clicks
+     * Handles "Mark Ready" or "Order Complete" button clicks
      */
     async function handleClearOrder(identifier, type, buttonElement) {
         let ordersToClear = [];
@@ -297,25 +295,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         buttonsToDisable.forEach(btn => {
             btn.disabled = true;
-            btn.textContent = "Clearing...";
+            btn.textContent = "Updating...";
         });
 
         const batch = db.batch();
         ordersToClear.forEach(order => {
             const docRef = db.collection("orders").doc(order.id);
-            batch.update(docRef, { status: "cooked" }); // Mark as 'cooked' for billing
+            // CHANGE: Set status to 'ready' instead of 'cooked'
+            batch.update(docRef, { status: "ready" }); 
         });
 
         try {
             await batch.commit();
-            console.log(`Successfully 'cooked' all orders for ${identifier}.`);
+            console.log(`Successfully marked all orders 'ready' for ${identifier}.`);
             // onSnapshot will handle the UI update
         } catch (e) {
             console.error(`Error clearing ${identifier}: `, e);
             buttonsToDisable.forEach(btn => {
                 btn.disabled = false;
-                if (type === 'dine-in') btn.textContent = `Clear Table ${identifier}`;
-                if (type === 'pickup') btn.textContent = `Order Complete`;
+                btn.textContent = `Mark Ready`;
             });
         }
     }
