@@ -8,6 +8,7 @@
     --border-color: #444;
     --veg-icon: #32c832;      /* Green for veg */
     --non-veg-icon: #e04040;  /* Red for non-veg */
+    --ready-green: #256b25;   /* Background for ready orders */
 }
 html { scroll-behavior: smooth; }
 body {
@@ -1825,3 +1826,25 @@ address {
     padding: 5px 10px; border-radius: 4px; font-weight: bold; cursor: pointer;
     margin-left: auto; font-size: 0.8em;
 }
+
+/* Ready State Styles */
+.order-group.ready-order {
+    background-color: #1a3a1a; /* Dark Green tint */
+    border: 1px solid #25D366; /* WhatsApp Greenish */
+}
+.order-group.ready-order h4 {
+    color: #25D366;
+}
+.btn-serve {
+    background-color: #006400; /* Green */
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    margin-top: 5px;
+}
+.btn-serve:hover { background-color: #008000; }
