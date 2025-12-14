@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zaffran Waiter Station</title>
-    <link rel="stylesheet" href="style.css?v=34"> 
+    <link rel="stylesheet" href="style.css?v=35"> 
     <link rel="icon" type="image/png" href="favlogo.png">
 </head>
 <body class="kitchen-body">
@@ -48,9 +48,12 @@
         </div>
    </footer>   
 
-    <div id="new-order-popup-overlay" class="kitchen-popup-overlay hidden">
+    <div id="ready-notification-popup" class="kitchen-popup-overlay hidden">
         <div class="kitchen-popup-box">
-            <h3>🔔 New Order! 🔔</h3>
+            <h3>✅ Order Ready!</h3>
+            <div id="ready-popup-details">
+                </div>
+            <button id="close-ready-popup-btn">OK</button>
         </div>
     </div>
     
@@ -91,7 +94,7 @@
     
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
-    <script src="waiter-script.js?v=2"></script> 
+    <script src="waiter-script.js?v=3"></script> 
 
 </body>
 </html>
