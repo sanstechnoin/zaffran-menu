@@ -1827,14 +1827,54 @@ address {
     margin-left: auto; font-size: 0.8em;
 }
 
-/* Ready State Styles */
-.order-group.ready-order {
-    background-color: #1a3a1a; /* Dark Green tint */
-    border: 1px solid #25D366; /* WhatsApp Greenish */
+/* --- NEW KDS PER-ORDER STYLES --- */
+
+/* Style for the "Mark Ready" button inside the order list */
+.btn-mark-ready {
+    background-color: #8B0000; /* Dark Red */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 0.9em;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 8px;
+    transition: background-color 0.2s;
 }
-.order-group.ready-order h4 {
-    color: #25D366;
+.btn-mark-ready:hover {
+    background-color: #b8860b; /* Goldish on hover */
 }
+.btn-mark-ready:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+/* Style for orders that are Ready (Kitchen View) */
+.kitchen-ready-highlight {
+    background-color: #1a3a1a; /* Dark Green background */
+    border: 1px solid #25D366;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+.kitchen-ready-highlight h4 {
+    color: #25D366 !important;
+}
+
+.kitchen-status-badge {
+    background-color: #25D366;
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    border-radius: 4px;
+    margin-top: 8px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+}
+
+/* Style for the "Serve" button (Waiter View) */
 .btn-serve {
     background-color: #006400; /* Green */
     color: white;
@@ -1846,5 +1886,6 @@ address {
     border-radius: 4px;
     width: 100%;
     margin-top: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 .btn-serve:hover { background-color: #008000; }
