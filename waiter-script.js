@@ -163,6 +163,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentOrderPreview = document.getElementById('new-order-items-list');
     const modalTableTitle = document.getElementById('modal-table-title');
 
+    // Notification Elements
+    const readyPopup = document.getElementById('ready-notification-popup');
+    const readyPopupDetails = document.getElementById('ready-popup-details');
+    const closeReadyPopupBtn = document.getElementById('close-ready-popup-btn');
+    let notificationAudio = new Audio('notification.mp3');
+
     let allOrders = {}; // Holds all active orders, keyed by order.id
     
     // State for the new order being created
@@ -222,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Start the main listener
         db.collection("orders")
-          .where("status", "in", ["new", "seen"]) 
+          .where("status", "in", ["new", "seen", "ready"]) // Added 'ready'
           .onSnapshot(
             (snapshot) => {
                 connectionIconEl.textContent = '✅'; 
@@ -237,6 +243,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         changedPickupCustomers.add(orderData.table); 
                     } else {
                         changedTables.add(orderData.table); 
+                    }
+                    
+                    // Logic to detect NEWLY READY orders for notifications
+                    if (change.type === "modified" && orderData.status === "ready") {
+                        // Ideally check if old status was NOT ready, but 'modified' implies change
+                        // Since we listen to new/seen/ready, a transition from seen->ready triggers this.
+                        triggerReadyNotification(orderData);
                     }
                     
                     if (change.type === "added") {
@@ -274,6 +287,22 @@ document.addEventListener("DOMContentLoaded", () => {
     } // End of initializeWaiterStation()
 
 
+    function triggerReadyNotification(order) {
+        readyPopupDetails.innerHTML = `
+            <h4 style="color:var(--gold);margin-top:0;">${order.table}</h4>
+            <p>The order is ready for pickup/service.</p>
+        `;
+        readyPopup.classList.remove('hidden');
+        notificationAudio.play().catch(e => console.log(e));
+    }
+    
+    if (closeReadyPopupBtn) {
+        closeReadyPopupBtn.addEventListener('click', () => {
+            readyPopup.classList.add('hidden');
+        });
+    }
+
+
     function renderDineInTable(tableId) {
         const tableBox = document.getElementById(`table-${tableId}`);
         if (!tableBox) return; 
@@ -292,18 +321,25 @@ document.addEventListener("DOMContentLoaded", () => {
             emptyMsg.style.display = 'block';
             clearBtn.disabled = false;
             clearBtn.textContent = `Clear Table ${tableId}`;
+            // Remove highlighting if it was empty
+            tableBox.classList.remove('new-order-flash'); 
         } else {
             orderList.style.display = 'block';
             emptyMsg.style.display = 'none';
             
             ordersForThisTable.sort((a, b) => a.createdAt.seconds - b.createdAt.seconds);
             
+            let hasReadyOrder = false;
+
             ordersForThisTable.forEach(order => {
                 const orderTimestamp = order.createdAt.toDate().toLocaleTimeString('de-DE', {
                     hour: '2-digit',
                     minute: '2-digit'
                 });
                 
+                const isReady = order.status === 'ready';
+                if (isReady) hasReadyOrder = true;
+
                 let itemsHtml = order.items.map((item, index) => `
                     <li class="waiter-item">
                         <span>${item.quantity}x ${item.name}</span>
@@ -316,13 +352,21 @@ document.addEventListener("DOMContentLoaded", () => {
                     notesHtml = `<p class="order-notes">⚠️ Notes: ${order.notes}</p>`;
                 }
 
+                // Add special class if ready
+                const readyClass = isReady ? 'ready-order' : '';
+                const statusBadge = isReady ? '<span style="color:#25D366;font-weight:bold;float:right;">✅ READY</span>' : '';
+                
+                // Add specific Serve button for ready orders
+                const serveBtnHtml = isReady ? `<button class="btn-serve" onclick="handleSingleServe('${order.id}')">Serve / Clear</button>` : '';
+
                 const orderGroupHtml = `
-                    <div class="order-group" id="${order.id}">
-                        <h4>Order @ ${orderTimestamp}</h4>
+                    <div class="order-group ${readyClass}" id="${order.id}">
+                        <h4>Order @ ${orderTimestamp} ${statusBadge}</h4>
                         <ul>
                             ${itemsHtml}
                         </ul>
                         ${notesHtml} 
+                        ${serveBtnHtml}
                     </div>
                 `;
                 orderList.innerHTML += orderGroupHtml;
@@ -350,6 +394,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 minute: '2-digit'
             });
             
+            const isReady = order.status === 'ready';
+            const readyClass = isReady ? 'ready-order' : '';
+            const statusBadge = isReady ? '<span style="color:#25D366;font-weight:bold;float:right;">✅ READY</span>' : '';
+
             let itemsHtml = order.items.map((item, index) => `
                 <li class="waiter-item">
                     <span>${item.quantity}x ${item.name}</span>
@@ -363,13 +411,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const pickupBox = document.createElement('div');
-            pickupBox.className = 'pickup-box';
+            pickupBox.className = `pickup-box ${readyClass}`;
             pickupBox.id = `pickup-${order.id}`;
             pickupBox.innerHTML = `
                 <div class="table-header">
                     <h2>🛍️ ${order.table}</h2>
                     <span class="order-time">@ ${orderTimestamp}</span>
                 </div>
+                <div style="padding:0 15px;">${statusBadge}</div>
                 <ul class="order-list">
                     ${itemsHtml}
                 </ul>
@@ -385,14 +434,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Expose this for the inline onclick in renderDineInTable
+    window.handleSingleServe = function(orderId) {
+        handleClearOrder(orderId, 'single-order', null);
+    }
+
     async function handleClearOrder(identifier, type, buttonElement) {
         let ordersToClear = [];
-        let buttonsToDisable = [buttonElement]; 
+        let buttonsToDisable = [];
+        if (buttonElement) buttonsToDisable.push(buttonElement);
 
         if (type === 'dine-in') {
             ordersToClear = Object.values(allOrders).filter(o => o.table === identifier && o.orderType !== 'pickup');
             buttonsToDisable = document.querySelectorAll(`button[data-table-id="${identifier}"]`);
         } else {
+            // 'identifier' is the unique order.id (for pickup or single-order serve)
             const orderToClear = allOrders[identifier];
             if (orderToClear) {
                 ordersToClear = [orderToClear];
@@ -409,7 +465,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const batch = db.batch();
         ordersToClear.forEach(order => {
             const docRef = db.collection("orders").doc(order.id);
-            batch.update(docRef, { status: "cooked" }); 
+            batch.update(docRef, { status: "cooked" }); // Waiter marks as Cooked/Served
         });
 
         try {
