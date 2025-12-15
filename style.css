@@ -291,6 +291,7 @@ li:last-child { border-bottom: none; }
 /* Summary & Total */
 #cart-summary { margin-top: 15px; text-align: right; }
 .summary-line { display: flex; justify-content: space-between; font-size: 1.1em; margin-bottom: 5px; }
+#summary-discount { color: #25D366; font-size: 1em; }
 #summary-total {
     font-size: 1.3em; font-weight: bold; color: var(--gold);
     border-top: 1px dashed var(--gold); padding-top: 10px; margin-top: 10px;
@@ -332,7 +333,7 @@ li:last-child { border-bottom: none; }
 .checkout-kitchen:hover { background-color: #333; }
 
 /* ===============================================
-   NEW: RECEIPT-STYLE CONFIRMATION BOX (FIXED)
+   NEW: RECEIPT-STYLE CONFIRMATION BOX
 =============================================== */
 #order-confirmation h2 { color: var(--gold); text-align: center; margin-top: 0; }
 #order-confirmation p { text-align: center; color: #aaa; margin-bottom: 20px; }
