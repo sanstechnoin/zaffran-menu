@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         const response = await fetch('config.json?v=24'); 
         config = await response.json();
-    } catch (error) { console.warn("Config load failed", error); }
+    } catch (e) { console.warn("Config load failed", e); }
 
     // --- Marquee Logic ---
     const marqueeContainer = document.getElementById('marquee-container');
@@ -150,7 +150,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 cartItemsContainer.appendChild(itemEl);
             });
         }
-        
         totalAmountEl.innerText = `${subtotal.toFixed(2)} €`;
         cartItemCountEl.innerText = itemCount;
         cartToggleBtn.classList.toggle('hidden', itemCount === 0);
@@ -287,7 +286,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 summaryText += `${item.quantity}x ${item.name} (${(item.price * item.quantity).toFixed(2)} €)\n`;
             });
 
-            // Save to Firebase for records
             const orderId = `pickup-${new Date().getTime()}`;
             const orderData = {
                 id: orderId,
