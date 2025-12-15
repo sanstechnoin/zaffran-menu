@@ -24,9 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const table = urlParams.get('table');
         if (table) tableNumber = table;
-    } catch (e) {
-        console.error("Error getting table number", e);
-    }
+    } catch (e) { console.error("Error getting table number", e); }
     
     // --- Update Titles ---
     const formboldTableTitleEl = document.getElementById('formbold-table-title');
@@ -203,10 +201,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateCart();
     }
 
-    function generateOrderData() {
+    function generateOrderSummary() {
+        let summaryText = "";
         let itemsOnly = []; 
         let total = 0;
         cart.forEach(item => {
+            summaryText += `${item.quantity}x ${item.name} (${(item.price * item.quantity).toFixed(2)} €)\n`;
             total += item.price * item.quantity;
             itemsOnly.push({
                 quantity: item.quantity,
@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 price: item.price
             });
         });
-        return { total, itemsOnly };
+        return { summaryText, total, itemsOnly };
     }
     
     // --- SEND TO KITCHEN ---
@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         firebaseBtn.innerText = "Senden...";
         firebaseBtn.disabled = true;
 
-        const { itemsOnly, total } = generateOrderData();
+        const { itemsOnly, total, summaryText } = generateOrderSummary();
         const orderId = `${tableNumber}-${new Date().getTime()}`;
         lastOrderId = orderId; 
         
@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         try {
             await db.collection("orders").doc(orderId).set(orderData);
-            showConfirmationScreen(itemsOnly, total, customerNotes);
+            showConfirmationScreen(summaryText, total, customerNotes);
         } catch (error) {
             console.error("Error sending order to Firebase: ", error);
             alert("Error sending order. Please try again or call a waiter.");
@@ -253,41 +253,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // --- CONFIRMATION SCREEN ---
-    function showConfirmationScreen(items, total, notes) {
-        let itemsHtml = items.map(item => `
-            <div class="conf-item">
-                <span class="conf-item-qty">${item.quantity}x</span>
-                <span class="conf-item-name">${item.name}</span>
-                <span class="conf-item-price">${(item.price * item.quantity).toFixed(2)} €</span>
-            </div>
-        `).join('');
+    // --- CONFIRMATION SCREEN (TEXT-BASED FIX) ---
+    function showConfirmationScreen(summaryText, total, notes) {
+        console.log("Showing TEXT Summary:", summaryText); // Debugging
 
-        let notesHtml = '';
+        let finalSummary = `Table: ${tableNumber}\n\n${summaryText}\nTotal: ${total.toFixed(2)} €`;
         if (notes && notes.trim() !== "") {
-            notesHtml = `
-                <div class="conf-notes-section">
-                    <span class="conf-notes-label">Notes:</span>
-                    <span class="conf-notes-text">${notes}</span>
-                </div>
-            `;
+            finalSummary += `\n\nNotes: ${notes}`;
         }
 
-        let html = `
-            <div class="conf-header">
-                Table: ${tableNumber}
-            </div>
-            <div class="conf-items-list">
-                ${itemsHtml}
-            </div>
-            <div class="conf-total-row">
-                <span>Total:</span>
-                <span>${total.toFixed(2)} €</span>
-            </div>
-            ${notesHtml}
-        `;
-
-        confirmationSummaryEl.innerHTML = html;
+        confirmationSummaryEl.innerText = finalSummary;
+        
         cartContentEl.style.display = 'none';
         orderConfirmationEl.style.display = 'block';
 
@@ -321,7 +297,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     try {
                         await db.collection("orders").doc(lastOrderId).delete();
                         clearInterval(window.cancelTimer); 
-                        confirmationSummaryEl.innerHTML = `<div style="text-align:center; padding:20px;"><h3 style="color:#e04040;">Order Cancelled</h3><p>Order ID: ${lastOrderId} has been removed.</p></div>`;
+                        confirmationSummaryEl.innerText = `Order ${lastOrderId} has been CANCELLED.`;
                         cancelBtn.style.display = 'none';
                         cancelText.style.display = 'none';
                     } catch (e) {
