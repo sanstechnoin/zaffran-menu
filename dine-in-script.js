@@ -146,7 +146,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         let total = 0;
         let itemCount = 0;
         
-        // Update counts on main menu
         document.querySelectorAll('.item-qty').forEach(qtyEl => {
             const item = cart.find(i => i.id === qtyEl.dataset.id);
             const controlsDiv = qtyEl.closest('.quantity-controls');
@@ -204,7 +203,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateCart();
     }
 
-    // --- Generate Structured Data ---
     function generateOrderData() {
         let itemsOnly = []; 
         let total = 0;
@@ -255,7 +253,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // --- UPDATED CONFIRMATION SCREEN (HTML Receipt) ---
+    // --- CONFIRMATION SCREEN ---
     function showConfirmationScreen(items, total, notes) {
         let itemsHtml = items.map(item => `
             <div class="conf-item">
@@ -293,7 +291,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         cartContentEl.style.display = 'none';
         orderConfirmationEl.style.display = 'block';
 
-        // --- 30-Second Cancel Logic ---
         const cancelBtn = document.getElementById('cancel-order-btn');
         const cancelText = document.getElementById('cancel-timer-text');
         
