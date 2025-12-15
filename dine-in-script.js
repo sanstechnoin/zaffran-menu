@@ -7,6 +7,7 @@ const firebaseConfig = {
   messagingSenderId: "1022960860126",
   appId: "1:1022960860126:web:1e06693dea1d0247a0bb4f"
 };
+// --- END OF FIREBASE CONFIG ---
 
 // --- 2. Initialize Firebase ---
 firebase.initializeApp(firebaseConfig);
@@ -19,14 +20,12 @@ let lastOrderId = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
     
-    // --- Get Table Number ---
     try {
         const urlParams = new URLSearchParams(window.location.search);
         const table = urlParams.get('table');
         if (table) tableNumber = table;
     } catch (e) { console.error("Error getting table number", e); }
     
-    // --- Update Titles ---
     const formboldTableTitleEl = document.getElementById('formbold-table-title');
     if(formboldTableTitleEl) formboldTableTitleEl.innerText = `Table ${tableNumber} Order`;
     const cartTitleEl = document.getElementById('cart-title');
@@ -34,14 +33,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     const tableNumberInput = document.getElementById('table-number-input');
     if (tableNumberInput) tableNumberInput.value = tableNumber;
 
-    // --- Load Config (Marquee) ---
     let config = { marqueeLines: [] };
     try {
         const response = await fetch('config.json?v=24'); 
         config = await response.json();
     } catch (e) { console.warn("Config not loaded", e); }
 
-    // --- Marquee Logic ---
     const marqueeContainer = document.getElementById('marquee-container');
     const marqueeText = document.getElementById('marquee-text');
     if (marqueeText && marqueeContainer && config.marqueeLines && config.marqueeLines.length > 0) {
@@ -49,7 +46,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         marqueeContainer.classList.remove('hidden');
     }
 
-    // --- Sticky Header Scroll Padding ---
     const header = document.querySelector('header');
     const headerNav = document.querySelector('header nav');
     function updateScrollPadding() {
@@ -66,7 +62,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateScrollPadding();
     window.addEventListener('resize', updateScrollPadding);
     
-    // --- Nav Scroller ---
     const navLinksContainer = document.getElementById('nav-links-container');
     const scrollLeftBtn = document.getElementById('scroll-left-btn');
     const scrollRightBtn = document.getElementById('scroll-right-btn');
@@ -82,7 +77,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if(scrollRightBtn) scrollRightBtn.addEventListener('click', () => navLinksContainer.scrollBy({ left: 200, behavior: 'smooth' }));
     }
 
-    // --- Cart Logic ---
     const cartToggleBtn = document.getElementById('cart-toggle-btn');
     const cartOverlay = document.getElementById('cart-overlay');
     const cartCloseBtn = document.getElementById('cart-close-btn');
@@ -201,20 +195,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateCart();
     }
 
-    function generateOrderSummary() {
-        let summaryText = "";
+    function generateOrderData() {
         let itemsOnly = []; 
+        let summaryText = ""; // NEW: build the text string here
         let total = 0;
+        
         cart.forEach(item => {
-            summaryText += `${item.quantity}x ${item.name} (${(item.price * item.quantity).toFixed(2)} €)\n`;
-            total += item.price * item.quantity;
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            // Build the text summary line
+            summaryText += `${item.quantity}x ${item.name} (${itemTotal.toFixed(2)} €)\n`;
+            
             itemsOnly.push({
                 quantity: item.quantity,
                 name: item.name,
                 price: item.price
             });
         });
-        return { summaryText, total, itemsOnly };
+        return { total, itemsOnly, summaryText };
     }
     
     // --- SEND TO KITCHEN ---
@@ -224,7 +222,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         firebaseBtn.innerText = "Senden...";
         firebaseBtn.disabled = true;
 
-        const { itemsOnly, total, summaryText } = generateOrderSummary();
+        const { itemsOnly, total, summaryText } = generateOrderData();
         const orderId = `${tableNumber}-${new Date().getTime()}`;
         lastOrderId = orderId; 
         
@@ -253,15 +251,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // --- CONFIRMATION SCREEN (TEXT-BASED FIX) ---
+    // --- UPDATED CONFIRMATION SCREEN (TEXT BASED) ---
     function showConfirmationScreen(summaryText, total, notes) {
-        console.log("Showing TEXT Summary:", summaryText); // Debugging
-
+        // Construct the full text block with newlines
         let finalSummary = `Table: ${tableNumber}\n\n${summaryText}\nTotal: ${total.toFixed(2)} €`;
+        
         if (notes && notes.trim() !== "") {
             finalSummary += `\n\nNotes: ${notes}`;
         }
-
+        
+        // Use innerText so \n becomes a line break (handled by pre-wrap CSS)
         confirmationSummaryEl.innerText = finalSummary;
         
         cartContentEl.style.display = 'none';
