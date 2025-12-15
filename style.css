@@ -22,7 +22,6 @@ body {
     color: var(--text-main);
     line-height: 1.6;
     overflow-x: hidden;
-    /* New styles for footer push */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -36,7 +35,6 @@ main {
     box-sizing: border-box;
 }
 
-/* This makes the main content fill the space, pushing footers down */
 main.table-selection-main {
     flex-grow: 1;
 }
@@ -231,7 +229,7 @@ li:last-child { border-bottom: none; }
 .item-icon.chef { background-color: transparent; color: var(--gold); font-size: 1.1em; }
 .allergen-sup {
     font-size: 0.7em; vertical-align: super; color: var(--text-subtle);
-    margin-left: 5px; font-weight: normal; letter-spacing: 0.5px;
+    margin-left: 5px; font-weight: normal;
 }
 
 /* ===============================================
@@ -290,31 +288,9 @@ li:last-child { border-bottom: none; }
 .cart-item-controls span { margin: 0 10px; min-width: 20px; text-align: center; }
 .cart-item-price { font-weight: bold; flex-shrink: 0; min-width: 60px; text-align: right; margin-left: 10px; }
 
-/* Coupon & Summary */
-#coupon-hint {
-    font-size: 0.9em; color: var(--text-subtle); font-style: italic;
-    text-align: center; margin: 10px 0 0 0;
-}
-#coupon-hint.hidden { display: none; }
-
-.coupon-area { display: flex; gap: 5px; margin-top: 10px; align-items: stretch; }
-.coupon-area label { display: none; }
-.coupon-area input {
-    flex-grow: 1; padding: 8px; box-sizing: border-box; border-radius: 4px;
-    border: 1px solid var(--border-color); background-color: #333; color: var(--text-main);
-}
-#apply-coupon-btn {
-    background-color: #555; color: var(--gold); border: 1px solid var(--gold);
-    border-radius: 5px; padding: 0 15px; cursor: pointer; font-weight: bold;
-}
-#apply-coupon-btn:hover { background-color: #666; }
-#coupon-message { font-size: 0.9em; margin-top: 5px; height: 1.2em; }
-#coupon-message.success { color: #25D366; }
-#coupon-message.error { color: #ff4d4d; }
-
+/* Summary & Total */
 #cart-summary { margin-top: 15px; text-align: right; }
 .summary-line { display: flex; justify-content: space-between; font-size: 1.1em; margin-bottom: 5px; }
-#summary-discount { color: #25D366; font-size: 1em; }
 #summary-total {
     font-size: 1.3em; font-weight: bold; color: var(--gold);
     border-top: 1px dashed var(--gold); padding-top: 10px; margin-top: 10px;
@@ -356,7 +332,7 @@ li:last-child { border-bottom: none; }
 .checkout-kitchen:hover { background-color: #333; }
 
 /* ===============================================
-   NEW: RECEIPT-STYLE CONFIRMATION
+   NEW: RECEIPT-STYLE CONFIRMATION BOX (FIXED)
 =============================================== */
 #order-confirmation h2 { color: var(--gold); text-align: center; margin-top: 0; }
 #order-confirmation p { text-align: center; color: #aaa; margin-bottom: 20px; }
@@ -728,7 +704,8 @@ address {
 
 /* ===============================================
    BILLING PAGE STYLES
-=============================================== */
+=============================================== 
+*/
 #billing-content-wrapper {
     display: flex; flex-direction: row; gap: 20px; width: 100%; max-width: 1400px; margin: 0 auto; align-items: flex-start;
 }
@@ -762,6 +739,9 @@ address {
     background-color: #8B0000; color: white; border: none; width: 28px; height: 28px;
     border-radius: 50%; font-size: 1.2em; font-weight: bold; cursor: pointer; line-height: 28px;
 }
+.bill-delete-item:hover { background-color: #a10000; }
+.bill-delete-item:disabled { background-color: #555; }
+
 .bill-total { font-size: 1.8em; color: var(--gold); text-align: right; margin-top: 20px; }
 .billing-hr { border: none; border-top: 1px dashed var(--border-color); margin: 25px 0; }
 
@@ -787,7 +767,8 @@ address {
 
 /* ===============================================
    RECORDS PAGE STYLES
-=============================================== */
+=============================================== 
+*/
 .records-main { flex-grow: 1; padding: 20px; max-width: 1200px; margin: 0 auto; }
 .records-controls {
     display: flex; flex-wrap: wrap; gap: 15px; padding: 20px;
