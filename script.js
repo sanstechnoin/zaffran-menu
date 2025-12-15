@@ -167,41 +167,31 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateCart();
     }
     
-    function showConfirmationScreen(summary) {
-        let itemsHtml = summary.itemsOnly.map(item => `
-            <div class="conf-item">
-                <span class="conf-item-qty">${item.quantity}x</span>
-                <span class="conf-item-name">${item.name}</span>
-                <span class="conf-item-price">${(item.price * item.quantity).toFixed(2)} €</span>
-            </div>
-        `).join('');
-
-        let notesHtml = '';
-        if (summary.customerNotes && summary.customerNotes.trim() !== "") {
-            notesHtml = `
-                <div class="conf-notes-section">
-                    <span class="conf-notes-label">Notes:</span>
-                    <span class="conf-notes-text">${summary.customerNotes}</span>
-                </div>
-            `;
-        }
-
-        let html = `
-            <div class="conf-header">
-                Pickup Order<br>
-                <span style="font-size:0.8em; color:#ccc;">${summary.customerName} (${summary.customerPhone})</span>
-            </div>
-            <div class="conf-items-list">
-                ${itemsHtml}
-            </div>
-            <div class="conf-total-row">
-                <span>Total:</span>
-                <span>${summary.total.toFixed(2)} €</span>
-            </div>
-            ${notesHtml}
-        `;
+    function generateOrderSummary() {
+        let summaryText = "";
+        let itemsOnly = [];
+        let total = 0;
         
-        confirmationSummaryEl.innerHTML = html;
+        cart.forEach(item => {
+            summaryText += `${item.quantity}x ${item.name} (${(item.price * item.quantity).toFixed(2)} €)\n`;
+            total += item.price * item.quantity;
+            
+            itemsOnly.push({
+                quantity: item.quantity,
+                name: item.name,
+                price: item.price
+            });
+        });
+        return { summaryText, total, itemsOnly };
+    }
+
+    function showConfirmationScreen(summary) {
+        let finalSummary = `Kunde: ${summary.customerName}\nTelefon: ${summary.customerPhone}\n\n${summary.summaryText}\nTotal: ${summary.total.toFixed(2)} €`;
+        if (summary.customerNotes) {
+            finalSummary += `\n\nAnmerkungen:\n${summary.customerNotes}`;
+        }
+        
+        confirmationSummaryEl.innerText = finalSummary;
         cartContentEl.style.display = 'none'; 
         orderConfirmationEl.style.display = 'block'; 
         cart = [];
@@ -221,12 +211,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return; 
             }
 
-            let itemsOnly = [];
-            let total = 0;
-            cart.forEach(item => {
-                total += item.price * item.quantity;
-                itemsOnly.push({ quantity: item.quantity, name: item.name, price: item.price });
-            });
+            const { summaryText, total, itemsOnly } = generateOrderSummary();
 
             const orderId = `pickup-${new Date().getTime()}`;
             const billingIdentifier = `${customerName} (${customerPhone})`; 
@@ -244,7 +229,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 createdAt: new Date()
             };
 
-            const summary = { itemsOnly, total, customerName, customerPhone, customerNotes };
+            const summary = { summaryText, total, customerName, customerPhone, customerNotes, itemsOnly };
 
             firebaseBtn.innerText = "Senden...";
             firebaseBtn.disabled = true;
@@ -270,14 +255,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             
             if (!customerName || !customerPhone) { alert("Bitte geben Sie Namen und Telefonnummer ein."); return; }
 
-            let itemsOnly = [];
-            let total = 0;
-            let summaryText = "";
-            cart.forEach(item => {
-                total += item.price * item.quantity;
-                itemsOnly.push({ quantity: item.quantity, name: item.name, price: item.price });
-                summaryText += `${item.quantity}x ${item.name} (${(item.price * item.quantity).toFixed(2)} €)\n`;
-            });
+            const { summaryText, total, itemsOnly } = generateOrderSummary();
 
             const orderId = `pickup-${new Date().getTime()}`;
             const orderData = {
