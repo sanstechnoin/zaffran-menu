@@ -5,7 +5,7 @@ const firebaseConfig = {
   projectId: "zaffran-delight",
   storageBucket: "zaffran-delight.firebasestorage.app",
   messagingSenderId: "1022960860126",
-  appId: "1:102296POST_YOUR_CHOSEN_CODE_HERE_TO_VERIFY_THE_FIX"
+  appId: "1:1022960860126:web:1e06693dea1d0247a0bb4f"
 };
 // --- END OF FIREBASE CONFIG ---
 
@@ -22,7 +22,6 @@ let lastOrderId = null; // For the 30-second cancel feature
 document.addEventListener("DOMContentLoaded", async () => {
     
     // --- Get Table Number from URL ---
-    // (This part is not active for Zaffran, but we keep the logic)
     try {
         const urlParams = new URLSearchParams(window.location.search);
         const table = urlParams.get('table');
@@ -85,7 +84,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             navLinksContainer.scrollBy({ left: 200, behavior: 'smooth' });
         });
         navLinksContainer.addEventListener('scroll', checkScroll);
-        // Check on load/resize
         checkScroll();
         window.addEventListener('resize', checkScroll);
     }
@@ -146,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     function handleRemoveFromCartClick() {
         adjustQuantity(this.dataset.id, -1);
     }
-    initItemControls(); // <-- Initial call to add listeners
+    initItemControls(); 
 
     function addToCart(id, name, price, category) {
         const existingItem = cart.find(item => item.id === id);
@@ -196,12 +194,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         cartItemCountEl.innerText = itemCount;
         cartToggleBtn.classList.toggle('hidden', itemCount === 0);
         
-        addCartItemControls(); // This adds listeners inside the cart modal
-        
-        // --- THIS IS THE FIX ---
-        // This re-adds listeners to the main menu buttons after they are updated.
+        addCartItemControls(); 
         initItemControls();    
-        // --- END OF FIX ---
     }
     function addCartItemControls() {
         document.querySelectorAll('#cart-items-container .cart-btn-plus').forEach(btn => {
@@ -247,9 +241,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const { itemsOnly } = generateOrderSummary();
         const orderId = `${tableNumber}-${new Date().getTime()}`;
-        lastOrderId = orderId; // Save for cancellation
+        lastOrderId = orderId; 
         
-        // Get notes from the textarea
         const customerNotes = document.getElementById('dine-in-notes').value;
 
         const orderData = {
@@ -258,8 +251,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             items: itemsOnly,
             status: "new",
             createdAt: new Date(),
-            orderType: "dine-in", // Specify order type
-            notes: customerNotes || null // Add notes
+            orderType: "dine-in",
+            notes: customerNotes || null 
         };
 
         try {
@@ -277,15 +270,43 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // --- Helper function to show confirmation ---
     function showConfirmationScreen() {
-        const { summaryText, total } = generateOrderSummary();
-        let finalSummary = `Table: ${tableNumber}\n\n${summaryText}\nTotal: ${total.toFixed(2)} €`;
-        
+        const { itemsOnly, total } = generateOrderSummary();
         const customerNotes = document.getElementById('dine-in-notes').value;
-        if (customerNotes) {
-            finalSummary += `\n\nNotes: ${customerNotes}`;
+
+        // Build Structured HTML
+        let itemsHtml = itemsOnly.map(item => `
+            <div class="conf-item">
+                <span class="conf-item-qty">${item.quantity}x</span>
+                <span class="conf-item-name">${item.name}</span>
+                <span class="conf-item-price">${(item.price * item.quantity).toFixed(2)} €</span>
+            </div>
+        `).join('');
+
+        let html = `
+            <div class="conf-header">
+                Table: ${tableNumber}
+            </div>
+            <div class="conf-items-list">
+                ${itemsHtml}
+            </div>
+            <div class="conf-row conf-total-row">
+                <span>Total:</span>
+                <span>${total.toFixed(2)} €</span>
+            </div>
+        `;
+
+        if (customerNotes && customerNotes.trim() !== "") {
+            html += `
+                <div class="conf-notes-section">
+                    <span class="conf-notes-label">Notes:</span>
+                    <span class="conf-notes-text">${customerNotes}</span>
+                </div>
+            `;
         }
         
-        confirmationSummaryEl.innerText = finalSummary;
+        // Inject HTML instead of text
+        confirmationSummaryEl.innerHTML = html;
+        
         cartContentEl.style.display = 'none';
         orderConfirmationEl.style.display = 'block';
 
@@ -310,7 +331,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }, 1000);
 
             cancelBtn.disabled = false;
-            cancelBtn.innerText = "Bestellung stornieren"; // Reset button text
+            cancelBtn.innerText = "Bestellung stornieren"; 
             cancelBtn.onclick = async () => {
                 if (lastOrderId) {
                     cancelBtn.disabled = true;
@@ -319,7 +340,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                         await db.collection("orders").doc(lastOrderId).delete();
                         clearInterval(timerInterval); 
                         
-                        confirmationSummaryEl.innerText = `Order ${lastOrderId} has been successfully cancelled.`;
+                        confirmationSummaryEl.innerHTML = `<p style="text-align:center; color:#e04040; font-weight:bold;">Order ${lastOrderId} has been cancelled.</p>`;
                         cancelBtn.style.display = 'none';
                         cancelText.style.display = 'none';
                         
@@ -334,7 +355,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         cart = [];
         orderForm.reset();
-        document.getElementById('dine-in-notes').value = ''; // Clear notes
+        document.getElementById('dine-in-notes').value = ''; 
         updateCart();
     }
 });
