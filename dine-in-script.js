@@ -15,8 +15,8 @@ const db = firebase.firestore();
 
 // --- Global variables ---
 let cart = [];
-let tableNumber = 'Unknown'; // Default table number
-let lastOrderId = null; // For the 30-second cancel feature
+let tableNumber = 'Unknown'; 
+let lastOrderId = null; 
 
 // --- Main function ---
 document.addEventListener("DOMContentLoaded", async () => {
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateScrollPadding();
     window.addEventListener('resize', updateScrollPadding);
     
-    // --- 2. Nav Scroller (with arrows) ---
+    // --- 2. Nav Scroller ---
     const navLinksContainer = document.getElementById('nav-links-container');
     const scrollLeftBtn = document.getElementById('scroll-left-btn');
     const scrollRightBtn = document.getElementById('scroll-right-btn');
@@ -77,17 +77,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     
     if (navLinksContainer) {
-        scrollLeftBtn.addEventListener('click', () => {
-            navLinksContainer.scrollBy({ left: -200, behavior: 'smooth' });
-        });
-        scrollRightBtn.addEventListener('click', () => {
-            navLinksContainer.scrollBy({ left: 200, behavior: 'smooth' });
-        });
+        scrollLeftBtn.addEventListener('click', () => navLinksContainer.scrollBy({ left: -200, behavior: 'smooth' }));
+        scrollRightBtn.addEventListener('click', () => navLinksContainer.scrollBy({ left: 200, behavior: 'smooth' }));
         navLinksContainer.addEventListener('scroll', checkScroll);
         checkScroll();
         window.addEventListener('resize', checkScroll);
     }
-
 
     // --- 4. Shopping Cart Logic ---
     const cartToggleBtn = document.getElementById('cart-toggle-btn');
@@ -224,15 +219,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             itemsOnly.push({
                 quantity: item.quantity,
                 name: item.name,
-                price: item.price // Send price to Firebase
+                price: item.price
             });
         });
         return { summaryText, total, itemsOnly };
     }
     
     // --- 6. CHECKOUT LOGIC ---
-
-    // Send to Kitchen Button
     firebaseBtn.addEventListener('click', async (e) => {
         e.preventDefault(); 
         
@@ -267,13 +260,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-
-    // --- Helper function to show confirmation ---
+    // --- UPDATED CONFIRMATION SCREEN ---
     function showConfirmationScreen() {
         const { itemsOnly, total } = generateOrderSummary();
         const customerNotes = document.getElementById('dine-in-notes').value;
 
-        // Build Structured HTML
+        // --- Build Structured HTML for the Popup ---
         let itemsHtml = itemsOnly.map(item => `
             <div class="conf-item">
                 <span class="conf-item-qty">${item.quantity}x</span>
@@ -351,7 +343,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             };
         }
-        // --- END OF CANCEL LOGIC ---
 
         cart = [];
         orderForm.reset();
