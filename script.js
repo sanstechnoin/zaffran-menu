@@ -13,21 +13,15 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Global cart variables
 let cart = [];
-// Note: Zaffran script does not use coupons yet.
-// let appliedCoupon = null; 
 
-// --- Main function ---
 document.addEventListener("DOMContentLoaded", async () => {
     
     let config;
     try {
-        // We still fetch config for WhatsApp number
         const response = await fetch('config.json?v=23'); 
         config = await response.json();
     } catch (error) {
-        console.error("Failed to load config.json", error);
         config = { whatsappNumber: "" };
     }
 
@@ -38,7 +32,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (header) {
             const headerHeight = header.offsetHeight;
             document.documentElement.style.setProperty('scroll-padding-top', `${headerHeight}px`);
-
             if (headerNav) {
                 const navHeight = headerNav.offsetHeight;
                 const topPartHeight = headerHeight - navHeight;
@@ -87,13 +80,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function toggleCheckoutButtons() {
-        // Check if consentCheckbox exists before adding listener
         if (consentCheckbox) {
             const isChecked = consentCheckbox.checked;
             if (whatsappBtn) whatsappBtn.disabled = !isChecked;
             if (firebaseBtn) firebaseBtn.disabled = !isChecked; 
         } else {
-            // If there's no checkbox, buttons are always enabled
             if (whatsappBtn) whatsappBtn.disabled = false;
             if (firebaseBtn) firebaseBtn.disabled = false;
         }
@@ -102,7 +93,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (consentCheckbox) {
         consentCheckbox.addEventListener('change', toggleCheckoutButtons);
     }
-    toggleCheckoutButtons(); // Initial check
+    toggleCheckoutButtons(); 
 
     function initItemControls() {
         document.querySelectorAll('.add-btn').forEach(button => {
@@ -123,11 +114,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const category = button.dataset.category;
         addToCart(id, name, price, category);
     }
-    
     function handleRemoveFromCartClick() {
         adjustQuantity(this.dataset.id, -1);
     }
-    
     initItemControls(); 
     
     function addToCart(id, name, price, category) {
@@ -149,7 +138,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             const id = qtyEl.dataset.id;
             const item = cart.find(i => i.id === id);
             const controlsDiv = qtyEl.closest('.quantity-controls');
-            
             if (item) {
                 qtyEl.innerText = item.quantity;
                 controlsDiv.classList.remove('hidden');
@@ -181,7 +169,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
         
         let total = subtotal;
-
         totalAmountEl.innerText = `${total.toFixed(2)} €`;
         cartItemCountEl.innerText = itemCount;
         
@@ -208,26 +195,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateCart();
     }
     
-    // --- 6. Helper function to build the order data ---
     function getOrderData() {
-        const { summaryText, total, itemsOnly } = generateOrderSummary();
+        const { total, itemsOnly } = generateOrderSummary();
         const customerName = document.getElementById('customer-name').value;
         const customerPhone = document.getElementById('customer-phone').value;
         const customerNotes = document.getElementById('customer-notes').value;
         
         if (!customerName || !customerPhone) {
             alert("Bitte geben Sie Ihren Namen und Ihre Telefonnummer ein.");
-            return null; // Return null if validation fails
+            return null; 
         }
 
         const orderId = `pickup-${new Date().getTime()}`;
-        
-        // This is the unique identifier for billing
         const billingIdentifier = `${customerName} (${customerPhone})`; 
         
         const orderData = {
             id: orderId,
-            table: billingIdentifier, // Use "Name (Phone)" as the "table" identifier
+            table: billingIdentifier,
             customerName: customerName,
             customerPhone: customerPhone, 
             notes: customerNotes || null, 
@@ -237,8 +221,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             createdAt: new Date()
         };
         
+        // Pass objects for HTML generation
         const summary = {
-            summaryText,
+            itemsOnly,
             total,
             customerName,
             customerPhone,
@@ -248,18 +233,45 @@ document.addEventListener("DOMContentLoaded", async () => {
         return { orderData, summary };
     }
     
-    // --- 7. Helper function to show confirmation ---
+    // --- UPDATED CONFIRMATION FOR PICKUP ---
     function showConfirmationScreen(summary) {
-        let finalSummary = `Kunde: ${summary.customerName}\nTelefon: ${summary.customerPhone}\n\n${summary.summaryText}\nTotal: ${summary.total.toFixed(2)} €`;
-        if (summary.customerNotes) {
-            finalSummary += `\n\nAnmerkungen:\n${summary.customerNotes}`;
+        // Build Structured HTML
+        let itemsHtml = summary.itemsOnly.map(item => `
+            <div class="conf-item">
+                <span class="conf-item-qty">${item.quantity}x</span>
+                <span class="conf-item-name">${item.name}</span>
+                <span class="conf-item-price">${(item.price * item.quantity).toFixed(2)} €</span>
+            </div>
+        `).join('');
+
+        let html = `
+            <div class="conf-header">
+                Name: ${summary.customerName}<br>
+                Phone: ${summary.customerPhone}
+            </div>
+            <div class="conf-items-list">
+                ${itemsHtml}
+            </div>
+            <div class="conf-row conf-total-row">
+                <span>Total:</span>
+                <span>${summary.total.toFixed(2)} €</span>
+            </div>
+        `;
+
+        if (summary.customerNotes && summary.customerNotes.trim() !== "") {
+            html += `
+                <div class="conf-notes-section">
+                    <span class="conf-notes-label">Notes:</span>
+                    <span class="conf-notes-text">${summary.customerNotes}</span>
+                </div>
+            `;
         }
         
-        confirmationSummaryEl.innerText = finalSummary;
+        confirmationSummaryEl.innerHTML = html;
+        
         cartContentEl.style.display = 'none'; 
         orderConfirmationEl.style.display = 'block'; 
         cart = [];
-        // appliedCoupon = null;
         orderForm.reset();
         if (consentCheckbox) {
             consentCheckbox.checked = false;
@@ -267,12 +279,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateCart();
     }
 
-
-    // --- 8. Kitchen Button (Firebase Only) ---
     if(firebaseBtn) {
         firebaseBtn.addEventListener('click', async () => {
             const orderPayload = getOrderData();
-            if (!orderPayload) return; // Validation failed
+            if (!orderPayload) return; 
             
             const { orderData, summary } = orderPayload;
 
@@ -292,15 +302,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // --- 9. WhatsApp Submit ---
     if(whatsappBtn) {
         whatsappBtn.addEventListener('click', () => {
             const orderPayload = getOrderData();
-            if (!orderPayload) return; // Validation failed
+            if (!orderPayload) return;
             
             const { orderData, summary } = orderPayload;
             
-            // Save to Firebase
             db.collection("orders").doc(orderData.id).set(orderData)
                 .catch(e => console.error("Could not save order to Firebase KDS", e));
             
@@ -310,7 +318,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return;
             }
 
-            let whatsappMessage = `*Neue Abholbestellung*\n\n*Kunde:* ${summary.customerName}\n*Telefon:* ${summary.customerPhone}\n\n*Bestellung:*\n${summary.summaryText}\n*Total: ${summary.total.toFixed(2)} €*`;
+            // WhatsApp stays strictly text-based
+            let summaryText = "";
+            summary.itemsOnly.forEach(item => {
+                summaryText += `${item.quantity}x ${item.name} (${(item.price * item.quantity).toFixed(2)} €)\n`;
+            });
+
+            let whatsappMessage = `*Neue Abholbestellung*\n\n*Kunde:* ${summary.customerName}\n*Telefon:* ${summary.customerPhone}\n\n*Bestellung:*\n${summaryText}\n*Total: ${summary.total.toFixed(2)} €*`;
             
             if (summary.customerNotes) {
                 whatsappMessage += `\n\n*Anmerkungen:*\n${summary.customerNotes}`;
@@ -322,29 +336,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // --- 10. GenerateOrderSummary ---
     function generateOrderSummary() {
-        let summaryText = "";
-        let subtotal = 0;
         let itemsOnly = [];
+        let total = 0;
         
         cart.forEach(item => {
-            summaryText += `${item.quantity}x ${item.name} (${(item.price * item.quantity).toFixed(2)} €)\n`;
-            subtotal += item.price * item.quantity;
-            
+            total += item.price * item.quantity;
             itemsOnly.push({
                 quantity: item.quantity,
                 name: item.name,
                 price: item.price
             });
         });
-
-        // No coupon logic for Zaffran yet
-        let total = subtotal;
-        
-        return { summaryText, total, itemsOnly };
+        return { total, itemsOnly };
     }
     
-    // Initial check on page load
     toggleCheckoutButtons();
 });
