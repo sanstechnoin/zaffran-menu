@@ -546,23 +546,17 @@ li:last-child { border-bottom: none; }
 #order-confirmation h3 { font-size: 1.1em; color: var(--text-main); }
 
 #confirmation-summary {
-    background-color: #0d163d; /* Dark blue background */
+    background-color: #0d163d; /* Dark blue background from the example */
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 20px;
-    /* Remove pre-wrap/monospace to allow HTML layout */
-    white-space: normal;
+    white-space: normal; /* Allow normal HTML flow */
     font-family: inherit;
     color: var(--text-main);
 }
 
-.conf-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    line-height: 1.4;
-}
+/* --- New Structured Summary Styles --- */
 .conf-header {
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 10px;
@@ -579,7 +573,7 @@ li:last-child { border-bottom: none; }
 }
 .conf-item {
     display: grid;
-    grid-template-columns: 30px 1fr auto; /* Qty Name Price */
+    grid-template-columns: 30px 1fr auto; /* Qty | Name | Price */
     align-items: flex-start;
 }
 .conf-item-qty {
@@ -593,8 +587,11 @@ li:last-child { border-bottom: none; }
 .conf-item-price {
     font-weight: bold;
     text-align: right;
+    color: var(--text-subtle);
 }
 .conf-total-row {
+    display: flex;
+    justify-content: space-between;
     border-top: 1px solid var(--border-color);
     padding-top: 15px;
     margin-top: 10px;
