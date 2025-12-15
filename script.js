@@ -167,24 +167,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateCart();
     }
     
-    function generateOrderSummary() {
-        let summaryText = "";
-        let itemsOnly = [];
-        let total = 0;
-        
-        cart.forEach(item => {
-            summaryText += `${item.quantity}x ${item.name} (${(item.price * item.quantity).toFixed(2)} €)\n`;
-            total += item.price * item.quantity;
-            
-            itemsOnly.push({
-                quantity: item.quantity,
-                name: item.name,
-                price: item.price
-            });
-        });
-        return { summaryText, total, itemsOnly };
-    }
-
+    // --- 7. Helper function to show confirmation (TEXT BASED) ---
     function showConfirmationScreen(summary) {
         let finalSummary = `Kunde: ${summary.customerName}\nTelefon: ${summary.customerPhone}\n\n${summary.summaryText}\nTotal: ${summary.total.toFixed(2)} €`;
         if (summary.customerNotes) {
@@ -198,6 +181,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         orderForm.reset();
         if (consentCheckbox) consentCheckbox.checked = false;
         updateCart();
+    }
+
+    function generateOrderSummary() {
+        let summaryText = "";
+        let itemsOnly = [];
+        let total = 0;
+        
+        cart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            summaryText += `${item.quantity}x ${item.name} (${itemTotal.toFixed(2)} €)\n`;
+            total += itemTotal;
+            
+            itemsOnly.push({
+                quantity: item.quantity,
+                name: item.name,
+                price: item.price
+            });
+        });
+        return { summaryText, total, itemsOnly };
     }
 
     if(firebaseBtn) {
