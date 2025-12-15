@@ -19,28 +19,39 @@ let lastOrderId = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
     
-    // --- Get Table Number from URL ---
+    // --- Get Table Number ---
     try {
         const urlParams = new URLSearchParams(window.location.search);
         const table = urlParams.get('table');
-        if (table) {
-            tableNumber = table;
-        }
+        if (table) tableNumber = table;
     } catch (e) {
         console.error("Error getting table number", e);
     }
     
-    // Update UI Texts
+    // --- Update Titles ---
     const formboldTableTitleEl = document.getElementById('formbold-table-title');
     if(formboldTableTitleEl) formboldTableTitleEl.innerText = `Table ${tableNumber} Order`;
-    
     const cartTitleEl = document.getElementById('cart-title');
     if(cartTitleEl) cartTitleEl.innerText = `Your Order (Table ${tableNumber})`;
-    
     const tableNumberInput = document.getElementById('table-number-input');
     if (tableNumberInput) tableNumberInput.value = tableNumber;
 
-    // --- Navigation & Header Logic (Keep existing) ---
+    // --- Load Config (Marquee) ---
+    let config = { marqueeLines: [] };
+    try {
+        const response = await fetch('config.json?v=24'); 
+        config = await response.json();
+    } catch (e) { console.warn("Config not loaded", e); }
+
+    // --- Marquee Logic ---
+    const marqueeContainer = document.getElementById('marquee-container');
+    const marqueeText = document.getElementById('marquee-text');
+    if (marqueeText && marqueeContainer && config.marqueeLines && config.marqueeLines.length > 0) {
+        marqueeText.innerText = config.marqueeLines.join(" --- ");
+        marqueeContainer.classList.remove('hidden');
+    }
+
+    // --- Sticky Header Scroll Padding ---
     const header = document.querySelector('header');
     const headerNav = document.querySelector('header nav');
     function updateScrollPadding() {
@@ -57,13 +68,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateScrollPadding();
     window.addEventListener('resize', updateScrollPadding);
     
+    // --- Nav Scroller ---
     const navLinksContainer = document.getElementById('nav-links-container');
     const scrollLeftBtn = document.getElementById('scroll-left-btn');
     const scrollRightBtn = document.getElementById('scroll-right-btn');
-
     if (navLinksContainer) {
-        scrollLeftBtn.addEventListener('click', () => navLinksContainer.scrollBy({ left: -200, behavior: 'smooth' }));
-        scrollRightBtn.addEventListener('click', () => navLinksContainer.scrollBy({ left: 200, behavior: 'smooth' }));
+        const checkScroll = () => {
+            const maxScroll = navLinksContainer.scrollWidth - navLinksContainer.clientWidth;
+            if(scrollLeftBtn) scrollLeftBtn.classList.toggle('hidden', navLinksContainer.scrollLeft <= 0);
+            if(scrollRightBtn) scrollRightBtn.classList.toggle('hidden', navLinksContainer.scrollLeft >= maxScroll - 1);
+        };
+        navLinksContainer.addEventListener('scroll', checkScroll);
+        checkScroll();
+        if(scrollLeftBtn) scrollLeftBtn.addEventListener('click', () => navLinksContainer.scrollBy({ left: -200, behavior: 'smooth' }));
+        if(scrollRightBtn) scrollRightBtn.addEventListener('click', () => navLinksContainer.scrollBy({ left: 200, behavior: 'smooth' }));
     }
 
     // --- Cart Logic ---
@@ -73,7 +91,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const cartItemsContainer = document.getElementById('cart-items-container');
     const cartItemCountEl = document.getElementById('cart-item-count');
     const totalAmountEl = document.getElementById('total-amount');
-
     const cartContentEl = document.getElementById('cart-content');
     const orderConfirmationEl = document.getElementById('order-confirmation');
     const confirmationSummaryEl = document.getElementById('confirmation-summary');
@@ -99,23 +116,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         }, 500);
     }
 
-    // Item Controls (Plus/Minus)
     function initItemControls() {
-        document.querySelectorAll('.add-btn').forEach(button => {
-            button.removeEventListener('click', handleAddToCartClick);
-            button.addEventListener('click', handleAddToCartClick);
+        document.querySelectorAll('.add-btn').forEach(btn => {
+            btn.removeEventListener('click', handleAddToCartClick);
+            btn.addEventListener('click', handleAddToCartClick);
         });
-        document.querySelectorAll('.menu-btn-minus').forEach(button => {
-            button.removeEventListener('click', handleRemoveFromCartClick);
-            button.addEventListener('click', handleRemoveFromCartClick);
+        document.querySelectorAll('.menu-btn-minus').forEach(btn => {
+            btn.removeEventListener('click', handleRemoveFromCartClick);
+            btn.addEventListener('click', handleRemoveFromCartClick);
         });
     }
     function handleAddToCartClick() {
-        const id = this.dataset.id;
-        const name = this.dataset.name;
-        const price = parseFloat(this.dataset.price);
-        const category = this.dataset.category;
-        addToCart(id, name, price, category);
+        addToCart(this.dataset.id, this.dataset.name, parseFloat(this.dataset.price), this.dataset.category);
     }
     function handleRemoveFromCartClick() {
         adjustQuantity(this.dataset.id, -1);
@@ -124,11 +136,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     function addToCart(id, name, price, category) {
         const existingItem = cart.find(item => item.id === id);
-        if (existingItem) {
-            existingItem.quantity++;
-        } else {
-            cart.push({ id, name, price, category, quantity: 1 });
-        }
+        if (existingItem) existingItem.quantity++;
+        else cart.push({ id, name, price, category, quantity: 1 });
         updateCart();
     }
 
@@ -139,8 +148,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         
         // Update counts on main menu
         document.querySelectorAll('.item-qty').forEach(qtyEl => {
-            const id = qtyEl.dataset.id;
-            const item = cart.find(i => i.id === id);
+            const item = cart.find(i => i.id === qtyEl.dataset.id);
             const controlsDiv = qtyEl.closest('.quantity-controls');
             if (item) {
                 qtyEl.innerText = item.quantity;
@@ -158,7 +166,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
                 itemCount += item.quantity;
-
                 const itemEl = document.createElement('div');
                 itemEl.classList.add('cart-item');
                 itemEl.innerHTML = `
@@ -177,7 +184,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         totalAmountEl.innerText = `${total.toFixed(2)} €`;
         cartItemCountEl.innerText = itemCount;
         cartToggleBtn.classList.toggle('hidden', itemCount === 0);
-        
         addCartItemControls(); 
     }
 
@@ -194,20 +200,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         const item = cart.find(item => item.id === id);
         if (!item) return;
         item.quantity += amount;
-        if (item.quantity <= 0) {
-            cart = cart.filter(item => item.id !== id);
-        }
+        if (item.quantity <= 0) cart = cart.filter(item => item.id !== id);
         updateCart();
     }
 
-    // --- CRITICAL: GENERATE DATA FOR CONFIRMATION ---
+    // --- Generate Structured Data ---
     function generateOrderData() {
         let itemsOnly = []; 
         let total = 0;
-        
         cart.forEach(item => {
-            const itemTotal = item.price * item.quantity;
-            total += itemTotal;
+            total += item.price * item.quantity;
             itemsOnly.push({
                 quantity: item.quantity,
                 name: item.name,
@@ -253,9 +255,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    // --- UPDATED SHOW CONFIRMATION (Uses HTML) ---
+    // --- UPDATED CONFIRMATION SCREEN (HTML Receipt) ---
     function showConfirmationScreen(items, total, notes) {
-        // 1. Build the Items HTML list
         let itemsHtml = items.map(item => `
             <div class="conf-item">
                 <span class="conf-item-qty">${item.quantity}x</span>
@@ -264,7 +265,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
         `).join('');
 
-        // 2. Build the Notes HTML (if any)
         let notesHtml = '';
         if (notes && notes.trim() !== "") {
             notesHtml = `
@@ -275,7 +275,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
         }
 
-        // 3. Construct Full Receipt HTML
         let html = `
             <div class="conf-header">
                 Table: ${tableNumber}
@@ -290,14 +289,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             ${notesHtml}
         `;
 
-        // 4. Inject into the DOM
         confirmationSummaryEl.innerHTML = html;
-        
-        // 5. Toggle Screens
         cartContentEl.style.display = 'none';
         orderConfirmationEl.style.display = 'block';
 
-        // 6. Handle Cancellation Logic
+        // --- 30-Second Cancel Logic ---
         const cancelBtn = document.getElementById('cancel-order-btn');
         const cancelText = document.getElementById('cancel-timer-text');
         
@@ -305,8 +301,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             cancelBtn.style.display = 'block';
             cancelText.style.display = 'block';
             let secondsLeft = 30;
-            
-            // Clear any existing intervals to prevent double-counting
             if (window.cancelTimer) clearInterval(window.cancelTimer);
 
             cancelText.innerText = `You can cancel this order within ${secondsLeft} seconds.`;
@@ -314,7 +308,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             window.cancelTimer = setInterval(() => {
                 secondsLeft--;
                 cancelText.innerText = `You can cancel this order within ${secondsLeft} seconds.`;
-                
                 if (secondsLeft <= 0) {
                     clearInterval(window.cancelTimer);
                     cancelBtn.style.display = 'none';
@@ -331,17 +324,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                     try {
                         await db.collection("orders").doc(lastOrderId).delete();
                         clearInterval(window.cancelTimer); 
-                        
-                        // Update the HTML to show cancelled status
-                        confirmationSummaryEl.innerHTML = `
-                            <div style="text-align:center; padding:20px;">
-                                <h3 style="color:#e04040;">Order Cancelled</h3>
-                                <p>Order ID: ${lastOrderId} has been removed.</p>
-                            </div>
-                        `;
+                        confirmationSummaryEl.innerHTML = `<div style="text-align:center; padding:20px;"><h3 style="color:#e04040;">Order Cancelled</h3><p>Order ID: ${lastOrderId} has been removed.</p></div>`;
                         cancelBtn.style.display = 'none';
                         cancelText.style.display = 'none';
-                        
                     } catch (e) {
                         console.error("Error cancelling order:", e);
                         cancelBtn.innerText = "Error!";
@@ -351,7 +336,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             };
         }
 
-        // 7. Clear Cart Logic
         cart = [];
         orderForm.reset();
         if(document.getElementById('dine-in-notes')) document.getElementById('dine-in-notes').value = ''; 
