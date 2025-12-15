@@ -15,15 +15,12 @@ const db = firebase.firestore();
 let cart = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
-    
-    // --- Load Config ---
     let config = { marqueeLines: [], whatsappNumber: "" };
     try {
         const response = await fetch('config.json?v=24'); 
         config = await response.json();
     } catch (e) { console.warn("Config load failed", e); }
 
-    // --- Marquee Logic ---
     const marqueeContainer = document.getElementById('marquee-container');
     const marqueeText = document.getElementById('marquee-text');
     if (marqueeText && marqueeContainer && config.marqueeLines && config.marqueeLines.length > 0) {
@@ -31,7 +28,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         marqueeContainer.classList.remove('hidden');
     }
 
-    // --- Header & Scroll ---
     const header = document.querySelector('header');
     function updateScrollPadding() {
         if (header) {
@@ -41,7 +37,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     updateScrollPadding();
     window.addEventListener('resize', updateScrollPadding);
     
-    // --- Cart & Checkout Elements ---
     const cartToggleBtn = document.getElementById('cart-toggle-btn');
     const cartOverlay = document.getElementById('cart-overlay');
     const cartCloseBtn = document.getElementById('cart-close-btn');
@@ -86,7 +81,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (consentCheckbox) consentCheckbox.addEventListener('change', toggleCheckoutButtons);
     toggleCheckoutButtons(); 
 
-    // --- Item Controls ---
     function initItemControls() {
         document.querySelectorAll('.add-btn').forEach(btn => {
             btn.removeEventListener('click', handleAddToCartClick);
@@ -173,7 +167,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateCart();
     }
     
-    // --- CONFIRMATION SCREEN (Pickup) ---
     function showConfirmationScreen(summary) {
         let itemsHtml = summary.itemsOnly.map(item => `
             <div class="conf-item">
