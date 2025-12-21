@@ -12,7 +12,7 @@
            LANDING PAGE OVERRIDES
         =============================================== */
         
-        /* 1. RESET SECTIONS TO FULL WIDTH */
+        /* 1. RESET SECTIONS */
         body > section {
             max-width: none !important;
             width: 100% !important;
@@ -66,7 +66,6 @@
         .section-padding { padding: 80px 0; }
         .text-center { text-align: center; }
         
-        /* Buttons */
         .btn { padding: 12px 30px; border-radius: 4px; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s; display: inline-block; text-decoration: none; }
         .btn-gold { background: linear-gradient(135deg, var(--gold-primary), #b8860b); color: #120a0a; }
         .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); color: #000; }
@@ -79,16 +78,7 @@
         .highlight { color: var(--spice-orange); font-weight: 700; }
         
         .features-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
-        .feature-box { 
-            background: var(--bg-panel); 
-            padding: 35px 25px; 
-            border-radius: 8px; 
-            border: 1px solid rgba(212, 175, 55, 0.1); 
-            text-align: center; 
-            transition: all 0.3s ease; 
-            display: flex; flex-direction: column; align-items: center; 
-            height: 100%; 
-        }
+        .feature-box { background: var(--bg-panel); padding: 35px 25px; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.1); text-align: center; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; height: 100%; }
         .feature-box:hover { background: #2a1818; transform: translateY(-5px); border-color: var(--gold-primary); }
         .feature-icon { width: 45px; height: 45px; margin-bottom: 15px; }
         .icon-gold { fill: var(--gold-primary); } .icon-orange { fill: var(--spice-orange); } .icon-red { fill: var(--spice-red); }
@@ -135,20 +125,17 @@
         .lunch-price { font-size: 1.8rem; color: var(--fresh-green); font-family: var(--font-head); font-weight: bold; }
         .code-box { background: #fff; color: #800000; padding: 8px 20px; font-weight: 800; font-size: 1.2rem; border-radius: 6px; display: inline-block; margin-top: 15px; }
 
-        /* 8. CONTACT SECTION */
+        /* 8. CONTACT SECTION (3 COLUMNS) */
         .contact-section { background: var(--bg-dark); padding: 80px 0; border-top: 1px solid var(--gold-muted); }
         
         .contact-container-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: stretch;
+            grid-template-columns: 1fr 1fr 1.3fr; /* 3 Columns: Info | Hours | Map */
+            gap: 30px;
+            align-items: start;
         }
 
-        .contact-info-col { padding-right: 20px; }
-
-        .contact-block { margin-bottom: 30px; }
-        .contact-block h3 {
+        .contact-col h3 {
             font-size: 1.5rem;
             color: var(--gold-primary);
             border-bottom: 1px solid var(--gold-muted);
@@ -157,6 +144,7 @@
             display: inline-block;
         }
 
+        /* Contact Info Column */
         .contact-list { list-style: none; padding: 0; }
         .contact-list li { display: flex; align-items: flex-start; margin-bottom: 20px; }
         .contact-icon-box { 
@@ -171,6 +159,7 @@
         .contact-details span { display: block; font-size: 0.8rem; text-transform: uppercase; color: var(--spice-orange); font-weight: bold; margin-bottom: 3px; }
         .contact-details p, .contact-details a { color: #ddd; font-size: 1.05rem; line-height: 1.4; display: block; }
 
+        /* Hours Column */
         .hours-table {
             background: var(--bg-panel);
             padding: 20px;
@@ -181,9 +170,10 @@
         .hours-row:last-child { border-bottom: none; }
         .hours-row span:last-child { color: var(--gold-bright); font-weight: 600; }
 
+        /* Map Column */
         .map-col {
             height: 100%;
-            min-height: 400px;
+            min-height: 350px;
             border-radius: 8px;
             overflow: hidden;
             border: 2px solid var(--gold-primary);
@@ -191,38 +181,40 @@
         .map-col iframe { width: 100%; height: 100%; border: 0; filter: contrast(1.1); }
 
         /* QR Section */
-        .qr-section { margin-top: 20px; display: flex; gap: 20px; }
+        .qr-section { margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; }
         .qr-item { background: #fff; padding: 10px; border-radius: 6px; text-align: center; width: 100px; }
         .qr-item img { width: 100%; display: block; }
         .qr-item span { color: #000; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; display: block; margin-top: 5px; }
 
-        /* 9. FOOTER CLEANUP */
+        /* 9. COMPACT FOOTER */
         footer {
             background-color: #080404 !important;
-            padding: 40px 0 20px 0 !important;
+            padding: 20px 0 !important; /* Reduced Padding */
             border-top: 1px solid #222 !important;
             color: #888;
             margin-top: 0 !important;
         }
         .footer-logo {
-            max-width: 120px; /* Reduced Size */
+            max-width: 100px; /* Smaller Logo */
             height: auto;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             display: inline-block;
         }
         .site-credit-footer {
-            background-color: transparent !important; /* Remove black box */
-            padding: 20px 0 0 0;
+            background-color: transparent !important;
+            padding: 10px 0 0 0;
             border-top: 1px solid #1a1a1a;
-            margin-top: 30px;
+            margin-top: 15px;
             font-size: 0.8rem;
             color: #666;
         }
+        footer h5 { margin: 0 0 5px 0; font-size: 1rem; }
+        footer p { margin: 5px 0; font-size: 0.85rem; }
 
         /* RESPONSIVE */
         @media (max-width: 992px) { 
             .features-wrapper { grid-template-columns: repeat(2, 1fr); } 
-            .contact-container-grid { grid-template-columns: 1fr; }
+            .contact-container-grid { grid-template-columns: 1fr; gap: 30px; }
         }
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 3rem; }
@@ -358,6 +350,7 @@
                     <div class="menu-item"><h5 class="item-num">32.</h5><h5>Chicken Curry</h5><span>14,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">33.</h5><h5>Chicken Tikka Masala</h5><span>15,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">34.</h5><h5>Chicken Korma</h5><span>15,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">35.</h5><h5>Butter Chicken</h5><span>15,50 €</span></div>
                     <div class="page-num">- 5 -</div>
                 </div>
                 <div class="book-page" data-page="6">
@@ -370,24 +363,28 @@
                     <h3 class="menu-category-title">Lamm</h3>
                     <div class="menu-item"><h5 class="item-num">46.</h5><h5>Lamb Curry</h5><span>17,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">47.</h5><h5>Lamb Tikka Masala</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">48.</h5><h5>Lamb Korma</h5><span>17,00 €</span></div>
                     <div class="page-num">- 7 -</div>
                 </div>
                 <div class="book-page" data-page="8">
                     <h3 class="menu-category-title">Lamm (Forts.)</h3>
                     <div class="menu-item"><h5 class="item-num">53.</h5><h5>Lamb Kadai</h5><span>17,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">54.</h5><h5>Lamb Bhuna</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">55.</h5><h5>Vegi Lamb</h5><span>17,00 €</span></div>
                     <div class="page-num">- 8 -</div>
                 </div>
                 <div class="book-page" data-page="9">
                     <h3 class="menu-category-title">Seafood</h3>
                     <div class="menu-item"><h5 class="item-num">60.</h5><h5>Prawn Curry</h5><span>18,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">61.</h5><h5>Prawn Korma</h5><span>18,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">63.</h5><h5>Fish Curry</h5><span>18,50 €</span></div>
                     <div class="page-num">- 9 -</div>
                 </div>
                 <div class="book-page" data-page="10">
                     <h3 class="menu-category-title">Tandoori</h3>
                     <div class="menu-item"><h5 class="item-num">65.</h5><h5>Chicken Tikka</h5><span>17,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">66.</h5><h5>Tandoori Chicken</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">68.</h5><h5>Haryali Tikka</h5><span>17,50 €</span></div>
                     <div class="page-num">- 10 -</div>
                 </div>
                 <div class="book-page" data-page="11">
@@ -465,15 +462,15 @@
 
     <section id="visit" class="section-padding contact-section">
         <div class="container">
-            <div class="text-center" style="margin-bottom: 50px;">
-                <h2 data-i18n="visit_title">Besuchen Sie uns</h2>
-            </div>
-            <div class="contact-grid-3">
+            <h2 class="text-center" style="margin-bottom: 40px; font-size: 2.5rem; color: var(--gold-primary);" data-i18n="visit_title">Besuchen Sie uns</h2>
+            
+            <div class="contact-container-grid">
+                
                 <div class="contact-col">
-                    <h3 data-i18n="contact_info">Kontakt</h3>
+                    <h3 data-i18n="contact_info" class="text-center" style="display:block;">Kontakt</h3>
                     <ul class="contact-list">
                         <li>
-                            <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+                            <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></div>
                             <div class="contact-details"><span data-i18n="address">Adresse</span><p>Kessenicher Straße 9<br>53879 Euskirchen</p></div>
                         </li>
                         <li>
@@ -486,14 +483,13 @@
                         </li>
                     </ul>
                     <div class="qr-section">
-                        <div class="qr-grid">
-                            <div class="qr-item"><img src="qr-code-1.png" alt="Pickup Menu"><span>Menu</span></div>
-                            <div class="qr-item"><img src="qr-code-2.png" alt="Book Table"><span>Book</span></div>
-                        </div>
+                        <div class="qr-item"><img src="qr-code-1.png" alt="Pickup Menu"><span>Menu</span></div>
+                        <div class="qr-item"><img src="qr-code-2.png" alt="Book Table"><span>Book</span></div>
                     </div>
                 </div>
+
                 <div class="contact-col">
-                    <h3 data-i18n="hours">Öffnungszeiten</h3>
+                    <h3 data-i18n="hours" class="text-center" style="display:block;">Öffnungszeiten</h3>
                     <div class="hours-table">
                         <div class="hours-row"><span data-i18n="mon">Montag</span> <span>Closed</span></div>
                         <div class="hours-row"><span data-i18n="tue">Dienstag</span> <span>12:00 – 21:00</span></div>
@@ -504,8 +500,9 @@
                         <div class="hours-row"><span data-i18n="sun">Sonntag</span> <span>12:00 – 21:00</span></div>
                     </div>
                 </div>
-                <div class="contact-col map-col" style="padding: 0; border: none; background: transparent;">
-                    <div class="map-container-3col"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2526.438881283629!2d6.784416476196207!3d50.65955927547211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf6540711066f7%3A0x575916438007038!2sKessenicher%20Str.%209%2C%2053879%20Euskirchen%2C%20Germany!5e0!3m2!1sen!2sus!4v1708900000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+
+                <div class="map-col">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2526.438881283629!2d6.784416476196207!3d50.65955927547211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf6540711066f7%3A0x575916438007038!2sKessenicher%20Str.%209%2C%2053879%20Euskirchen%2C%20Germany!5e0!3m2!1sen!2sus!4v1708900000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
         </div>
@@ -514,12 +511,15 @@
     <footer>
         <div class="container text-center">
             <img src="logo.png" class="footer-logo" alt="Zafran">
-            <div style="margin-bottom: 30px;">
-                <h5 style="color: var(--gold-primary);">Impressum</h5>
-                <p style="font-size: 0.9rem;">Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen | USt-IdNr gemäß § 27 a UStG</p>
+            
+            <div style="margin-bottom: 15px;">
+                <h5 style="color: var(--gold-primary);" data-i18n="footer_imprint_title">Impressum</h5>
+                <p style="font-size: 0.8rem;" data-i18n="footer_imprint_text">Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen</p>
             </div>
-            <div style="border-top: 1px solid #222; padding-top: 20px;">
-                <p style="font-size: 0.8rem; color: #555;">© 2025 Zafran Delight. Created & Developed by Shri Avinash Narendhran S V +49 162 3757839</p>
+            
+            <div class="site-credit-footer">
+                <p data-i18n="footer_rights">© 2025 Zafran Delight. All Rights Reserved.</p>
+                <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank">Shri Avinash Narendhran S V</a> +49 162 3757839</p>
             </div>
         </div>
     </footer>
@@ -535,22 +535,18 @@
                     <div class="form-group"><label data-i18n="form_phone">Telefon</label><input type="tel" name="phone" required></div>
                     <div class="form-group"><label data-i18n="form_date">Datum (Sonntag)</label><input type="date" name="date" required></div>
                     <div class="form-group"><label data-i18n="form_guests">Anzahl Gäste</label><input type="number" name="guests" min="1" value="2" required></div>
-                    <input type="hidden" name="_subject" value="New Table Reservation">
-                    <input type="hidden" name="_captcha" value="false">
                     <button type="submit" class="modal-btn" data-i18n="btn_submit">Jetzt Reservieren</button>
                 </form>
             </div>
             <div id="reservationSuccess" class="success-message">
                 <span class="success-icon">✓</span>
                 <h3 data-i18n="success_title">Vielen Dank!</h3>
-                <p data-i18n="success_msg">Ihre Reservierung ist eingegangen. Wir werden diese innerhalb von 24 Stunden bestätigen.</p>
-                <p style="font-style: italic; color: #8e0000; margin-top: 15px;" data-i18n="success_chef">"Wir freuen uns darauf, Sie kulinarisch zu verwöhnen."<br>– Ihr Zafran Delight Team</p>
+                <p data-i18n="success_msg">Ihre Reservierung ist eingegangen.</p>
                 <button class="modal-btn" onclick="closeModal()" style="margin-top: 20px;">Schließen</button>
             </div>
         </div>
     </div>
 
-    
     <script>
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
         function openModal() { document.getElementById('buffetModal').classList.add('open'); }
