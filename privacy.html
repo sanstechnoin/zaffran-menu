@@ -3,131 +3,698 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datenschutz - Zafran Delight</title>
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css?v=20">
+    <title>Zafran Delight | Authentic Indian & Pakistani Cuisine</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* ===============================================
+           LANDING PAGE OVERRIDES
+        =============================================== */
+        
+        /* 1. RESET SECTIONS */
+        body > section {
+            max-width: none !important;
+            width: 100% !important;
+            margin: 0 !important;
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+
+        /* 2. REMOVE HEADER LINES (Borders) */
+        h2 { border-bottom: none !important; padding-bottom: 0 !important; }
+        .contact-col h3, .contact-block h3 { border-bottom: none !important; padding-bottom: 0 !important; }
+
+        /* 3. HEADER (Fixed Overlay) */
+        header { 
+            position: fixed !important; top: 0; width: 100%; 
+            background: rgba(18, 10, 10, 0.95) !important; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3); z-index: 1000;
+        }
+
+        /* 4. HERO SECTION */
+        .hero { 
+            height: 100vh; 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(18, 10, 10, 1)), url('hero-bg.png'); 
+            background-size: cover; background-position: center; 
+            display: flex; align-items: center; justify-content: center; 
+            text-align: center; padding-top: 80px; 
+        }
+        .hero-content h1 { 
+            font-size: 4.5rem; margin-bottom: 15px; 
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8); 
+            color: var(--gold-bright); font-family: var(--font-head);
+        }
+        .hero-content p { 
+            font-size: 1.4rem; margin-bottom: 35px; color: #f1f1f1; 
+            font-style: italic; max-width: 700px; margin-left: auto; margin-right: auto; 
+        }
+
+        /* 5. UTILS */
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .section-padding { padding: 80px 0; }
+        .text-center { text-align: center; }
+        
+        .btn { padding: 12px 30px; border-radius: 4px; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s; display: inline-block; text-decoration: none; }
+        .btn-gold { background: linear-gradient(135deg, var(--gold-primary), #b8860b); color: #120a0a; }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); color: #000; }
+        .btn-red { background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff; }
+        .btn-red:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
+
+        /* 6. ABOUT & FEATURES */
+        .about-text-container { max-width: 900px; margin: 0 auto 50px auto; text-align: center; }
+        .story-text { font-size: 1.1rem; line-height: 1.8; color: #ddd; margin-bottom: 20px; }
+        .highlight { color: var(--spice-orange); font-weight: 700; }
+        
+        .features-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
+        .feature-box { background: var(--bg-panel); padding: 35px 25px; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.1); text-align: center; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; height: 100%; }
+        .feature-box:hover { background: #2a1818; transform: translateY(-5px); border-color: var(--gold-primary); }
+        .feature-icon { width: 45px; height: 45px; margin-bottom: 15px; }
+        .icon-gold { fill: var(--gold-primary); } .icon-orange { fill: var(--spice-orange); } .icon-red { fill: var(--spice-red); }
+        .feature-box h4 { margin-bottom: 10px; font-size: 1.25rem; color: var(--text-light); }
+        .feature-box p { font-size: 0.95rem; color: #ccc; margin-bottom: 0; }
+
+        /* 7. MENU BOOK */
+        .menu-book-section { background: url('hero-bg.png') no-repeat center center/cover; position: relative; padding: 100px 0; }
+        .menu-book-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(18, 10, 10, 0.95); }
+        .book-wrapper { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 15px; }
+        .menu-book { background-color: #fdfbf7; color: #2c2c2c; border-radius: 6px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); overflow: hidden; position: relative; min-height: 720px; display: flex; border: 8px solid #3e2723; }
+        .book-spine { position: absolute; left: 50%; top: 0; bottom: 0; width: 40px; background: linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.05)); transform: translateX(-50%); z-index: 10; pointer-events: none; }
+        .book-page { width: 50%; padding: 40px; display: none; flex-direction: column; animation: fadeIn 0.5s ease; overflow-y: auto; }
+        .book-page.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .menu-category-title { font-family: var(--font-head); color: #8e0000; border-bottom: 2px solid var(--gold-muted) !important; padding-bottom: 10px !important; margin-bottom: 20px; text-align: center; font-size: 1.8rem; }
+        .menu-item { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dotted #ccc; padding-bottom: 4px; }
+        .menu-item h5 { margin: 0; font-size: 0.95rem; font-weight: 700; color: #1a0505; }
+        .menu-item span { font-weight: 700; color: #8e0000; font-size: 0.95rem; min-width: 60px; text-align: right; }
+        .item-num { color: #888; font-size: 0.8rem; margin-right: 10px; font-weight: normal; min-width: 30px; }
+        .book-nav { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+        .nav-btn { background: var(--gold-primary); color: #000; border: none; padding: 10px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .nav-btn:hover { background: var(--text-light); color: #000; }
+        .nav-btn:disabled { background: #333; color: #777; cursor: not-allowed; }
+        .page-num { text-align: center; font-size: 0.8rem; margin-top: auto; color: #aaa; padding-top: 20px; }
+
+        /* 8. OFFERS SECTION */
+        .offers-section { background: var(--bg-panel); padding: 80px 0; border-top: 1px solid var(--border-color); }
+        .offers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+        .offer-card { border-radius: 12px; padding: 30px 20px; text-align: center; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.6); transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; align-items: center; min-height: 350px; }
+        .offer-card:hover { transform: translateY(-5px); }
+        .buffet-card { background: linear-gradient(145deg, #1a0a0a, #3e2723); border: 2px solid var(--gold-primary); }
+        .discount-card { background: linear-gradient(145deg, #461111, #2c0b0b); border: 2px dashed #b71c1c; }
+        .lamb-card { background: linear-gradient(145deg, #2c1e0b, #3e2723); border: 2px solid #c0392b; }
+        .chicken-card { background: linear-gradient(145deg, #2c1e0b, #3e2723); border: 2px solid #d35400; }
+        .lunch-card { background: linear-gradient(145deg, #0b2c15, #0a1a0f); border: 2px solid var(--fresh-green); }
+        .offer-title { font-size: 1.5rem; color: #fff; margin-bottom: 10px; font-family: var(--font-head); }
+        .offer-detail { font-size: 1.1rem; color: #ddd; margin: 15px 0; }
+        .offer-tag { background: #fff; color: #000; padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 15px; }
+        .buffet-price { font-size: 2rem; color: var(--gold-bright); font-family: var(--font-head); margin: 10px 0; }
+        .lunch-price { font-size: 1.8rem; color: var(--fresh-green); font-family: var(--font-head); font-weight: bold; }
+        .code-box { background: #fff; color: #800000; padding: 8px 20px; font-weight: 800; font-size: 1.2rem; border-radius: 6px; display: inline-block; margin-top: 15px; }
+
+        /* 9. CONTACT SECTION */
+        .contact-section { background: var(--bg-dark); padding: 80px 0; border-top: 1px solid var(--gold-muted); }
+        .contact-container-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1.1fr 1.3fr; /* Balanced 3-Column */
+            gap: 30px; 
+            align-items: start; 
+        }
+        
+        .contact-col h3 { font-size: 1.5rem; color: var(--gold-primary); margin-bottom: 20px; display: inline-block; }
+
+        .contact-list { list-style: none; padding: 0; }
+        /* FIXED ALIGNMENT: Gap instead of margin, center vertically */
+        .contact-list li { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; /* Use gap for spacing between icon and text */
+            margin-bottom: 20px; 
+        }
+        .contact-icon-box { 
+            min-width: 40px; height: 40px; background: rgba(212, 175, 55, 0.1); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            border: 1px solid var(--gold-muted); 
+            flex-shrink: 0;
+        }
+        .contact-icon-box svg { width: 20px; height: 20px; fill: var(--gold-bright); }
+        /* Remove default margins for tight alignment */
+        .contact-details span { display: block; font-size: 0.8rem; text-transform: uppercase; color: var(--spice-orange); font-weight: bold; margin: 0 0 2px 0; }
+        .contact-details p, .contact-details a { color: #ddd; font-size: 1.05rem; line-height: 1.4; display: block; margin: 0; }
+
+        .hours-table { background: var(--bg-panel); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .hours-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); color: #ccc; }
+        .hours-row:last-child { border-bottom: none; }
+        .hours-row span:last-child { color: var(--gold-bright); font-weight: 600; }
+
+        .map-col { height: 100%; min-height: 350px; border-radius: 8px; overflow: hidden; border: 2px solid var(--gold-primary); }
+        .map-col iframe { width: 100%; height: 100%; border: 0; filter: contrast(1.1); }
+
+        .qr-section { margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; }
+        .qr-item { background: #fff; padding: 10px; border-radius: 6px; text-align: center; width: 100px; }
+        .qr-item img { width: 100%; display: block; }
+        .qr-item span { color: #000; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; display: block; margin-top: 5px; }
+
+        /* 10. FOOTER */
+        footer { background-color: #080404 !important; padding: 20px 0 !important; border-top: 1px solid #222 !important; color: #888; margin-top: 0 !important; }
+        .footer-logo { max-width: 100px; height: auto; margin-bottom: 10px; display: inline-block; }
+        .site-credit-footer { background-color: transparent !important; padding: 10px 0 0 0; border-top: 1px solid #1a1a1a; margin-top: 15px; font-size: 0.8rem; color: #666; }
+        footer h5 { margin: 0 0 5px 0; font-size: 1rem; }
+        footer p { margin: 5px 0; font-size: 0.85rem; }
+        footer a { color: #888; text-decoration: none; transition: color 0.2s; }
+        footer a:hover { color: var(--gold-primary); }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) { 
+            .features-wrapper { grid-template-columns: repeat(2, 1fr); } 
+            .contact-container-grid { grid-template-columns: 1fr; gap: 30px; }
+        }
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 3rem; }
+            .features-wrapper { grid-template-columns: 1fr; }
+            .menu-book { flex-direction: column; border-width: 4px; min-height: auto; }
+            .book-spine { display: none; } .book-page { width: 100%; padding: 20px; border-right: none; }
+            .offers-grid { grid-template-columns: 1fr; }
+        }
+        
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: none; justify-content: center; align-items: center; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { background: #fdfbf7; color: #222; padding: 40px; border-radius: 8px; width: 90%; max-width: 500px; border: 4px solid var(--gold-primary); position: relative; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #800000; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #8e0000; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .modal-btn { width: 100%; padding: 12px; background: #8e0000; color: #fff; font-weight: bold; border: none; cursor: pointer; margin-top: 10px; }
+        .success-message { display: none; text-align: center; }
+        .success-icon { font-size: 3rem; color: var(--fresh-green); display: block; margin-bottom: 10px; }
+    </style>
 </head>
 <body>
+
     <header>
-        <div class="header-content-wrapper">
-            <div class="header-content">
-                <a href="index.html"><img src="logo.png" alt="Zaffran Logo" class="logo"></a>
-                <div class="contact-info">
-                    <strong>Zafran Delight</strong>
-                    <p>Kessenicher Straße 9<br>53879 Euskirchen</p>
-                    <a href="tel:+4922511290950" class="phone-link">
-                    <i class="fa fa-phone"></i> +49 2251 1290950
-                    </a>
+        <div class="header-content-wrapper navbar">
+            <a href="#" class="logo"><img src="logo.png" alt="Zafran Delight"></a>
+            <nav class="nav-links" id="navLinks">
+                <a href="#" data-i18n="nav_home">Startseite</a>
+                <a href="#about" data-i18n="nav_story">Über Uns</a>
+                <a href="#menu" data-i18n="nav_menu">Speisekarte</a>
+                <a href="#offers" data-i18n="nav_offers">Angebote</a>
+                <a href="#visit" data-i18n="nav_contact">Kontakt</a>
+                <div class="header-actions">
+                    <div class="lang-switch">
+                        <button class="lang-btn active" onclick="setLang('de')">DE</button>
+                        <button class="lang-btn" onclick="setLang('en')">EN</button>
+                    </div>
+                    <a href="pickup.html" class="order-link-header" data-i18n="btn_order">Bestellen</a>
+                </div>
+            </nav>
+            <div class="hamburger" onclick="toggleMenu()">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h1 data-i18n="hero_title">Zafran Delight</h1>
+            <p data-i18n="hero_subtitle">Authentische indische & pakistanische Küche in gemütlicher Atmosphäre.</p>
+            <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+                <a href="dine-in.html" class="btn btn-gold" data-i18n="btn_book">Tisch Reservieren</a>
+                <a href="pickup.html" class="btn btn-red" data-i18n="btn_pickup">Abholung Bestellen</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section-padding">
+        <div class="container">
+            <div class="about-text-container">
+                <h2 style="font-size: 3rem; margin-bottom: 25px;" data-i18n="about_title">Ein herzliches Willkommen</h2>
+                <p class="story-text" data-i18n="story_p1">
+                    Treten Sie ein ins <span class="highlight">Zafran Delight</span> und erleben Sie die wahre Wärme südasiatischer Gastfreundschaft. Unsere Reise begann mit einer einfachen Vision: die authentischen Aromen Indiens und Pakistans nach Euskirchen zu bringen.
+                </p>
+                <div class="features-wrapper">
+                    <div class="feature-box">
+                        <svg class="feature-icon icon-gold" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+                        <h4 data-i18n="feat_cuisine">Küche</h4>
+                        <p data-i18n="feat_cuisine_desc">Indische & Pakistanische Spezialitäten</p>
+                    </div>
+                    <div class="feature-box">
+                        <svg class="feature-icon icon-orange" viewBox="0 0 24 24"><path d="M16.5 12c1.38 0 2.49-1.12 2.49-2.5S17.88 7 16.5 7c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5zm-9 0c1.38 0 2.49-1.12 2.49-2.5S8.88 7 7.5 7C6.12 7 5 8.12 5 9.5S6.12 12 7.5 12zm9 1.5h-1.85c-.53.37-1.16.61-1.85.72v4.04c2.04.33 3.6 2.12 3.6 4.24H18c0-2.21-1.79-4-4-4s-4 1.79-4 4H8.5c0-2.12 1.56-3.91 3.6-4.24v-4.04c-.69-.11-1.32-.35-1.85-.72H8.4c-1.96 0-3.57 1.35-4.19 3.27L3 16.5l1.9 1.1.8-3.2c.36-.93 1.19-1.9 2.7-1.9h7.2c1.51 0 2.34.97 2.7 1.9l.8 3.2 1.9-1.1-1.21-4.48c-.62-1.92-2.23-3.27-4.19-3.27z"/></svg>
+                        <h4 data-i18n="feat_ambiance">Ambiente</h4>
+                        <p data-i18n="feat_ambiance_desc">Gemütlich & Familienfreundlich</p>
+                    </div>
+                    <div class="feature-box">
+                        <svg class="feature-icon icon-gold" viewBox="0 0 24 24"><path d="M12 3v1.4c-4.42.4-8 4.19-8 8.85v1.25h16v-1.25c0-4.66-3.58-8.45-8-8.85V3h-2zM4 16v2.5c0 .83.67 1.5 1.5 1.5h13c.83 0 1.5-.67 1.5-1.5V16H4zm10-9h-1.5v3h-1v-3H10V5h4v2z"/></svg>
+                        <h4 data-i18n="feat_dining">Essen</h4>
+                        <p data-i18n="feat_dining_desc">Mittag- & Abendessen</p>
+                    </div>
+                    <div class="feature-box">
+                        <svg class="feature-icon icon-red" viewBox="0 0 24 24"><path d="M5 19.5h2v-14H5v14zm8-14h-2v14h2v-14zm6 14h2v-14h-2v14zM3 3v19h18V3H3zm16 17H5V5h14v15zM7 17h2v-2H7v2zm8 0h2v-2h-2v2z"/></svg>
+                        <h4 data-i18n="feat_amenities">Ausstattung</h4>
+                        <p data-i18n="feat_amenities_desc">Außenbereich & Nichtraucher</p>
+                    </div>
+                    <div class="feature-box">
+                        <svg class="feature-icon icon-orange" viewBox="0 0 24 24"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8 4c0 .55-.45 1-1 1s-1-.45-1-1V8h2v2zm2-6c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm4 6c0 .55-.45 1-1 1s-1-.45-1-1V8h2v2z"/></svg>
+                        <h4 data-i18n="feat_takeaway">Abholung</h4>
+                        <p data-i18n="feat_takeaway_desc">Einfache Online-Bestellung</p>
+                    </div>
+                    <div class="feature-box">
+                        <svg class="feature-icon icon-gold" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.4C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/></svg>
+                        <h4 data-i18n="feat_vegetarian">Vegetarisch</h4>
+                        <p data-i18n="feat_vegetarian_desc">Frische pflanzliche Optionen</p>
+                    </div>
                 </div>
             </div>
         </div>
-        </header>
+    </section>
 
-    <main>
-        <section class="legal-page">
-            <h2>Datenschutzerklärung (DSGVO & TDDDG)</h2>
-            <p>Stand: November 2025</p>
-
-            <hr style="border-color: var(--border-color);">
-
-            <h3>1. 🧑‍⚖️ Name und Kontaktdaten des Verantwortlichen</h3>
-            <p>Verantwortlich für die Datenverarbeitung auf dieser Website im Sinne der DSGVO ist:</p>
-            <address>
-                <strong>Zafran Delight</strong><br>
-                Inhaber: Syed Hussain Haider Zaidi<br>
-                Kessenicher Straße 9, 53879 Euskirchen<br>
-                Telefon: 02251 1290950<br>
-                E-Mail: delightzafran@gmail.com
-            </address>
-
-            <hr style="border-color: var(--border-color);">
-
-            <h3>2. 🍕 Datenverarbeitung zur Durchführung von Abholbestellungen</h3>
-            <p>Wir erheben und verarbeiten personenbezogene Daten **ausschließlich** zum Zweck der Abwicklung Ihrer Bestellung zur Abholung.</p>
-
-            <h4>a) Bestell- und Kontaktdaten</h4>
-            <div class="data-point">
-                <strong>Verarbeitete Daten:</strong> Name, Telefonnummer und Bestelldaten.
+    <section id="menu" class="menu-book-section">
+        <div class="book-wrapper">
+            <div class="text-center" style="margin-bottom: 30px;">
+                <h2 style="color: var(--gold-primary); font-size: 2.5rem;" data-i18n="menu_title">Unsere Speisekarte</h2>
+                <p style="color: #ddd;" data-i18n="menu_subtitle">Blättern Sie durch unsere authentischen Gerichte</p>
             </div>
-            <div class="data-point">
-                <strong>Zweck der Verarbeitung:</strong> Bestellabwicklung, Vertragsabschluss, Benachrichtigung zur Abholung und Kontaktaufnahme bei Rückfragen.
+            <div class="menu-book">
+                <div class="book-spine"></div>
+                <div class="book-page active" data-page="1">
+                    <h3 class="menu-category-title">Suppen</h3>
+                    <div class="menu-item"><h5 class="item-num">1.</h5><h5>Tomatensuppe</h5><span>5,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">2.</h5><h5>Daal Linsensuppe</h5><span>5,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">3.</h5><h5>Hähnchen Suppe</h5><span>6,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">4.</h5><h5>Mulligatawny Suppe</h5><span>6,50 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">103.</h5><h5>Gemischter Salat</h5><span>6,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">104.</h5><h5>Chicken Salat</h5><span>7,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">105.</h5><h5>Zafrani Chicken Salat</h5><span>8,50 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">97.</h5><h5>Gemüse-Frühlingsrollen</h5><span>5,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">98.</h5><h5>Pommes frites</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">99.</h5><h5>Chicken Nuggets (6 Stk.)</h5><span>4,50 €</span></div>
+                    <div class="page-num">- 1 -</div>
+                </div>
+                <div class="book-page active" data-page="2">
+                    <h3 class="menu-category-title">Vorspeisen</h3>
+                    <div class="menu-item"><h5 class="item-num">5.</h5><h5>Veg. Samosa</h5><span>5,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">6.</h5><h5>Chicken Samosa</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">7.</h5><h5>Aloo Tiki</h5><span>5,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">8.</h5><h5>Mix Pakora</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">9.</h5><h5>Paneer Pakora</h5><span>6,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">10.</h5><h5>Aloo Pakora</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">11.</h5><h5>Gobi Pakora</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">12.</h5><h5>Mashroom Pakora</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">13.</h5><h5>Chicken Pakora</h5><span>6,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">14.</h5><h5>Prawn Pakora</h5><span>7,50 €</span></div>
+                    <div class="page-num">- 2 -</div>
+                </div>
+                <div class="book-page" data-page="3">
+                    <h3 class="menu-category-title">Vegetarisch</h3>
+                    <div class="menu-item"><h5 class="item-num">15.</h5><h5>Vegi Mix</h5><span>13,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">16.</h5><h5>Palak Aallu</h5><span>13,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">17.</h5><h5>Saag Aallu</h5><span>13,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">18.</h5><h5>Tarka Daal</h5><span>12,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">19.</h5><h5>Bhindi Masala</h5><span>13,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">20.</h5><h5>Baingen Aallu</h5><span>13,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">21.</h5><h5>Mushroom Aallu</h5><span>13,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">22.</h5><h5>Gobi Aallu</h5><span>13,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">23.</h5><h5>Channa Masala</h5><span>12,50 €</span></div>
+                    <div class="page-num">- 3 -</div>
+                </div>
+                <div class="book-page" data-page="4">
+                    <h3 class="menu-category-title">Paneer & Korma</h3>
+                    <div class="menu-item"><h5 class="item-num">24.</h5><h5>Veg. Korma</h5><span>13,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">25.</h5><h5>Nauratan Korma</h5><span>14,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">26.</h5><h5>Shahi Paneer</h5><span>14,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">27.</h5><h5>Paneer Tikka Masala</h5><span>14,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">28.</h5><h5>Paneer Jalfrezi</h5><span>14,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">29.</h5><h5>Paneer Bhunna Masala</h5><span>14,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">30.</h5><h5>Palak Paneer</h5><span>14,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">31.</h5><h5>Paneer Muttar Aallu</h5><span>14,50 €</span></div>
+                    <div class="page-num">- 4 -</div>
+                </div>
+                <div class="book-page" data-page="5">
+                    <h3 class="menu-category-title">Hähnchen</h3>
+                    <div class="menu-item"><h5 class="item-num">32.</h5><h5>Chicken Curry</h5><span>14,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">33.</h5><h5>Chicken Tikka Masala</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">34.</h5><h5>Chicken Korma</h5><span>15,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">35.</h5><h5>Butter Chicken</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">36.</h5><h5>Kashmiri Chicken</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">37.</h5><h5>Chicken Goan Curry</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">38.</h5><h5>Chicken Jalfrezi</h5><span>15,50 €</span></div>
+                    <div class="page-num">- 5 -</div>
+                </div>
+                <div class="book-page" data-page="6">
+                    <h3 class="menu-category-title">Hähnchen (Forts.)</h3>
+                    <div class="menu-item"><h5 class="item-num">39.</h5><h5>Chicken Kadai</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">40.</h5><h5>Chicken Bhuna</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">41.</h5><h5>Vegi Chicken</h5><span>15,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">42.</h5><h5>Chicken Palak</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">43.</h5><h5>Chicken Dhansik</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">44.</h5><h5>Chicken Madras</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">45.</h5><h5>Chicken Vindalo</h5><span>15,50 €</span></div>
+                    <div class="page-num">- 6 -</div>
+                </div>
+                <div class="book-page" data-page="7">
+                    <h3 class="menu-category-title">Lamm</h3>
+                    <div class="menu-item"><h5 class="item-num">46.</h5><h5>Lamb Curry</h5><span>17,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">47.</h5><h5>Lamb Tikka Masala</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">48.</h5><h5>Lamb Korma</h5><span>17,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">49.</h5><h5>Butter Lamb</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">50.</h5><h5>Kashmiri Lamb</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">51.</h5><h5>Lamb Goan Curry</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">52.</h5><h5>Lamb Jalfrezi</h5><span>17,50 €</span></div>
+                    <div class="page-num">- 7 -</div>
+                </div>
+                <div class="book-page" data-page="8">
+                    <h3 class="menu-category-title">Lamm (Forts.)</h3>
+                    <div class="menu-item"><h5 class="item-num">53.</h5><h5>Lamb Kadai</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">54.</h5><h5>Lamb Bhuna</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">55.</h5><h5>Vegi Lamb</h5><span>17,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">56.</h5><h5>Lamb Palak</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">57.</h5><h5>Lamb Dhansik</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">58.</h5><h5>Lamb Madras</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">59.</h5><h5>Lamb Vindalo</h5><span>17,50 €</span></div>
+                    <div class="page-num">- 8 -</div>
+                </div>
+                <div class="book-page" data-page="9">
+                    <h3 class="menu-category-title">Seafood</h3>
+                    <div class="menu-item"><h5 class="item-num">60.</h5><h5>Prawn Curry</h5><span>18,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">61.</h5><h5>Prawn Korma</h5><span>18,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">62.</h5><h5>Prawn Tikka Masala</h5><span>18,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">63.</h5><h5>Fish Curry</h5><span>18,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">64.</h5><h5>Fish Tikka Masala</h5><span>18,50 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">65.</h5><h5>Chicken Tikka</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">66.</h5><h5>Tandoori Chicken</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">67.</h5><h5>Malai Tikka</h5><span>17,50 €</span></div>
+                    <div class="page-num">- 9 -</div>
+                </div>
+                <div class="book-page" data-page="10">
+                    <h3 class="menu-category-title">Tandoori</h3>
+                    <div class="menu-item"><h5 class="item-num">68.</h5><h5>Haryali Tikka</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">69.</h5><h5>Lamb Tikka</h5><span>18,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">70.</h5><h5>Lamb Chops</h5><span>20,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">71.</h5><h5>Seekh Kabab</h5><span>19,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">72.</h5><h5>Prawn Tikka</h5><span>20,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">73.</h5><h5>Paneer Tikka</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">74.</h5><h5>Fish Tawa Fry</h5><span>20,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">75.</h5><h5>Zafrani Mix Grill</h5><span>24,00 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">76.</h5><h5>Vegi Biryani</h5><span>14,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">77.</h5><h5>Chicken Bombay Biryani</h5><span>16,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">78.</h5><h5>Lamb Karachi Biryani</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">79.</h5><h5>Prawn Zafran Biryani</h5><span>20,50 €</span></div>
+                    <div class="page-num">- 10 -</div>
+                </div>
+                <div class="book-page" data-page="11">
+                    <h3 class="menu-category-title">Brot & Beilagen</h3>
+                    <div class="menu-item"><h5 class="item-num">80.</h5><h5>Frisches Tandoori Brot</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">81.</h5><h5>Chapati Roti</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">82.</h5><h5>Naan</h5><span>3,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">83.</h5><h5>Allo Naan</h5><span>4,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">84.</h5><h5>Cheese Naan</h5><span>5,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">85.</h5><h5>Butter Naan</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">86.</h5><h5>Garlic Naan</h5><span>4,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">87.</h5><h5>Tandoori Parantha</h5><span>4,50 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">88.</h5><h5>Mint Sauce</h5><span>3,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">89.</h5><h5>Natur Joghurt</h5><span>2,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">90.</h5><h5>Raita</h5><span>4,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">91.</h5><h5>Mango Chutney</h5><span>3,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">92.</h5><h5>Imli (Tamarind) Chutney</h5><span>3,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">93.</h5><h5>Laal Chutney</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">94.</h5><h5>Green Chutney</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">95.</h5><h5>Pickles</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">96.</h5><h5>Soße nach Wahl</h5><span>5,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">100.</h5><h5>Basmati - Reis</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">101.</h5><h5>Zeera - Reis</h5><span>4,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">102.</h5><h5>Zafrani - Reis</h5><span>5,50 €</span></div>
+                    <div class="page-num">- 11 -</div>
+                </div>
+                <div class="book-page" data-page="12">
+                    <h3 class="menu-category-title">Dessert & Drinks</h3>
+                    <div class="menu-item"><h5 class="item-num">106.</h5><h5>Mango Kulfi</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">107.</h5><h5>Almond Kulfi</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">108.</h5><h5>Pista Kulfi</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">109.</h5><h5>Gulab Jamun</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">110.</h5><h5>Ras Malai</h5><span>5,50 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">111.</h5><h5>Lassi</h5><span>4,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">112.</h5><h5>Mango Lassi</h5><span>4,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">113.</h5><h5>Rosé Lassi</h5><span>4,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">114.</h5><h5>Coca Cola</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">115.</h5><h5>Cola Zero</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">116.</h5><h5>Sprite</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">117.</h5><h5>Fanta</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">118.</h5><h5>Pinacolada</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">119.</h5><h5>Mint-Margarita</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">120.</h5><h5>Ipanema</h5><span>5,50 €</span></div>
+                    <div class="page-num">- 12 -</div>
+                </div>
             </div>
-            <div class="data-point">
-                <strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. b DSGVO (<strong>Vertragserfüllung</strong>).
+            <div class="book-nav">
+                <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← <span data-i18n="prev">Zurück</span></button>
+                <button class="nav-btn" id="nextBtn" onclick="changePage(1)"><span data-i18n="next">Weiter</span> →</button>
             </div>
-            <div class="data-point">
-                <strong>Speicherdauer:</strong> Bis zur Abwicklung der Bestellung und anschließend bis zum Ablauf der gesetzlichen Aufbewahrungsfristen (in der Regel 6 oder 10 Jahre).
+        </div>
+    </section>
+
+    <section id="offers" class="offers-section">
+        <div class="container">
+            <h2 class="text-center" style="font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 40px;" data-i18n="offer_title">Events & Angebote</h2>
+            <div class="offers-grid">
+                
+                <div class="offer-card lamb-card">
+                    <span class="offer-tag" style="background: var(--spice-red); color: #fff;" data-i18n="tag_weekly">Wochen-Spezial</span>
+                    <h3 class="offer-title" data-i18n="lamb_title">Lamm-Woche</h3>
+                    <p style="font-size: 0.9rem; color: #aaa;" data-i18n="week_2_only">Nur 2. Woche des Monats</p>
+                    <div class="offer-detail">
+                        <p style="font-size: 1.2rem; font-weight: bold; color: var(--gold-bright);" data-i18n="off_lamb_10">10% Rabatt auf alle Lammgerichte</p>
+                    </div>
+                    <a href="pickup.html" target="_blank" class="btn btn-red" style="margin-top: 15px; background: var(--spice-red);" data-i18n="btn_order">Bestellen</a>
+                </div>
+
+                <div class="offer-card chicken-card">
+                    <span class="offer-tag" style="background: var(--spice-orange); color: #fff;" data-i18n="tag_weekly">Wochen-Spezial</span>
+                    <h3 class="offer-title" data-i18n="chicken_title">Hähnchen-Woche</h3>
+                    <p style="font-size: 0.9rem; color: #aaa;" data-i18n="week_3_only">Nur 3. Woche des Monats</p>
+                    <div class="offer-detail">
+                        <p style="font-size: 1.2rem; font-weight: bold; color: var(--gold-bright);" data-i18n="off_chicken_10">10% Rabatt auf alle Hähnchengerichte</p>
+                    </div>
+                    <a href="pickup.html" target="_blank" class="btn btn-red" style="margin-top: 15px; background: var(--spice-orange);" data-i18n="btn_order">Bestellen</a>
+                </div>
+
+                <div class="offer-card lunch-card">
+                    <span class="offer-tag" style="background: var(--fresh-green); color: #fff;" data-i18n="tag_lunch">Mittagsangebot</span>
+                    <h3 class="offer-title" data-i18n="lunch_title">Mittagstisch</h3>
+                    <p style="font-size: 0.9rem; color: #aaa;" data-i18n="lunch_time">Di-Fr 12:00 - 15:00 Uhr</p>
+                    <div class="offer-detail">
+                        <div class="lunch-price">Veg: 8,00 €</div>
+                        <div class="lunch-price">Chicken: 10,00 €</div>
+                    </div>
+                </div>
+
+                <div class="offer-card buffet-card">
+                    <span class="offer-tag" style="background: var(--gold-primary); color: #000;" data-i18n="tag_event">Event</span>
+                    <h3 class="offer-title" data-i18n="buffet_title">Sonntagsbuffet</h3>
+                    <div class="buffet-price">20,00 €</div>
+                    <button class="btn btn-gold" onclick="openModal()" data-i18n="btn_book_buffet">Tisch Buchen</button>
+                </div>
+
+                <div class="offer-card discount-card">
+                    <span class="offer-tag" style="background: #b71c1c; color: #fff;" data-i18n="tag_deal">Online Deal</span>
+                    <h3 class="offer-title" data-i18n="discount_title">Abhol-Rabatt</h3>
+                    <p class="offer-detail" data-i18n="discount_desc">10% Rabatt ab 40 € Bestellwert</p>
+                    <div class="code-box">CODE: SPAR10</div>
+                </div>
+
             </div>
+        </div>
+    </section>
 
-            <h4>b) Freiwillige Angabe von Allergien/Unverträglichkeiten</h4>
-            <div class="data-point">
-                <strong>Verarbeitete Daten:</strong> Angaben zu Allergien oder Unverträglichkeiten (Gesundheitsdaten).
-            </div>
-            <div class="data-point">
-                <strong>Zweck der Verarbeitung:</strong> Gewährleistung der Lebensmittelsicherheit und Zubereitung der Speisen entsprechend Ihren gesundheitlichen Bedürfnissen.
-            </div>
-            <div class="data-point">
-                <strong>Rechtsgrundlage:</strong> Art. 9 Abs. 2 lit. a DSGVO (<strong>Ausdrückliche Einwilligung</strong>).
-            </div>
-            <div class="data-point">
-                <strong>Speicherdauer:</strong> Unmittelbar nach der Abholung und Abschluss der Bestellung gelöscht.
-            </div>
-
-            <hr style="border-color: var(--border-color);">
-
-            <h3>3. ⚙️ Datenverarbeitung für die Website-Bereitstellung (TDDDG)</h3>
-            <p>Beim Aufruf unserer Website werden bestimmte technische Informationen erfasst, um die Funktionsfähigkeit und Sicherheit zu gewährleisten (Server-Logfiles).</p>
-            <ul>
-                <li><strong>Verarbeitete Daten:</strong> IP-Adresse, Datum/Uhrzeit des Zugriffs, Browsertyp.</li>
-                <li><strong>Zweck:</strong> Technische Sicherheit und Gewährleistung der Funktionalität unseres Angebots.</li>
-                <li><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO (<strong>Berechtigtes Interesse</strong>).</li>
-                <li>**Cookies/Tracking:** Wir verwenden **keine** Tracking-Tools (wie Google Analytics) und setzen nur technisch notwendige Cookies für den Bestellvorgang ein.</li>
-            </ul>
-
-            <hr style="border-color: var(--border-color);">
-
-            <h3>4. 📤 Externe Dienste und Auftragsverarbeiter</h3>
-            <p>Ihre Daten werden nur im Rahmen der notwendigen technischen Abwicklung an folgende Dienstleister weitergegeben:</p>
-            <ul>
-                <li><strong>Website-Hosting (GitHub Pages):</strong> Der Hostinganbieter stellt die technische Infrastruktur bereit. Es erfolgt hierdurch eine Speicherung der Server-Logfiles auf deren Servern.</li>
-                <li><strong>Bestellformular (Formspree):</strong> Wir nutzen Formspree als Formular-Backend für die sichere Übermittlung Ihrer Bestelldaten an uns.</li>
-                <li><strong>Kommunikation (WhatsApp):</strong> Sofern Sie uns über einen WhatsApp-Link kontaktieren, gelten die Datenschutzbestimmungen von WhatsApp (Meta Platforms).</li>
-            </ul>
-
-            <hr style="border-color: var(--border-color);">
-
-            <h3>5. ⚖️ Ihre Rechte als betroffene Person</h3>
-            <p>Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit, Widerspruch gegen die Verarbeitung und Widerruf der Einwilligung.</p>
-            <p>Zusätzlich haben Sie das **Beschwerderecht** bei der zuständigen Aufsichtsbehörde:</p>
+    <section id="visit" class="section-padding contact-section">
+        <div class="container">
+            <h2 class="text-center" style="margin-bottom: 40px; font-size: 2.5rem; color: var(--gold-primary);" data-i18n="visit_title">Besuchen Sie uns</h2>
             
-            <p><strong>Die Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen</strong></p>
-            <address>
-                Postfach 20 04 44<br>
-                40102 Düsseldorf<br>
-                Besucheradresse: Kavalleriestr. 2-4, 40213 Düsseldorf<br>
-                Telefon: 0211 / 38424-0<br>
-                E-Mail: poststelle@ldi.nrw.de
-            </address>
-            
-            <hr style="border-color: var(--border-color);">
+            <div class="contact-container-grid">
+                
+                <div class="contact-col">
+                    <h3 data-i18n="contact_info" class="text-center" style="display:block;">Kontakt</h3>
+                    <ul class="contact-list">
+                        <li>
+                            <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></div>
+                            <div class="contact-details"><span data-i18n="address">Adresse</span><p>Kessenicher Straße 9<br>53879 Euskirchen</p></div>
+                        </li>
+                        <li>
+                            <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
+                            <div class="contact-details"><span data-i18n="phone">Telefon</span><a href="tel:022511290950">02251 1290950</a></div>
+                        </li>
+                        <li>
+                            <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+                            <div class="contact-details"><span>Email</span><a href="mailto:delightzafran@gmail.com">delightzafran@gmail.com</a></div>
+                        </li>
+                    </ul>
+                    <div class="qr-section">
+                        <div class="qr-item"><img src="qr-code-1.png" alt="Pickup Menu"><span>Menu</span></div>
+                        <div class="qr-item"><img src="qr-code-2.png" alt="Book Table"><span>Book</span></div>
+                    </div>
+                </div>
 
-            <a href="index.html" class="checkout-email" style="text-decoration: none; text-align: center; display: block; margin-top: 30px; padding: 10px; border-radius: 5px;">Zurück zur Speisekarte</a>
-        </section>
-    </main>
+                <div class="contact-col">
+                    <h3 data-i18n="hours" class="text-center" style="display:block;">Öffnungszeiten</h3>
+                    <div class="hours-table">
+                        <div class="hours-row"><span data-i18n="mon">Montag</span> <span>Closed</span></div>
+                        <div class="hours-row"><span data-i18n="tue">Dienstag</span> <span>12:00 – 21:00</span></div>
+                        <div class="hours-row"><span data-i18n="wed">Mittwoch</span> <span>12:00 – 21:00</span></div>
+                        <div class="hours-row"><span data-i18n="thu">Donnerstag</span> <span>12:00 – 21:00</span></div>
+                        <div class="hours-row"><span data-i18n="fri">Freitag</span> <span>12:00 – 21:00</span></div>
+                        <div class="hours-row"><span data-i18n="sat">Samstag</span> <span>12:00 – 21:00</span></div>
+                        <div class="hours-row"><span data-i18n="sun">Sonntag</span> <span>12:00 – 21:00</span></div>
+                    </div>
+                </div>
+
+                <div class="map-col">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2526.438881283629!2d6.784416476196207!3d50.65955927547211!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47bf6540711066f7%3A0x575916438007038!2sKessenicher%20Str.%209%2C%2053879%20Euskirchen%2C%20Germany!5e0!3m2!1sen!2sus!4v1708900000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer>
+        <div class="container text-center">
+            <img src="logo.png" class="footer-logo" alt="Zafran" style="max-width: 100px;">
+            <div style="margin-bottom: 15px;">
+                <h5 style="color: var(--gold-primary); font-size: 1rem;" data-i18n="footer_imprint_title">Impressum</h5>
+                <p style="font-size: 0.8rem;" data-i18n="footer_imprint_text">Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen</p>
+            </div>
+            
+            <div class="site-credit-footer">
+                <p>
+                    <a href="imprint.html" target="_blank" data-i18n="footer_imprint">Impressum</a> | 
+                    <a href="privacy.html" target="_blank" data-i18n="footer_privacy">Datenschutz</a>
+                </p>
+                <p data-i18n="footer_rights">© 2025 Zafran Delight. All Rights Reserved.</p>
+                <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank">Shri Avinash Narendhran S V</a> +49 162 3757839</p>
+            </div>
+        </div>
+    </footer>
 
-    <div class="site-credit-footer">
-        <p>
-            <a href="imprint.html" target="_blank">Impressum (Imprint)</a> | 
-            <a href="privacy.html" target="_blank">Datenschutzerklärung (Privacy)</a>
-        </p>
-        <p>&copy; Zafran Delight, Euskirchen 2025</p>
-        <p>Developed by <a href="#" target="_blank" rel="noopener">Shri Avinash Narendhran S V</a> <a href="tel:+491623757839">+49 162 3757839</a></p>
+    <div class="modal-overlay" id="buffetModal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="closeModal()">×</span>
+            <div id="bookingFormContainer">
+                <h3 style="color: #8e0000; margin-bottom: 20px;" data-i18n="modal_title">Buffet Reservierung</h3>
+                <form id="reservationForm" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group"><label data-i18n="form_name">Name</label><input type="text" name="name" required></div>
+                    <div class="form-group"><label data-i18n="form_email">Email</label><input type="email" name="email" required></div>
+                    <div class="form-group"><label data-i18n="form_phone">Telefon</label><input type="tel" name="phone" required></div>
+                    <div class="form-group"><label data-i18n="form_date">Datum (Sonntag)</label><input type="date" name="date" required></div>
+                    <div class="form-group"><label data-i18n="form_guests">Anzahl Gäste</label><input type="number" name="guests" min="1" value="2" required></div>
+                    <button type="submit" class="modal-btn" data-i18n="btn_submit">Jetzt Reservieren</button>
+                </form>
+            </div>
+            <div id="reservationSuccess" class="success-message">
+                <span class="success-icon">✓</span>
+                <h3 data-i18n="success_title">Vielen Dank!</h3>
+                <p data-i18n="success_msg">Ihre Reservierung ist eingegangen.</p>
+                <button class="modal-btn" onclick="closeModal()" style="margin-top: 20px;">Schließen</button>
+            </div>
+        </div>
     </div>
- </footer>
-    
-    <script src="script.js?v=18"></script>
+
+    <script>
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+        function openModal() { document.getElementById('buffetModal').classList.add('open'); }
+        function closeModal() { document.getElementById('buffetModal').classList.remove('open'); }
+        function handleFormSubmit(e) { e.preventDefault(); document.getElementById('bookingFormContainer').style.display='none'; document.getElementById('reservationSuccess').style.display='block'; }
+
+        /* BOOK NAV LOGIC */
+        let currentPage = 1; const totalPages = 12; 
+        const pages = document.querySelectorAll('.book-page'); 
+        const prevBtn = document.getElementById('prevBtn'); const nextBtn = document.getElementById('nextBtn');
+
+        function updateBookView() {
+            const isMobile = window.innerWidth <= 768; 
+            pages.forEach(p => p.classList.remove('active'));
+            if(isMobile) { 
+                const page = document.querySelector(`.book-page[data-page="${currentPage}"]`);
+                if(page) page.classList.add('active'); 
+            } else { 
+                let left = (currentPage % 2 === 0) ? currentPage - 1 : currentPage;
+                const p1 = document.querySelector(`.book-page[data-page="${left}"]`);
+                const p2 = document.querySelector(`.book-page[data-page="${left+1}"]`);
+                if(p1) p1.classList.add('active'); if(p2) p2.classList.add('active');
+            }
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = (currentPage >= totalPages); 
+        }
+        function changePage(d) { currentPage += d; updateBookView(); }
+        window.addEventListener('resize', updateBookView); updateBookView();
+
+        /* TRANSLATIONS */
+        const translations = {
+            de: {
+                nav_home: "Startseite", nav_story: "Über Uns", nav_menu: "Speisekarte", nav_offers: "Angebote", nav_contact: "Kontakt",
+                btn_order: "Bestellen", hero_title: "Zafran Delight", hero_subtitle: "Authentische indische & pakistanische Küche.",
+                btn_book: "Tisch Reservieren", btn_pickup: "Abholung Bestellen", about_title: "Ein herzliches Willkommen",
+                story_p1: "Treten Sie ein ins Zafran Delight und erleben Sie die wahre Wärme südasiatischer Gastfreundschaft.",
+                feat_cuisine: "Küche", feat_cuisine_desc: "Indische & Pakistanische Spezialitäten",
+                feat_ambiance: "Ambiente", feat_ambiance_desc: "Gemütlich & Familienfreundlich",
+                feat_dining: "Essen", feat_dining_desc: "Mittag- & Abendessen",
+                menu_title: "Unsere Speisekarte", menu_subtitle: "Blättern Sie durch unsere authentischen Gerichte",
+                offer_title: "Events & Angebote", tag_weekly: "Wochen-Spezial", lamb_title: "Lamm-Woche", chicken_title: "Hähnchen-Woche",
+                week_2_only: "Nur 2. Woche des Monats", week_3_only: "Nur 3. Woche des Monats",
+                off_lamb_10: "10% Rabatt", off_chicken_10: "10% Rabatt",
+                min_order_30: "Mindestbestellwert: 30 €", tag_lunch: "Mittagsangebot", lunch_title: "Mittagstisch", lunch_time: "Di-Fr 12:00 - 15:00 Uhr", dine_in_only: "*Nur im Restaurant (Dine-in)",
+                tag_event: "Event", buffet_title: "Sonntagsbuffet", buffet_time: "Jeden letzten Sonntag", buffet_desc: "All-you-can-eat Spezialitäten", btn_book_buffet: "Tisch Buchen",
+                tag_deal: "Online Deal", discount_title: "Abhol-Rabatt", discount_desc: "10% Rabatt ab 40 €",
+                visit_title: "Besuchen Sie uns", contact_info: "Kontakt", address: "Adresse", phone: "Telefon", hours: "Öffnungszeiten",
+                mon: "Montag", tue: "Dienstag", wed: "Mittwoch", thu: "Donnerstag", fri: "Freitag", sat: "Samstag", sun: "Sonntag",
+                prev: "Zurück", next: "Weiter", modal_title: "Buffet Reservierung", form_name: "Name", form_email: "Email", form_phone: "Telefon", form_date: "Datum (Sonntag)", form_guests: "Gäste", btn_submit: "Reservieren",
+                success_title: "Vielen Dank!", success_msg: "Ihre Reservierung ist eingegangen.",
+                footer_imprint_title: "Impressum", footer_imprint_text: "Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
+                footer_rights: "© 2025 Zafran Delight. All Rights Reserved.",
+                footer_imprint: "Impressum", footer_privacy: "Datenschutz"
+            },
+            en: {
+                nav_home: "Home", nav_story: "Our Story", nav_menu: "Menu", nav_offers: "Offers", nav_contact: "Contact",
+                btn_order: "Order Now", hero_title: "Zafran Delight", hero_subtitle: "Authentic Indian & Pakistani Cuisine.",
+                btn_book: "Book a Table", btn_pickup: "Order Pickup", about_title: "A Warm Welcome",
+                story_p1: "Step into Zafran Delight and experience the true warmth of South Asian hospitality.",
+                feat_cuisine: "Cuisine", feat_cuisine_desc: "Indian & Pakistani Specialties",
+                feat_ambiance: "Ambiance", feat_ambiance_desc: "Cosy, Casual & Family-friendly",
+                feat_dining: "Dining", feat_dining_desc: "Lunch & Dinner Service",
+                menu_title: "Our Full Menu", menu_subtitle: "Flip to explore authentic dishes",
+                offer_title: "Specials & Events", tag_weekly: "Weekly Special", lamb_title: "Lamb Week", chicken_title: "Chicken Week",
+                week_2_only: "Only 2nd Week of the Month", week_3_only: "Only 3rd Week of the Month",
+                off_lamb_10: "10% off", off_chicken_10: "10% off",
+                min_order_30: "Minimum order: 30 €", tag_lunch: "Lunch Deal", lunch_title: "Lunch Menu", lunch_time: "Tue-Fri 12:00 - 3:00 PM", dine_in_only: "*Dine-in Only",
+                tag_event: "Event", buffet_title: "Sunday Grand Buffet", buffet_time: "Every Last Sunday", buffet_desc: "All-you-can-eat specialties", btn_book_buffet: "Book Buffet Table",
+                tag_deal: "Online Deal", discount_title: "Pickup Special", discount_desc: "10% OFF orders over 40 €",
+                visit_title: "Visit Us", contact_info: "Contact Info", address: "Address", phone: "Phone", hours: "Opening Hours",
+                mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday",
+                prev: "Prev", next: "Next", modal_title: "Buffet Reservation", form_name: "Name", form_email: "Email", form_phone: "Phone", form_date: "Date (Sunday)", form_guests: "Guests", btn_submit: "Reserve Now",
+                success_title: "Thank You!", success_msg: "Your reservation has been received.",
+                footer_imprint_title: "Imprint", footer_imprint_text: "Owner: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
+                footer_rights: "© 2025 Zafran Delight. All Rights Reserved.",
+                footer_imprint: "Imprint", footer_privacy: "Privacy Policy"
+            }
+        };
+
+        function setLang(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) el.textContent = translations[lang][key];
+            });
+            const allBtns = document.querySelectorAll('.lang-btn');
+            allBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.trim().toUpperCase() === lang.toUpperCase()) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
