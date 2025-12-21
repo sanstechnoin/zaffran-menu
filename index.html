@@ -8,9 +8,17 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* --- LANDING PAGE SPECIFIC STYLES --- */
-        /* These styles are unique to the homepage (Hero, 3D Book, Features) */
+        /* --- LANDING PAGE SPECIFIC OVERRIDES --- */
         
+        /* Fix: Header Overlay for Index Page Only */
+        header { 
+            position: fixed !important; 
+            top: 0; 
+            width: 100%; 
+            background: rgba(18, 10, 10, 0.95) !important; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
         /* HERO SECTION */
         .hero { 
             height: 90vh; 
@@ -22,6 +30,7 @@
             justify-content: center; 
             text-align: center; 
             margin-top: 0; 
+            padding-top: 80px; /* Compensate for fixed header */
         }
         .hero-content h1 { 
             font-size: 4.5rem; 
@@ -40,28 +49,24 @@
             margin-right: auto; 
         }
 
-        /* BUTTONS (Specific to Hero) */
+        /* BUTTONS (Hero Specific) */
         .btn { padding: 12px 30px; border-radius: 4px; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s; display: inline-block; text-decoration: none; }
         .btn-gold { background: linear-gradient(135deg, var(--gold-primary), #b8860b); color: #120a0a; }
         .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); color: #000; }
         .btn-red { background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff; }
         .btn-red:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
 
-        /* SECTIONS */
-        .section-padding { padding: 80px 0; }
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .text-center { text-align: center; }
-
         /* FEATURES & STORY */
+        .section-padding { padding: 80px 0; }
         .about-text-container { max-width: 900px; margin: 0 auto 50px auto; text-align: center; }
         .story-text { font-size: 1.1rem; line-height: 1.8; color: #ddd; margin-bottom: 20px; }
         .highlight { color: var(--spice-orange); font-weight: 700; }
         
         .features-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
-        .feature-box { background: var(--bg-panel); padding: 35px 25px; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.1); text-align: center; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 100%; }
+        .feature-box { background: var(--bg-panel); padding: 35px 25px; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.1); text-align: center; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; height: 100%; }
         .feature-box:hover { background: #2a1818; transform: translateY(-5px); border-color: var(--gold-primary); }
         .feature-icon { width: 45px; height: 45px; margin-bottom: 15px; }
-        .icon-gold { fill: var(--gold-primary); } .icon-red { fill: var(--spice-red); } .icon-orange { fill: var(--spice-orange); }
+        .icon-gold { fill: var(--gold-primary); } .icon-orange { fill: var(--spice-orange); } .icon-red { fill: var(--spice-red); }
         .feature-box h4 { margin-bottom: 10px; font-size: 1.25rem; color: var(--text-light); }
         .feature-box p { font-size: 0.95rem; color: #ccc; margin-bottom: 0; }
 
@@ -86,12 +91,11 @@
         .nav-btn:disabled { background: #333; color: #777; cursor: not-allowed; }
         .page-num { text-align: center; font-size: 0.8rem; margin-top: auto; color: #aaa; padding-top: 20px; }
 
-        /* OFFERS SECTION */
+        /* OFFERS */
         .offers-section { background: var(--bg-panel); padding: 100px 20px; background-image: radial-gradient(circle at center, #2a1010 0%, #120a0a 100%); }
         .offers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
         .offer-card { border-radius: 12px; padding: 30px 20px; text-align: center; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.6); transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; align-items: center; min-height: 350px; }
         .offer-card:hover { transform: translateY(-5px); }
-        
         .buffet-card { background: linear-gradient(145deg, #1a0a0a, #3e2723); border: 2px solid var(--gold-primary); }
         .discount-card { background: linear-gradient(145deg, #461111, #2c0b0b); border: 2px dashed #b71c1c; }
         .lamb-card { background: linear-gradient(145deg, #2c1e0b, #3e2723); border: 2px solid #c0392b; }
@@ -101,24 +105,21 @@
         .offer-title { font-size: 1.5rem; color: #fff; margin-bottom: 10px; font-family: var(--font-head); }
         .offer-detail { font-size: 1.1rem; color: #ddd; margin: 15px 0; }
         .offer-tag { background: #fff; color: #000; padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 15px; }
-        
         .buffet-price { font-size: 2rem; color: var(--gold-bright); font-family: var(--font-head); margin: 10px 0; }
         .lunch-price { font-size: 1.8rem; color: var(--fresh-green); font-family: var(--font-head); font-weight: bold; }
         .code-box { background: #fff; color: #800000; padding: 8px 20px; font-weight: 800; font-size: 1.2rem; border-radius: 6px; display: inline-block; margin-top: 15px; }
 
-        /* CONTACT SECTION */
+        /* CONTACT */
         .contact-section { background: var(--bg-panel); border-top: 1px solid rgba(212, 175, 55, 0.1); }
         .contact-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 40px; align-items: start; }
         .contact-col { background: rgba(0,0,0,0.2); padding: 30px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05); height: 100%; }
         .contact-col h3 { font-size: 1.5rem; margin-bottom: 25px; border-bottom: 2px solid var(--gold-primary); padding-bottom: 10px; display: inline-block; }
-        
         .contact-list { list-style: none; padding: 0; }
         .contact-list li { display: flex; align-items: flex-start; margin-bottom: 25px; }
         .contact-icon-box { min-width: 40px; height: 40px; background: rgba(212, 175, 55, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; border: 1px solid var(--gold-muted); }
         .contact-icon-box svg { width: 20px; height: 20px; fill: var(--gold-bright); }
         .contact-details span { display: block; font-size: 0.8rem; text-transform: uppercase; color: var(--spice-orange); font-weight: bold; margin-bottom: 3px; }
         .contact-details p, .contact-details a { color: #ddd; font-size: 1.05rem; line-height: 1.4; display: block; }
-        
         .qr-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid #333; }
         .qr-grid { display: flex; gap: 20px; }
         .qr-item { background: #fff; padding: 10px; border-radius: 6px; text-align: center; width: 110px; }
@@ -130,7 +131,7 @@
         .map-container-3col { width: 100%; height: 100%; min-height: 350px; border-radius: 4px; overflow: hidden; border: 2px solid var(--gold-primary); }
         .map-container-3col iframe { width: 100%; height: 100%; border: 0; filter: contrast(1.1); }
 
-        /* MODAL (AJAX FORM) */
+        /* MODAL */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: none; justify-content: center; align-items: center; }
         .modal-overlay.open { display: flex; }
         .modal-box { background: #fdfbf7; color: #222; padding: 40px; border-radius: 8px; width: 90%; max-width: 500px; border: 4px solid var(--gold-primary); position: relative; }
@@ -142,7 +143,6 @@
         .success-message { display: none; text-align: center; }
         .success-icon { font-size: 3rem; color: var(--fresh-green); display: block; margin-bottom: 10px; }
 
-        /* RESPONSIVE */
         @media (max-width: 992px) { .features-wrapper { grid-template-columns: repeat(2, 1fr); } .contact-grid-3 { grid-template-columns: 1fr 1fr; } .map-col { grid-column: span 2; } }
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 3rem; }
@@ -196,19 +196,10 @@
         <div class="container">
             <div class="about-text-container">
                 <h2 style="font-size: 3rem; margin-bottom: 25px;" data-i18n="about_title">Ein herzliches Willkommen</h2>
-                
                 <p class="story-text" data-i18n="story_p1">
-                    Treten Sie ein ins <span class="highlight">Zafran Delight</span> und erleben Sie die wahre Wärme südasiatischer Gastfreundschaft. Unsere Reise begann mit einer einfachen Vision: die authentischen Aromen Indiens und Pakistans nach Euskirchen zu bringen. Wir verwenden frische Gewürze und alte Familienrezepte, um Gerichte zu kreieren, die sich wie ein Zuhause anfühlen.
+                    Treten Sie ein ins <span class="highlight">Zafran Delight</span> und erleben Sie die wahre Wärme südasiatischer Gastfreundschaft. Unsere Reise begann mit einer einfachen Vision: die authentischen Aromen Indiens und Pakistans nach Euskirchen zu bringen.
                 </p>
                 
-                <p class="story-text" data-i18n="story_p2">
-                    Der Name <strong>"Zafran"</strong> bedeutet Safran – das kostbarste Gewürz der Welt. Wie Safran streben wir danach, jeder Mahlzeit eine Note von Exzellenz und Luxus zu verleihen. Vom ersten Duft von Basmati-Reis bis zum letzten Löffel Mango-Creme bereiten wir alles mit Leidenschaft und Sorgfalt zu.
-                </p>
-
-                <p class="story-text" data-i18n="story_p3">
-                    Egal, ob Sie für ein gemütliches Familienessen oder einen schnellen Mittagstisch vorbeikommen, unsere Atmosphäre lädt zum Verweilen ein. Wir laden Sie ein, Teil unserer Geschichte zu werden und die reiche Kultur des Subkontinents auf Ihrem Teller zu entdecken.
-                </p>
-
                 <div class="features-wrapper">
                     <div class="feature-box">
                         <svg class="feature-icon icon-gold" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
@@ -254,23 +245,15 @@
             <div class="menu-book">
                 <div class="book-spine"></div>
                 <div class="book-page active" data-page="1">
-                    <h3 class="menu-category-title">Suppen, Salate & Snacks</h3>
+                    <h3 class="menu-category-title">Suppen</h3>
                     <div class="menu-item"><h5 class="item-num">1.</h5><h5>Tomatensuppe</h5><span>5,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">2.</h5><h5>Daal Linsensuppe</h5><span>5,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">3.</h5><h5>Hähnchen Suppe</h5><span>6,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">4.</h5><h5>Mulligatawny Suppe</h5><span>6,50 €</span></div>
-                    <br>
-                    <div class="menu-item"><h5 class="item-num">103.</h5><h5>Gemischter Salat</h5><span>6,00 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">104.</h5><h5>Chicken Salat</h5><span>7,50 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">105.</h5><h5>Zafrani Chicken Salat</h5><span>8,50 €</span></div>
-                    <br>
-                    <div class="menu-item"><h5 class="item-num">97.</h5><h5>Gemüse-Frühlingsrollen</h5><span>5,00 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">98.</h5><h5>Pommes frites</h5><span>3,50 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">99.</h5><h5>Chicken Nuggets (6 Stk.)</h5><span>4,50 €</span></div>
                     <div class="page-num">- 1 -</div>
                 </div>
                 <div class="book-page active" data-page="2">
-                    <h3 class="menu-category-title">Vorspeisen (Starters)</h3>
+                    <h3 class="menu-category-title">Vorspeisen</h3>
                     <div class="menu-item"><h5 class="item-num">5.</h5><h5>Veg. Samosa</h5><span>5,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">6.</h5><h5>Chicken Samosa</h5><span>5,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">7.</h5><h5>Aloo Tiki</h5><span>5,00 €</span></div>
@@ -284,7 +267,7 @@
                     <div class="page-num">- 2 -</div>
                 </div>
                 <div class="book-page" data-page="3">
-                    <h3 class="menu-category-title">Vegetarische Gerichte</h3>
+                    <h3 class="menu-category-title">Vegetarisch</h3>
                     <div class="menu-item"><h5 class="item-num">15.</h5><h5>Vegi Mix</h5><span>13,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">16.</h5><h5>Palak Aallu</h5><span>13,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">17.</h5><h5>Saag Aallu</h5><span>13,00 €</span></div>
@@ -297,7 +280,7 @@
                     <div class="page-num">- 3 -</div>
                 </div>
                 <div class="book-page" data-page="4">
-                    <h3 class="menu-category-title">Paneer & Korma (Veg)</h3>
+                    <h3 class="menu-category-title">Paneer & Korma</h3>
                     <div class="menu-item"><h5 class="item-num">24.</h5><h5>Veg. Korma</h5><span>13,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">25.</h5><h5>Nauratan Korma</h5><span>14,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">26.</h5><h5>Shahi Paneer</h5><span>14,00 €</span></div>
@@ -595,7 +578,7 @@
         function closeModal() { document.getElementById('buffetModal').classList.remove('open'); }
         function handleFormSubmit(e) { e.preventDefault(); document.getElementById('bookingFormContainer').style.display='none'; document.getElementById('reservationSuccess').style.display='block'; }
 
-        // --- BOOK LOGIC ---
+        /* BOOK NAV LOGIC */
         let currentPage = 1; const totalPages = 12; 
         const pages = document.querySelectorAll('.book-page'); 
         const prevBtn = document.getElementById('prevBtn'); const nextBtn = document.getElementById('nextBtn');
@@ -618,15 +601,13 @@
         function changePage(d) { currentPage += d; updateBookView(); }
         window.addEventListener('resize', updateBookView); updateBookView();
 
-        // --- TRANSLATIONS ---
+        /* TRANSLATIONS */
         const translations = {
             de: {
                 nav_home: "Startseite", nav_story: "Über Uns", nav_menu: "Speisekarte", nav_offers: "Angebote", nav_contact: "Kontakt",
                 btn_order: "Bestellen", hero_title: "Zafran Delight", hero_subtitle: "Authentische indische & pakistanische Küche.",
                 btn_book: "Tisch Reservieren", btn_pickup: "Abholung Bestellen", about_title: "Ein herzliches Willkommen",
-                story_p1: "Treten Sie ein ins Zafran Delight und erleben Sie die wahre Wärme südasiatischer Gastfreundschaft. Unsere Reise begann mit einer einfachen Vision: die authentischen Aromen Indiens und Pakistans nach Euskirchen zu bringen.",
-                story_p2: "Der Name \"Zafran\" bedeutet Safran – das kostbarste Gewürz der Welt. Wie Safran streben wir danach, jeder Mahlzeit eine Note von Exzellenz und Luxus zu verleihen.",
-                story_p3: "Egal, ob Sie für ein gemütliches Familienessen oder einen schnellen Mittagstisch vorbeikommen, unsere Atmosphäre lädt zum Verweilen ein.",
+                story_p1: "Treten Sie ein ins Zafran Delight und erleben Sie die wahre Wärme südasiatischer Gastfreundschaft.",
                 feat_cuisine: "Küche", feat_cuisine_desc: "Indische & Pakistanische Spezialitäten",
                 feat_ambiance: "Ambiente", feat_ambiance_desc: "Gemütlich & Familienfreundlich",
                 feat_dining: "Essen", feat_dining_desc: "Mittag- & Abendessen",
@@ -636,14 +617,14 @@
                 menu_title: "Unsere Speisekarte", menu_subtitle: "Blättern Sie durch unsere authentischen Gerichte",
                 offer_title: "Events & Angebote", tag_weekly: "Wochen-Spezial", lamb_title: "Lamm-Woche", chicken_title: "Hähnchen-Woche",
                 week_2_only: "Nur 2. Woche des Monats", week_3_only: "Nur 3. Woche des Monats",
-                off_lamb_10: "10% Rabatt auf alle Lammgerichte", off_chicken_10: "10% Rabatt auf alle Hähnchengerichte",
+                off_lamb_10: "10% Rabatt", off_chicken_10: "10% Rabatt",
                 min_order_30: "Mindestbestellwert: 30 €", tag_lunch: "Mittagsangebot", lunch_title: "Mittagstisch", lunch_time: "Di-Fr 12:00 - 15:00 Uhr", dine_in_only: "*Nur im Restaurant (Dine-in)",
                 tag_event: "Event", buffet_title: "Sonntagsbuffet", buffet_time: "Jeden letzten Sonntag", buffet_desc: "All-you-can-eat Spezialitäten", btn_book_buffet: "Tisch Buchen",
                 tag_deal: "Online Deal", discount_title: "Abhol-Rabatt", discount_desc: "10% Rabatt ab 40 €",
                 visit_title: "Besuchen Sie uns", contact_info: "Kontakt", address: "Adresse", phone: "Telefon", hours: "Öffnungszeiten",
                 mon: "Montag", tue: "Dienstag", wed: "Mittwoch", thu: "Donnerstag", fri: "Freitag", sat: "Samstag", sun: "Sonntag",
                 prev: "Zurück", next: "Weiter", modal_title: "Buffet Reservierung", form_name: "Name", form_email: "Email", form_phone: "Telefon", form_date: "Datum (Sonntag)", form_guests: "Gäste", btn_submit: "Reservieren",
-                success_title: "Vielen Dank!", success_msg: "Ihre Reservierung ist eingegangen. Wir werden diese innerhalb von 24 Stunden bestätigen.",
+                success_title: "Vielen Dank!", success_msg: "Ihre Reservierung ist eingegangen.",
                 footer_imprint_title: "Impressum", footer_imprint_text: "Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
                 footer_rights: "© 2025 Zafran Delight. All Rights Reserved."
             },
@@ -651,9 +632,7 @@
                 nav_home: "Home", nav_story: "Our Story", nav_menu: "Menu", nav_offers: "Offers", nav_contact: "Contact",
                 btn_order: "Order Now", hero_title: "Zafran Delight", hero_subtitle: "Authentic Indian & Pakistani Cuisine.",
                 btn_book: "Book a Table", btn_pickup: "Order Pickup", about_title: "A Warm Welcome",
-                story_p1: "Step into Zafran Delight and experience the true warmth of South Asian hospitality. Our journey began with a simple vision: to bring the authentic flavors of India and Pakistan to Euskirchen.",
-                story_p2: "The name \"Zafran\" means Saffron – the world's most precious spice. Like saffron, we strive to add a touch of excellence and luxury to every meal.",
-                story_p3: "Whether you're joining us for a cozy family dinner or a quick lunch special, our atmosphere invites you to stay.",
+                story_p1: "Step into Zafran Delight and experience the true warmth of South Asian hospitality.",
                 feat_cuisine: "Cuisine", feat_cuisine_desc: "Indian & Pakistani Specialties",
                 feat_ambiance: "Ambiance", feat_ambiance_desc: "Cosy, Casual & Family-friendly",
                 feat_dining: "Dining", feat_dining_desc: "Lunch & Dinner Service",
@@ -663,14 +642,14 @@
                 menu_title: "Our Full Menu", menu_subtitle: "Flip to explore authentic dishes",
                 offer_title: "Specials & Events", tag_weekly: "Weekly Special", lamb_title: "Lamb Week", chicken_title: "Chicken Week",
                 week_2_only: "Only 2nd Week of the Month", week_3_only: "Only 3rd Week of the Month",
-                off_lamb_10: "10% off all Lamb dishes", off_chicken_10: "10% off all Chicken dishes",
+                off_lamb_10: "10% off", off_chicken_10: "10% off",
                 min_order_30: "Minimum order: 30 €", tag_lunch: "Lunch Deal", lunch_title: "Lunch Menu", lunch_time: "Tue-Fri 12:00 - 3:00 PM", dine_in_only: "*Dine-in Only",
                 tag_event: "Event", buffet_title: "Sunday Grand Buffet", buffet_time: "Every Last Sunday", buffet_desc: "All-you-can-eat specialties", btn_book_buffet: "Book Buffet Table",
                 tag_deal: "Online Deal", discount_title: "Pickup Special", discount_desc: "10% OFF orders over 40 €",
                 visit_title: "Visit Us", contact_info: "Contact Info", address: "Address", phone: "Phone", hours: "Opening Hours",
                 mon: "Monday", tue: "Tuesday", wed: "Wednesday", thu: "Thursday", fri: "Friday", sat: "Saturday", sun: "Sunday",
                 prev: "Prev", next: "Next", modal_title: "Buffet Reservation", form_name: "Name", form_email: "Email", form_phone: "Phone", form_date: "Date (Sunday)", form_guests: "Guests", btn_submit: "Reserve Now",
-                success_title: "Thank You!", success_msg: "Your reservation has been received. We will confirm it within 24 hours.",
+                success_title: "Thank You!", success_msg: "Your reservation has been received.",
                 footer_imprint_title: "Imprint", footer_imprint_text: "Owner: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
                 footer_rights: "© 2025 Zafran Delight. All Rights Reserved."
             }
