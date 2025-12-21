@@ -9,12 +9,10 @@
     
     <style>
         /* ===============================================
-           LANDING PAGE OVERRIDES (Fixes Layout Issues)
+           LANDING PAGE OVERRIDES
         =============================================== */
         
-        /* 1. RESET GLOBAL SECTION STYLES for Landing Page */
-        /* The global style.css makes sections look like small cards. 
-           We override this here to make them Full Width stripes. */
+        /* 1. RESET SECTIONS TO FULL WIDTH */
         body > section {
             max-width: none !important;
             width: 100% !important;
@@ -24,7 +22,7 @@
             box-shadow: none !important;
         }
 
-        /* 2. HEADER OVERLAY */
+        /* 2. HEADER (Fixed Overlay) */
         header { 
             position: fixed !important; 
             top: 0; 
@@ -36,7 +34,7 @@
 
         /* 3. HERO SECTION */
         .hero { 
-            height: 100vh; /* Full viewport height */
+            height: 100vh; 
             background: linear-gradient(rgba(0,0,0,0.6), rgba(18, 10, 10, 1)), url('hero-bg.png'); 
             background-size: cover; 
             background-position: center; 
@@ -63,13 +61,12 @@
             margin-right: auto; 
         }
 
-        /* 4. GENERIC LAYOUT UTILS */
+        /* 4. UTILS */
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .section-padding { padding: 80px 0; }
         .text-center { text-align: center; }
-        .text-left { text-align: left; }
-
-        /* BUTTONS */
+        
+        /* Buttons */
         .btn { padding: 12px 30px; border-radius: 4px; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; cursor: pointer; border: none; transition: transform 0.2s, box-shadow 0.2s; display: inline-block; text-decoration: none; }
         .btn-gold { background: linear-gradient(135deg, var(--gold-primary), #b8860b); color: #120a0a; }
         .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); color: #000; }
@@ -125,7 +122,6 @@
         .offer-card { border-radius: 12px; padding: 30px 20px; text-align: center; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.6); transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; align-items: center; min-height: 350px; }
         .offer-card:hover { transform: translateY(-5px); }
         
-        /* Card Colors */
         .buffet-card { background: linear-gradient(145deg, #1a0a0a, #3e2723); border: 2px solid var(--gold-primary); }
         .discount-card { background: linear-gradient(145deg, #461111, #2c0b0b); border: 2px dashed #b71c1c; }
         .lamb-card { background: linear-gradient(145deg, #2c1e0b, #3e2723); border: 2px solid #c0392b; }
@@ -139,24 +135,19 @@
         .lunch-price { font-size: 1.8rem; color: var(--fresh-green); font-family: var(--font-head); font-weight: bold; }
         .code-box { background: #fff; color: #800000; padding: 8px 20px; font-weight: 800; font-size: 1.2rem; border-radius: 6px; display: inline-block; margin-top: 15px; }
 
-        /* 8. CONTACT SECTION (Fixing the "Totally Wrong" layout) */
+        /* 8. CONTACT SECTION */
         .contact-section { background: var(--bg-dark); padding: 80px 0; border-top: 1px solid var(--gold-muted); }
         
-        /* New 2-Column Grid */
         .contact-container-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 Columns: Info | Map */
+            grid-template-columns: 1fr 1fr;
             gap: 40px;
             align-items: stretch;
         }
 
-        .contact-info-col {
-            padding-right: 20px;
-        }
+        .contact-info-col { padding-right: 20px; }
 
-        .contact-block {
-            margin-bottom: 30px;
-        }
+        .contact-block { margin-bottom: 30px; }
         .contact-block h3 {
             font-size: 1.5rem;
             color: var(--gold-primary);
@@ -205,17 +196,28 @@
         .qr-item img { width: 100%; display: block; }
         .qr-item span { color: #000; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; display: block; margin-top: 5px; }
 
-        /* MODAL */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: none; justify-content: center; align-items: center; }
-        .modal-overlay.open { display: flex; }
-        .modal-box { background: #fdfbf7; color: #222; padding: 40px; border-radius: 8px; width: 90%; max-width: 500px; border: 4px solid var(--gold-primary); position: relative; }
-        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #800000; }
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #8e0000; }
-        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
-        .modal-btn { width: 100%; padding: 12px; background: #8e0000; color: #fff; font-weight: bold; border: none; cursor: pointer; margin-top: 10px; }
-        .success-message { display: none; text-align: center; }
-        .success-icon { font-size: 3rem; color: var(--fresh-green); display: block; margin-bottom: 10px; }
+        /* 9. FOOTER CLEANUP */
+        footer {
+            background-color: #080404 !important;
+            padding: 40px 0 20px 0 !important;
+            border-top: 1px solid #222 !important;
+            color: #888;
+            margin-top: 0 !important;
+        }
+        .footer-logo {
+            max-width: 120px; /* Reduced Size */
+            height: auto;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .site-credit-footer {
+            background-color: transparent !important; /* Remove black box */
+            padding: 20px 0 0 0;
+            border-top: 1px solid #1a1a1a;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #666;
+        }
 
         /* RESPONSIVE */
         @media (max-width: 992px) { 
@@ -229,6 +231,18 @@
             .book-spine { display: none; } .book-page { width: 100%; padding: 20px; border-right: none; }
             .offers-grid { grid-template-columns: 1fr; }
         }
+        
+        /* Modal Styles */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: none; justify-content: center; align-items: center; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { background: #fdfbf7; color: #222; padding: 40px; border-radius: 8px; width: 90%; max-width: 500px; border: 4px solid var(--gold-primary); position: relative; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #800000; }
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #8e0000; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        .modal-btn { width: 100%; padding: 12px; background: #8e0000; color: #fff; font-weight: bold; border: none; cursor: pointer; margin-top: 10px; }
+        .success-message { display: none; text-align: center; }
+        .success-icon { font-size: 3rem; color: var(--fresh-green); display: block; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -277,6 +291,7 @@
                 <p class="story-text" data-i18n="story_p1">
                     Treten Sie ein ins <span class="highlight">Zafran Delight</span> und erleben Sie die wahre Wärme südasiatischer Gastfreundschaft. Unsere Reise begann mit einer einfachen Vision: die authentischen Aromen Indiens und Pakistans nach Euskirchen zu bringen.
                 </p>
+                
                 <div class="features-wrapper">
                     <div class="feature-box">
                         <svg class="feature-icon icon-gold" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
@@ -343,56 +358,47 @@
                     <div class="menu-item"><h5 class="item-num">32.</h5><h5>Chicken Curry</h5><span>14,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">33.</h5><h5>Chicken Tikka Masala</h5><span>15,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">34.</h5><h5>Chicken Korma</h5><span>15,00 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">35.</h5><h5>Butter Chicken</h5><span>15,50 €</span></div>
                     <div class="page-num">- 5 -</div>
                 </div>
                 <div class="book-page" data-page="6">
                     <h3 class="menu-category-title">Hähnchen (Forts.)</h3>
                     <div class="menu-item"><h5 class="item-num">39.</h5><h5>Chicken Kadai</h5><span>15,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">40.</h5><h5>Chicken Bhuna</h5><span>15,50 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">41.</h5><h5>Vegi Chicken</h5><span>15,00 €</span></div>
                     <div class="page-num">- 6 -</div>
                 </div>
                 <div class="book-page" data-page="7">
                     <h3 class="menu-category-title">Lamm</h3>
                     <div class="menu-item"><h5 class="item-num">46.</h5><h5>Lamb Curry</h5><span>17,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">47.</h5><h5>Lamb Tikka Masala</h5><span>17,50 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">48.</h5><h5>Lamb Korma</h5><span>17,00 €</span></div>
                     <div class="page-num">- 7 -</div>
                 </div>
                 <div class="book-page" data-page="8">
                     <h3 class="menu-category-title">Lamm (Forts.)</h3>
                     <div class="menu-item"><h5 class="item-num">53.</h5><h5>Lamb Kadai</h5><span>17,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">54.</h5><h5>Lamb Bhuna</h5><span>17,50 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">55.</h5><h5>Vegi Lamb</h5><span>17,00 €</span></div>
                     <div class="page-num">- 8 -</div>
                 </div>
                 <div class="book-page" data-page="9">
                     <h3 class="menu-category-title">Seafood</h3>
                     <div class="menu-item"><h5 class="item-num">60.</h5><h5>Prawn Curry</h5><span>18,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">61.</h5><h5>Prawn Korma</h5><span>18,50 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">63.</h5><h5>Fish Curry</h5><span>18,50 €</span></div>
                     <div class="page-num">- 9 -</div>
                 </div>
                 <div class="book-page" data-page="10">
                     <h3 class="menu-category-title">Tandoori</h3>
                     <div class="menu-item"><h5 class="item-num">65.</h5><h5>Chicken Tikka</h5><span>17,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">66.</h5><h5>Tandoori Chicken</h5><span>17,50 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">68.</h5><h5>Haryali Tikka</h5><span>17,50 €</span></div>
                     <div class="page-num">- 10 -</div>
                 </div>
                 <div class="book-page" data-page="11">
                     <h3 class="menu-category-title">Brot & Beilagen</h3>
                     <div class="menu-item"><h5 class="item-num">80.</h5><h5>Frisches Tandoori Brot</h5><span>3,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">82.</h5><h5>Naan</h5><span>3,00 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">85.</h5><h5>Butter Naan</h5><span>3,50 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">86.</h5><h5>Garlic Naan</h5><span>4,50 €</span></div>
                     <div class="page-num">- 11 -</div>
                 </div>
                 <div class="book-page" data-page="12">
                     <h3 class="menu-category-title">Dessert & Drinks</h3>
                     <div class="menu-item"><h5 class="item-num">106.</h5><h5>Mango Kulfi</h5><span>5,50 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">109.</h5><h5>Gulab Jamun</h5><span>5,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">112.</h5><h5>Mango Lassi</h5><span>4,50 €</span></div>
                     <div class="page-num">- 12 -</div>
                 </div>
@@ -406,7 +412,7 @@
 
     <section id="offers" class="offers-section">
         <div class="container">
-            <h2 class="text-left" style="font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 40px;" data-i18n="offer_title">Events & Angebote</h2>
+            <h2 class="text-center" style="font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 40px;" data-i18n="offer_title">Events & Angebote</h2>
             <div class="offers-grid">
                 
                 <div class="offer-card lamb-card">
@@ -459,7 +465,7 @@
 
     <section id="visit" class="section-padding contact-section">
         <div class="container">
-            <h2 class="text-left" style="margin-bottom: 40px; font-size: 2.5rem; color: var(--gold-primary);" data-i18n="visit_title">Besuchen Sie uns</h2>
+            <h2 class="text-center" style="margin-bottom: 40px; font-size: 2.5rem; color: var(--gold-primary);" data-i18n="visit_title">Besuchen Sie uns</h2>
             
             <div class="contact-container-grid">
                 <div class="contact-info-col">
@@ -508,12 +514,13 @@
 
     <footer>
         <div class="container text-center">
-            <img src="logo.png" class="footer-logo" alt="Zafran">
+            <img src="logo.png" class="footer-logo" alt="Zafran" style="max-width: 120px;">
             
             <div style="margin-bottom: 30px;">
                 <h5 style="color: var(--gold-primary);" data-i18n="footer_imprint_title">Impressum</h5>
                 <p style="font-size: 0.9rem;" data-i18n="footer_imprint_text">Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen</p>
             </div>
+            
             <div class="site-credit-footer">
                 <p data-i18n="footer_rights">© 2025 Zafran Delight. All Rights Reserved.</p>
                 <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank">Shri Avinash Narendhran S V</a> +49 162 3757839</p>
