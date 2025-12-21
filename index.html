@@ -8,49 +8,24 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* --- PAGE SPECIFIC STYLES (Hero & 3D Book) --- */
-        /* Hero Section with Background Image */
+        /* PAGE SPECIFIC STYLES (Hero, 3D Book, Features) */
         .hero { 
             height: 90vh; 
             background: linear-gradient(rgba(0,0,0,0.5), rgba(18, 10, 10, 0.9)), url('hero-bg.png'); 
-            background-size: cover; 
-            background-position: center; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            text-align: center; 
-            margin-top: 0; 
+            background-size: cover; background-position: center; 
+            display: flex; align-items: center; justify-content: center; text-align: center; margin-top: 0; 
         }
-        .hero-content h1 { 
-            font-size: 4.5rem; 
-            margin-bottom: 15px; 
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8); 
-            color: var(--gold-bright); 
-            font-family: var(--font-head);
-        }
-        .hero-content p { 
-            font-size: 1.4rem; 
-            margin-bottom: 35px; 
-            color: #f1f1f1; 
-            font-style: italic; 
-            max-width: 700px; 
-            margin-left: auto; 
-            margin-right: auto; 
-        }
+        .hero-content h1 { font-size: 4.5rem; margin-bottom: 15px; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); color: var(--gold-bright); font-family: var(--font-head); }
+        .hero-content p { font-size: 1.4rem; margin-bottom: 35px; color: #f1f1f1; font-style: italic; max-width: 700px; margin: 0 auto 35px auto; }
 
-        /* Feature Boxes */
         .features-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
-        .feature-box { background: var(--bg-panel); padding: 35px 25px; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.1); text-align: center; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 100%; }
+        .feature-box { background: var(--bg-panel); padding: 35px 25px; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.1); text-align: center; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; height: 100%; }
         .feature-box:hover { background: #2a1818; transform: translateY(-5px); border-color: var(--gold-primary); }
         .feature-icon { width: 45px; height: 45px; margin-bottom: 15px; }
-        .icon-gold { fill: var(--gold-primary); } 
-        .icon-orange { fill: var(--spice-orange); }
-        .icon-red { fill: var(--spice-red); }
-        
+        .icon-gold { fill: var(--gold-primary); } .icon-orange { fill: var(--spice-orange); } .icon-red { fill: var(--spice-red); }
         .feature-box h4 { margin-bottom: 10px; font-size: 1.25rem; color: var(--text-light); }
         .feature-box p { font-size: 0.95rem; color: #ccc; margin-bottom: 0; }
 
-        /* 3D Menu Book Styling */
         .menu-book-section { background: url('hero-bg.png') no-repeat center center/cover; position: relative; padding: 80px 0; margin-top: 50px; }
         .menu-book-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(18, 10, 10, 0.95); }
         .book-wrapper { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 15px; }
@@ -72,7 +47,6 @@
         .nav-btn:disabled { background: #333; color: #777; cursor: not-allowed; }
         .page-num { text-align: center; font-size: 0.8rem; margin-top: auto; color: #aaa; padding-top: 20px; }
 
-        /* Offers Section */
         .offers-section { background: var(--bg-panel); padding: 100px 20px; background-image: radial-gradient(circle at center, #2a1010 0%, #120a0a 100%); }
         .offers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
         .offer-card { border-radius: 12px; padding: 30px 20px; text-align: center; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.6); transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; align-items: center; min-height: 350px; }
@@ -81,32 +55,26 @@
         .buffet-card { background: linear-gradient(145deg, #1a0a0a, #3e2723); border: 2px solid var(--gold-primary); }
         .lunch-card { background: linear-gradient(145deg, #0b2c15, #0a1a0f); border: 2px solid var(--fresh-green); }
         .lamb-card { background: linear-gradient(145deg, #2c1e0b, #3e2723); border: 2px solid #c0392b; }
-        .chicken-card { background: linear-gradient(145deg, #2c1e0b, #3e2723); border: 2px solid #d35400; }
-
+        
         .offer-title { font-size: 1.5rem; color: #fff; margin-bottom: 10px; font-family: var(--font-head); }
         .offer-detail { font-size: 1.1rem; color: #ddd; margin: 15px 0; }
         .offer-tag { background: #fff; color: #000; padding: 5px 12px; border-radius: 15px; font-weight: bold; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 15px; }
         .buffet-price { font-size: 2rem; color: var(--gold-bright); font-family: var(--font-head); margin: 10px 0; }
         .lunch-price { font-size: 1.8rem; color: var(--fresh-green); font-family: var(--font-head); font-weight: bold; }
-        .code-box { background: #fff; color: #800000; padding: 8px 20px; font-weight: 800; font-size: 1.2rem; border-radius: 6px; display: inline-block; margin-top: 15px; }
 
-        /* Contact Section */
         .contact-section { background: var(--bg-panel); border-top: 1px solid rgba(212, 175, 55, 0.1); }
         .contact-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 40px; align-items: start; }
         .contact-col { background: rgba(0,0,0,0.2); padding: 30px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05); height: 100%; }
         .contact-col h3 { font-size: 1.5rem; margin-bottom: 25px; border-bottom: 2px solid var(--gold-primary); padding-bottom: 10px; display: inline-block; }
-        
         .contact-list { list-style: none; padding: 0; }
         .contact-list li { display: flex; align-items: flex-start; margin-bottom: 25px; }
         .contact-icon-box { min-width: 40px; height: 40px; background: rgba(212, 175, 55, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; border: 1px solid var(--gold-muted); }
         .contact-icon-box svg { width: 20px; height: 20px; fill: var(--gold-bright); }
         .contact-details span { display: block; font-size: 0.8rem; text-transform: uppercase; color: var(--spice-orange); font-weight: bold; margin-bottom: 3px; }
         .contact-details p, .contact-details a { color: #ddd; font-size: 1.05rem; line-height: 1.4; display: block; }
-        
         .map-container-3col { width: 100%; height: 100%; min-height: 350px; border-radius: 4px; overflow: hidden; border: 2px solid var(--gold-primary); }
         .map-container-3col iframe { width: 100%; height: 100%; border: 0; filter: contrast(1.1); }
 
-        /* Responsive Fixes */
         @media (max-width: 992px) { .features-wrapper { grid-template-columns: repeat(2, 1fr); } .contact-grid-3 { grid-template-columns: 1fr 1fr; } .map-col { grid-column: span 2; } }
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 3rem; }
@@ -161,26 +129,9 @@
             <div class="about-text-container">
                 <h2 style="font-size: 3rem; margin-bottom: 25px;" data-i18n="about_title">Ein herzliches Willkommen</h2>
                 <p class="story-text" data-i18n="story_p1">
-                    Treten Sie ein ins <span class="highlight">Zafran Delight</span> und erleben Sie die wahre Wärme südasiatischer Gastfreundschaft. Unsere Reise begann mit einer einfachen Vision: die authentischen Aromen Indiens und Pakistans nach Euskirchen zu bringen.
+                    Treten Sie ein ins <span class="highlight">Zafran Delight</span> und erleben Sie die wahre Wärme südasiatischer Gastfreundschaft...
                 </p>
-                <div class="features-wrapper">
-                    <div class="feature-box">
-                        <svg class="feature-icon icon-gold" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
-                        <h4 data-i18n="feat_cuisine">Küche</h4>
-                        <p data-i18n="feat_cuisine_desc">Indische & Pakistanische Spezialitäten</p>
-                    </div>
-                    <div class="feature-box">
-                        <svg class="feature-icon icon-orange" viewBox="0 0 24 24"><path d="M16.5 12c1.38 0 2.49-1.12 2.49-2.5S17.88 7 16.5 7c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5zm-9 0c1.38 0 2.49-1.12 2.49-2.5S8.88 7 7.5 7C6.12 7 5 8.12 5 9.5S6.12 12 7.5 12zm9 1.5h-1.85c-.53.37-1.16.61-1.85.72v4.04c2.04.33 3.6 2.12 3.6 4.24H18c0-2.21-1.79-4-4-4s-4 1.79-4 4H8.5c0-2.12 1.56-3.91 3.6-4.24v-4.04c-.69-.11-1.32-.35-1.85-.72H8.4c-1.96 0-3.57 1.35-4.19 3.27L3 16.5l1.9 1.1.8-3.2c.36-.93 1.19-1.9 2.7-1.9h7.2c1.51 0 2.34.97 2.7 1.9l.8 3.2 1.9-1.1-1.21-4.48c-.62-1.92-2.23-3.27-4.19-3.27z"/></svg>
-                        <h4 data-i18n="feat_ambiance">Ambiente</h4>
-                        <p data-i18n="feat_ambiance_desc">Gemütlich & Familienfreundlich</p>
-                    </div>
-                    <div class="feature-box">
-                        <svg class="feature-icon icon-gold" viewBox="0 0 24 24"><path d="M12 3v1.4c-4.42.4-8 4.19-8 8.85v1.25h16v-1.25c0-4.66-3.58-8.45-8-8.85V3h-2zM4 16v2.5c0 .83.67 1.5 1.5 1.5h13c.83 0 1.5-.67 1.5-1.5V16H4zm10-9h-1.5v3h-1v-3H10V5h4v2z"/></svg>
-                        <h4 data-i18n="feat_dining">Essen</h4>
-                        <p data-i18n="feat_dining_desc">Mittag- & Abendessen</p>
-                    </div>
                 </div>
-            </div>
         </div>
     </section>
 
@@ -196,17 +147,14 @@
                     <h3 class="menu-category-title">Suppen</h3>
                     <div class="menu-item"><h5 class="item-num">1.</h5><h5>Tomatensuppe</h5><span>5,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">2.</h5><h5>Daal Linsensuppe</h5><span>5,00 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">3.</h5><h5>Hähnchen Suppe</h5><span>6,00 €</span></div>
                     <div class="page-num">- 1 -</div>
                 </div>
                 <div class="book-page active" data-page="2">
                     <h3 class="menu-category-title">Vorspeisen</h3>
                     <div class="menu-item"><h5 class="item-num">5.</h5><h5>Veg. Samosa</h5><span>5,00 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">6.</h5><h5>Chicken Samosa</h5><span>5,50 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">8.</h5><h5>Mix Pakora</h5><span>5,50 €</span></div>
                     <div class="page-num">- 2 -</div>
                 </div>
-                </div>
+            </div>
             <div class="book-nav">
                 <button class="nav-btn" id="prevBtn" onclick="changePage(-1)" disabled>← <span data-i18n="prev">Zurück</span></button>
                 <button class="nav-btn" id="nextBtn" onclick="changePage(1)"><span data-i18n="next">Weiter</span> →</button>
@@ -214,70 +162,23 @@
         </div>
     </section>
 
-    <section id="offers" class="offers-section">
-        <div class="container">
-            <h2 class="text-center" style="font-size: 2.5rem; color: var(--gold-primary); margin-bottom: 40px;" data-i18n="offer_title">Events & Angebote</h2>
-            <div class="offers-grid">
-                <div class="offer-card lunch-card">
-                    <span class="offer-tag" style="background: var(--fresh-green); color: #fff;" data-i18n="tag_lunch">Mittagsangebot</span>
-                    <h3 class="offer-title" data-i18n="lunch_title">Mittagstisch</h3>
-                    <div class="offer-detail">
-                        <div class="lunch-price">Veg: 8,00 €</div>
-                        <div class="lunch-price">Chicken: 10,00 €</div>
-                    </div>
-                </div>
-                <div class="offer-card buffet-card">
-                    <span class="offer-tag" style="background: var(--gold-primary); color: #000;" data-i18n="tag_event">Event</span>
-                    <h3 class="offer-title" data-i18n="buffet_title">Sonntagsbuffet</h3>
-                    <div class="buffet-price">20,00 €</div>
-                    <p data-i18n="buffet_desc" style="color:#ccc;">All-you-can-eat Spezialitäten</p>
-                </div>
-                <div class="offer-card lamb-card">
-                    <span class="offer-tag" style="background: var(--spice-red); color: #fff;" data-i18n="tag_weekly">Wochen-Spezial</span>
-                    <h3 class="offer-title" data-i18n="lamb_title">Lamm-Woche</h3>
-                    <div class="offer-detail">
-                        <p style="color:var(--gold-bright)" data-i18n="off_lamb_10">10% Rabatt</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="visit" class="section-padding contact-section">
-        <div class="container">
-            <div class="text-center" style="margin-bottom: 50px;">
-                <h2 data-i18n="visit_title">Besuchen Sie uns</h2>
-            </div>
-            <div class="contact-grid-3">
-                <div class="contact-col">
-                    <h3 data-i18n="contact_info">Kontakt</h3>
-                    <ul class="contact-list">
-                        <li>
-                            <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></div>
-                            <div class="contact-details"><span data-i18n="address">Adresse</span><p>Kessenicher Straße 9<br>53879 Euskirchen</p></div>
-                        </li>
-                        <li>
-                            <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
-                            <div class="contact-details"><span data-i18n="phone">Telefon</span><a href="tel:022511290950">02251 1290950</a></div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="contact-col map-col" style="padding: 0; border: none; background: transparent;">
-                    <div class="map-container-3col"><iframe src="https://maps.google.com/maps?q=Kessenicher%20Stra%C3%9Fe%209%2C%2053879%20Euskirchen&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <footer>
         <div class="container text-center">
             <img src="logo.png" class="footer-logo" alt="Zafran">
+            
+            <div style="margin-bottom: 20px;">
+                <div class="lang-switch" style="display: inline-flex;">
+                    <button class="lang-btn active" onclick="setLang('de')">DE</button>
+                    <button class="lang-btn" onclick="setLang('en')">EN</button>
+                </div>
+            </div>
+
             <div style="margin-bottom: 30px;">
-                <h5 style="color: var(--gold-primary);">Impressum</h5>
-                <p style="font-size: 0.9rem;">Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen</p>
+                <h5 style="color: var(--gold-primary);" data-i18n="footer_imprint_title">Impressum</h5>
+                <p style="font-size: 0.9rem;" data-i18n="footer_imprint_text">Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen</p>
             </div>
             <div class="site-credit-footer">
-                <p>© 2025 Zafran Delight. All Rights Reserved.</p>
+                <p data-i18n="footer_rights">© 2025 Zafran Delight. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
@@ -285,11 +186,9 @@
     <script>
         function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
 
-        // --- BOOK LOGIC ---
         let currentPage = 1; const totalPages = 2; 
         const pages = document.querySelectorAll('.book-page'); 
-        const prevBtn = document.getElementById('prevBtn'); 
-        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn'); const nextBtn = document.getElementById('nextBtn');
 
         function updateBookView() {
             const isMobile = window.innerWidth <= 768; 
@@ -301,50 +200,39 @@
                 let left = (currentPage % 2 === 0) ? currentPage - 1 : currentPage;
                 const p1 = document.querySelector(`.book-page[data-page="${left}"]`);
                 const p2 = document.querySelector(`.book-page[data-page="${left+1}"]`);
-                if(p1) p1.classList.add('active');
-                if(p2) p2.classList.add('active');
+                if(p1) p1.classList.add('active'); if(p2) p2.classList.add('active');
             }
             prevBtn.disabled = currentPage === 1;
-            // Simple logic for example
             nextBtn.disabled = (currentPage >= totalPages); 
         }
         function changePage(d) { currentPage += d; updateBookView(); }
-        window.addEventListener('resize', updateBookView);
-        updateBookView();
+        window.addEventListener('resize', updateBookView); updateBookView();
 
-        // --- LANGUAGE LOGIC ---
+        // TRANSLATIONS INCLUDING FOOTER
         const translations = {
             de: {
                 nav_home: "Startseite", nav_story: "Über Uns", nav_menu: "Speisekarte", nav_offers: "Angebote", nav_contact: "Kontakt",
                 btn_order: "Bestellen", hero_title: "Zafran Delight", hero_subtitle: "Authentische indische & pakistanische Küche.",
                 btn_book: "Tisch Reservieren", btn_pickup: "Abholung Bestellen", about_title: "Ein herzliches Willkommen",
                 story_p1: "Treten Sie ein ins Zafran Delight...",
-                feat_cuisine: "Küche", feat_cuisine_desc: "Indische & Pakistanische Spezialitäten",
-                feat_ambiance: "Ambiente", feat_ambiance_desc: "Gemütlich & Familienfreundlich",
-                feat_dining: "Essen", feat_dining_desc: "Mittag- & Abendessen",
                 menu_title: "Unsere Speisekarte", menu_subtitle: "Blättern Sie durch unsere authentischen Gerichte",
-                offer_title: "Events & Angebote", tag_lunch: "Mittagsangebot", lunch_title: "Mittagstisch",
-                tag_event: "Event", buffet_title: "Sonntagsbuffet", buffet_desc: "All-you-can-eat Spezialitäten",
-                tag_weekly: "Wochen-Spezial", lamb_title: "Lamm-Woche", off_lamb_10: "10% Rabatt",
+                offer_title: "Events & Angebote", lunch_title: "Mittagstisch", buffet_title: "Sonntagsbuffet",
                 visit_title: "Besuchen Sie uns", contact_info: "Kontakt", address: "Adresse", phone: "Telefon",
-                prev: "Zurück", next: "Weiter", btn_submit: "Reservieren",
-                success_title: "Vielen Dank!", success_msg: "Ihre Reservierung ist eingegangen."
+                prev: "Zurück", next: "Weiter", 
+                footer_imprint_title: "Impressum", footer_imprint_text: "Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
+                footer_rights: "© 2025 Zafran Delight. Alle Rechte vorbehalten."
             },
             en: {
                 nav_home: "Home", nav_story: "Our Story", nav_menu: "Menu", nav_offers: "Offers", nav_contact: "Contact",
                 btn_order: "Order Now", hero_title: "Zafran Delight", hero_subtitle: "Authentic Indian & Pakistani Cuisine.",
                 btn_book: "Book Table", btn_pickup: "Order Pickup", about_title: "A Warm Welcome",
                 story_p1: "Step into Zafran Delight...",
-                feat_cuisine: "Cuisine", feat_cuisine_desc: "Indian & Pakistani Specialties",
-                feat_ambiance: "Ambiance", feat_ambiance_desc: "Cozy & Family Friendly",
-                feat_dining: "Dining", feat_dining_desc: "Lunch & Dinner",
                 menu_title: "Our Menu", menu_subtitle: "Flip through our authentic dishes",
-                offer_title: "Events & Offers", tag_lunch: "Lunch Deal", lunch_title: "Lunch Menu",
-                tag_event: "Event", buffet_title: "Sunday Buffet", buffet_desc: "All-you-can-eat specialties",
-                tag_weekly: "Weekly Special", lamb_title: "Lamb Week", off_lamb_10: "10% Off",
+                offer_title: "Events & Offers", lunch_title: "Lunch Menu", buffet_title: "Sunday Buffet",
                 visit_title: "Visit Us", contact_info: "Contact", address: "Address", phone: "Phone",
-                prev: "Prev", next: "Next", btn_submit: "Reserve Now",
-                success_title: "Thank You!", success_msg: "Your reservation has been received."
+                prev: "Prev", next: "Next", 
+                footer_imprint_title: "Imprint", footer_imprint_text: "Owner: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
+                footer_rights: "© 2025 Zafran Delight. All Rights Reserved."
             }
         };
 
@@ -353,9 +241,14 @@
                 const key = el.getAttribute('data-i18n');
                 if(translations[lang][key]) el.textContent = translations[lang][key];
             });
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            // Fix: select based on text content since onclick structure varies
-            Array.from(document.querySelectorAll('.lang-btn')).find(b => b.textContent.toLowerCase() === lang).classList.add('active');
+            // Update active state on ALL lang buttons (Header and Footer)
+            const allBtns = document.querySelectorAll('.lang-btn');
+            allBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.trim().toUpperCase() === lang.toUpperCase()) {
+                    btn.classList.add('active');
+                }
+            });
         }
     </script>
 </body>
