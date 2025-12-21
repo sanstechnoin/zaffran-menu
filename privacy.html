@@ -4,23 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datenschutzerklärung - Zafran Delight</title>
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" href="favicon.png" type="image/png">
     <link rel="stylesheet" href="style.css">
     
     <style>
-        /* FIX: Push content down because Header is Fixed/Overlay */
+        /* ===============================================
+           PRIVACY PAGE OVERRIDES
+        =============================================== */
+        
         body {
             background-color: var(--bg-dark);
             color: var(--text-light);
         }
-        main {
-            padding-top: 120px; /* Space for Fixed Header */
-            padding-bottom: 50px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        /* HEADER OVERRIDES (Same as Index) */
+
+        /* 1. HEADER (Fixed Overlay - Matches Index) */
         header { 
             position: fixed !important; 
             top: 0; 
@@ -30,37 +27,93 @@
             z-index: 1000;
         }
 
-        /* Legal Page Typography */
-        h2 { color: var(--gold-primary); border-bottom: 2px solid var(--gold-muted); padding-bottom: 10px; margin-bottom: 20px; }
-        h3 { color: var(--gold-bright); margin-top: 30px; margin-bottom: 15px; }
-        h4 { color: var(--text-light); margin-top: 20px; text-decoration: underline; text-decoration-color: var(--gold-muted); }
-        p, li { color: #ccc; line-height: 1.6; }
-        strong { color: #fff; }
-        
-        /* Data Points */
-        .data-point {
-            background: var(--bg-panel);
-            padding: 15px;
-            border-left: 3px solid var(--gold-primary);
+        /* 2. MAIN LAYOUT */
+        main {
+            padding-top: 120px; /* Space for Fixed Header */
+            padding-bottom: 80px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        /* 3. TYPOGRAPHY & SECTIONS */
+        .legal-page h2 {
+            font-size: 2.2rem;
+            color: var(--gold-primary);
             margin-bottom: 10px;
-            border-radius: 0 4px 4px 0;
+            border-bottom: none !important; /* No border as requested */
+            text-align: center;
         }
         
+        .legal-page > p { text-align: center; color: var(--text-muted); margin-bottom: 40px; }
+
+        .legal-page h3 {
+            font-size: 1.5rem;
+            color: var(--gold-bright);
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-bottom: none !important;
+        }
+
+        .legal-page h4 {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-top: 25px;
+            margin-bottom: 10px;
+            text-decoration: underline;
+            text-decoration-color: var(--gold-muted);
+        }
+
+        .legal-page p, .legal-page li {
+            color: #ccc;
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        /* 4. DATA POINTS & ADDRESS */
+        .data-point {
+            background: var(--bg-panel);
+            padding: 15px 20px;
+            border-left: 3px solid var(--gold-primary);
+            margin-bottom: 15px;
+            border-radius: 0 4px 4px 0;
+        }
+        .data-point strong { color: var(--gold-bright); }
+
         address {
             font-style: normal;
             background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 4px;
-            margin-top: 10px;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
             border: 1px solid var(--border-color);
+            line-height: 1.6;
+            color: #ddd;
+        }
+        address strong { color: var(--gold-primary); font-size: 1.1em; }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--border-color);
+            margin: 40px 0;
+            opacity: 0.5;
         }
 
-        /* Footer Overrides for Consistency */
-        footer { background-color: #080404 !important; padding: 20px 0 !important; border-top: 1px solid #222 !important; margin-top: auto; }
+        /* 5. FOOTER (Matches Index) */
+        footer { background-color: #080404 !important; padding: 20px 0 !important; border-top: 1px solid #222 !important; color: #888; margin-top: auto; }
         .footer-logo { max-width: 100px; height: auto; margin-bottom: 10px; display: inline-block; }
         .site-credit-footer { background-color: transparent !important; padding: 10px 0 0 0; border-top: 1px solid #1a1a1a; margin-top: 15px; font-size: 0.8rem; color: #666; }
-        footer a { color: #888; text-decoration: none; }
+        footer h5 { margin: 0 0 5px 0; font-size: 1rem; }
+        footer p { margin: 5px 0; font-size: 0.85rem; }
+        footer a { color: #888; text-decoration: none; transition: color 0.2s; }
         footer a:hover { color: var(--gold-primary); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 3rem; }
+        }
     </style>
 </head>
 <body>
@@ -88,10 +141,12 @@
 
     <main>
         <section class="legal-page">
-            <h2 data-i18n="privacy_title">Datenschutzerklärung (DSGVO & TDDDG)</h2>
+            <h2>Datenschutzerklärung (DSGVO & TDDDG)</h2>
             <p>Stand: November 2025</p>
 
-            <h3 data-i18n="sec_1_title">1. Name und Kontaktdaten des Verantwortlichen</h3>
+            <hr>
+
+            <h3>1. 🧑‍⚖️ Name und Kontaktdaten des Verantwortlichen</h3>
             <p>Verantwortlich für die Datenverarbeitung auf dieser Website im Sinne der DSGVO ist:</p>
             <address>
                 <strong>Zafran Delight</strong><br>
@@ -101,7 +156,9 @@
                 E-Mail: delightzafran@gmail.com
             </address>
 
-            <h3 data-i18n="sec_2_title">2. Datenverarbeitung zur Durchführung von Abholbestellungen</h3>
+            <hr>
+
+            <h3>2. 🍕 Datenverarbeitung zur Durchführung von Abholbestellungen</h3>
             <p>Wir erheben und verarbeiten personenbezogene Daten <strong>ausschließlich</strong> zum Zweck der Abwicklung Ihrer Bestellung zur Abholung.</p>
 
             <h4>a) Bestell- und Kontaktdaten</h4>
@@ -132,7 +189,9 @@
                 <strong>Speicherdauer:</strong> Unmittelbar nach der Abholung und Abschluss der Bestellung gelöscht.
             </div>
 
-            <h3 data-i18n="sec_3_title">3. Datenverarbeitung für die Website-Bereitstellung (TDDDG)</h3>
+            <hr>
+
+            <h3>3. ⚙️ Datenverarbeitung für die Website-Bereitstellung (TDDDG)</h3>
             <p>Beim Aufruf unserer Website werden bestimmte technische Informationen erfasst, um die Funktionsfähigkeit und Sicherheit zu gewährleisten (Server-Logfiles).</p>
             <ul>
                 <li><strong>Verarbeitete Daten:</strong> IP-Adresse, Datum/Uhrzeit des Zugriffs, Browsertyp.</li>
@@ -141,7 +200,9 @@
                 <li><strong>Cookies/Tracking:</strong> Wir verwenden <strong>keine</strong> Tracking-Tools (wie Google Analytics) und setzen nur technisch notwendige Cookies für den Bestellvorgang ein.</li>
             </ul>
 
-            <h3 data-i18n="sec_4_title">4. Externe Dienste und Auftragsverarbeiter</h3>
+            <hr>
+
+            <h3>4. 📤 Externe Dienste und Auftragsverarbeiter</h3>
             <p>Ihre Daten werden nur im Rahmen der notwendigen technischen Abwicklung an folgende Dienstleister weitergegeben:</p>
             <ul>
                 <li><strong>Website-Hosting (GitHub Pages):</strong> Der Hostinganbieter stellt die technische Infrastruktur bereit. Es erfolgt hierdurch eine Speicherung der Server-Logfiles auf deren Servern.</li>
@@ -149,7 +210,9 @@
                 <li><strong>Kommunikation (WhatsApp):</strong> Sofern Sie uns über einen WhatsApp-Link kontaktieren, gelten die Datenschutzbestimmungen von WhatsApp (Meta Platforms).</li>
             </ul>
 
-            <h3 data-i18n="sec_5_title">5. Ihre Rechte als betroffene Person</h3>
+            <hr>
+
+            <h3>5. ⚖️ Ihre Rechte als betroffene Person</h3>
             <p>Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit, Widerspruch gegen die Verarbeitung und Widerruf der Einwilligung.</p>
             <p>Zusätzlich haben Sie das <strong>Beschwerderecht</strong> bei der zuständigen Aufsichtsbehörde:</p>
             
@@ -179,24 +242,21 @@
                     <a href="privacy.html" target="_blank" data-i18n="footer_privacy">Datenschutz</a>
                 </p>
                 <p data-i18n="footer_rights">© 2025 Zafran Delight. All Rights Reserved.</p>
-                <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank">Shri Avinash Narendhran S V</a></p>
+                <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank">Shri Avinash Narendhran S V</a> +49 162 3757839</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Simple Navigation & Language Logic
         const translations = {
             de: {
                 nav_home: "Startseite",
-                privacy_title: "Datenschutzerklärung (DSGVO & TDDDG)",
                 footer_imprint_title: "Impressum", footer_imprint_text: "Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
-                footer_rights: "© 2025 Zafran Delight. Alle Rechte vorbehalten.",
+                footer_rights: "© 2025 Zafran Delight. All Rights Reserved.",
                 footer_imprint: "Impressum", footer_privacy: "Datenschutz"
             },
             en: {
                 nav_home: "Home",
-                privacy_title: "Privacy Policy (GDPR & TDDDG)",
                 footer_imprint_title: "Imprint", footer_imprint_text: "Owner: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
                 footer_rights: "© 2025 Zafran Delight. All Rights Reserved.",
                 footer_imprint: "Imprint", footer_privacy: "Privacy Policy"
