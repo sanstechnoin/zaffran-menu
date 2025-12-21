@@ -117,29 +117,18 @@
         .contact-section { background: var(--bg-dark); padding: 80px 0; border-top: 1px solid var(--gold-muted); }
         .contact-container-grid { 
             display: grid; 
-            grid-template-columns: 1fr 1.1fr 1.3fr; /* Balanced 3-Column */
+            grid-template-columns: 1fr 1.1fr 1.3fr; 
             gap: 30px; 
             align-items: start; 
         }
         
         .contact-col h3 { font-size: 1.5rem; color: var(--gold-primary); margin-bottom: 20px; display: inline-block; }
 
-        .contact-list { list-style: none; padding: 0; }
-        .contact-list li { 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-            margin-bottom: 20px; 
-        }
-        .contact-icon-box { 
-            min-width: 40px; height: 40px; background: rgba(212, 175, 55, 0.1); 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            border: 1px solid var(--gold-muted); 
-            flex-shrink: 0;
-        }
-        .contact-icon-box svg { width: 20px; height: 20px; fill: var(--gold-bright); }
-        .contact-details span { display: block; font-size: 0.8rem; text-transform: uppercase; color: var(--spice-orange); font-weight: bold; margin: 0 0 2px 0; }
-        .contact-details p, .contact-details a { color: #ddd; font-size: 1.05rem; line-height: 1.4; display: block; margin: 0; }
+        /* CONTACT LIST ADJUSTMENTS (No Icons, Centered) */
+        .contact-list { list-style: none; padding: 0; display: flex; flex-direction: column; align-items: center; }
+        .contact-list li { margin-bottom: 25px; text-align: center; }
+        .contact-details span { display: block; font-size: 0.85rem; text-transform: uppercase; color: var(--spice-orange); font-weight: bold; margin-bottom: 5px; }
+        .contact-details p, .contact-details a { color: #ddd; font-size: 1.1rem; line-height: 1.4; display: block; }
 
         .hours-table { background: var(--bg-panel); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); }
         .hours-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); color: #ccc; }
@@ -149,7 +138,7 @@
         .map-col { height: 100%; min-height: 350px; border-radius: 8px; overflow: hidden; border: 2px solid var(--gold-primary); }
         .map-col iframe { width: 100%; height: 100%; border: 0; filter: contrast(1.1); }
 
-        .qr-section { margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; }
+        .qr-section { margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
         .qr-item { background: #fff; padding: 10px; border-radius: 6px; text-align: center; width: 100px; }
         .qr-item img { width: 100%; display: block; }
         .qr-item span { color: #000; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; display: block; margin-top: 5px; }
@@ -157,7 +146,7 @@
         /* 10. COMPACT FOOTER */
         footer { background-color: #080404 !important; padding: 20px 0 !important; border-top: 1px solid #222 !important; color: #888; margin-top: 0 !important; }
         .footer-logo { max-width: 100px; height: auto; margin-bottom: 10px; display: inline-block; }
-        .site-credit-footer { background-color: transparent !important; padding: 10px 0 0 0; border-top: 1px solid #1a1a1a; margin-top: 15px; font-size: 0.8rem; color: #666; }
+        .site-credit-footer { background-color: transparent !important; padding: 10px 0 0 0; border-top: 1px solid #1a1a1a; margin-top: 10px; font-size: 0.8rem; color: #666; }
         footer a { color: #888; text-decoration: none; transition: color 0.2s; }
         footer a:hover { color: var(--gold-primary); }
 
@@ -519,15 +508,12 @@
                     <h3 data-i18n="contact_info" class="text-center" style="display:block;">Kontakt</h3>
                     <ul class="contact-list">
                         <li>
-                            <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg></div>
                             <div class="contact-details"><span data-i18n="address">Adresse</span><p>Kessenicher Straße 9<br>53879 Euskirchen</p></div>
                         </li>
                         <li>
-                            <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg></div>
                             <div class="contact-details"><span data-i18n="phone">Telefon</span><a href="tel:022511290950">02251 1290950</a></div>
                         </li>
                         <li>
-                            <div class="contact-icon-box"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
                             <div class="contact-details"><span>Email</span><a href="mailto:delightzafran@gmail.com">delightzafran@gmail.com</a></div>
                         </li>
                     </ul>
@@ -560,7 +546,6 @@
     <footer>
         <div class="container text-center">
             <img src="logo.png" class="footer-logo" alt="Zafran" style="max-width: 100px;">
-            
             <div class="site-credit-footer">
                 <p>
                     <a href="imprint.html" target="_blank" data-i18n="footer_imprint">Impressum</a> | 
