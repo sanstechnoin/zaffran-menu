@@ -14,13 +14,12 @@
             <a href="index.html" class="logo"><img src="logo.png" alt="Zafran Delight"></a>
             
             <nav class="nav-links" id="navLinks">
-                <a href="index.html">Startseite</a>
-                <a href="index.html#about">Über Uns</a>
-                <a href="index.html#menu">Speisekarte</a>
+                <a href="index.html" data-i18n="nav_home">Startseite</a>
+                
                 <div class="header-actions">
                     <div class="lang-switch">
-                        <button class="lang-btn active">DE</button>
-                        <button class="lang-btn">EN</button>
+                        <button class="lang-btn active" onclick="setLang('de')">DE</button>
+                        <button class="lang-btn" onclick="setLang('en')">EN</button>
                     </div>
                 </div>
             </nav>
@@ -32,7 +31,7 @@
     </header>
 
     <main class="table-selection-main">
-        <h2 style="text-align: center;">Bitte wählen Sie Ihre Tischnummer</h2>
+        <h2 style="text-align: center;" data-i18n="select_table_title">Bitte wählen Sie Ihre Tischnummer</h2>
         
         <div class="table-circle-container">
             <div class="table-circle">
@@ -48,33 +47,88 @@
                 <a href="dine-in-menu.html?table=1" class="table-btn" style="--angle: 300deg;">1</a>
                 <a href="dine-in-menu.html?table=2" class="table-btn selected" style="--angle: 330deg;">2</a>
                 <a href="dine-in-menu.html?table=3" class="table-btn" style="--angle: 0deg;">3</a> 
-                
                 <img src="clock.png" alt="Zaffran" class="center-food-image">
             </div>
         </div>
     </main>
 
     <footer>
-        <div class="container">
+        <div class="container text-center">
+            
+            <div style="margin-bottom: 20px;">
+                <div class="lang-switch" style="display: inline-flex;">
+                    <button class="lang-btn active" onclick="setLang('de')">DE</button>
+                    <button class="lang-btn" onclick="setLang('en')">EN</button>
+                </div>
+            </div>
+
             <p style="font-size: 0.8rem; margin-bottom: 10px; color: #888;">
-                <strong>Zusatzstoffe:</strong> 1) mit Farbstoffen 2) Schwärzungsmittel 3) mit Konservierungsstoffen 4) Schwefeloxid 5) mit Phosphat 6) mit Antioxidationsmittel 7) mit Geschmacksverstärkern 8) gewachst 9) mit Süßungsmittel 10) mit Zuckerart(en) 11) enthält eine Phenylalaninquelle 12) kann bei übermäßigem Verzehr abführend wirken 13) chininhaltig 14) koffeinhaltig 15) Stärke 16) Eiklar 17) Sojaeiweiß 18) mit Milcheweiß
+                <strong data-i18n="footer_additives_title">Zusatzstoffe:</strong> 
+                <span data-i18n="footer_additives_text">1) mit Farbstoffen 2) Schwärzungsmittel...</span>
             </p>
             <p style="font-size: 0.8rem; margin-bottom: 15px; color: #888;">
-                <strong>Allergene:</strong> A) enthält Weizen B) enthält Krebstiere C) enthält Eier D) enthält Fisch E) enthält Erdnüsse F) enthält Soja G) enthält Milch/Laktose H) enthält Pistazien I) enthält Sellerie J) enthält Senf K) enthält Sesamsamen L) enthält Schwefeldioxid und Sulfite M) enthält Lupine N) enthält Weichtiere und Weichtiererzeugnisse
+                <strong data-i18n="footer_allergens_title">Allergene:</strong> 
+                <span data-i18n="footer_allergens_text">A) enthält Weizen B) enthält Krebstiere...</span>
             </p>
-            <p class="disclaimer" style="font-style: italic; color: #aaa;">
-                Alle Preise inkl. MwSt.. Änderungen, Irrtümer, Druckfehler vorbehalten. Es kann keine Garantie für eine 100% Vollständigkeit der Angaben übernommen werden.
+            <p class="disclaimer" style="font-style: italic; color: #aaa;" data-i18n="footer_disclaimer">
+                Alle Preise inkl. MwSt.. Änderungen, Irrtümer, Druckfehler vorbehalten.
             </p>
+            
+            <div class="site-credit-footer">
+                <p>
+                    <a href="imprint.html" target="_blank" data-i18n="footer_imprint">Impressum</a> | 
+                    <a href="privacy.html" target="_blank" data-i18n="footer_privacy">Datenschutz</a>
+                </p>
+                <p data-i18n="footer_rights">© 2025 Zafran Delight.</p>
+                <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank">Shri Avinash Narendhran S V</a></p>
+            </div>
         </div>
     </footer>
 
-    <div class="site-credit-footer">
-        <p>
-            <a href="imprint.html" target="_blank">Impressum (Imprint)</a> | 
-            <a href="privacy.html" target="_blank">Datenschutzerklärung (Privacy)</a>
-        </p>
-        <p>&copy; Zafran Delight, Euskirchen 2025</p>
-        <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank" rel="noopener">Shri Avinash Narendhran S V</a> +49 162 3757839</p>
-    </div>
+    <script>
+        const translations = {
+            de: {
+                nav_home: "Startseite",
+                select_table_title: "Bitte wählen Sie Ihre Tischnummer",
+                footer_additives_title: "Zusatzstoffe:",
+                footer_additives_text: "1) mit Farbstoffen 2) Schwärzungsmittel 3) mit Konservierungsstoffen 4) Schwefeloxid 5) mit Phosphat 6) mit Antioxidationsmittel 7) mit Geschmacksverstärkern 8) gewachst 9) mit Süßungsmittel 10) mit Zuckerart(en) 11) enthält eine Phenylalaninquelle 12) kann bei übermäßigem Verzehr abführend wirken 13) chininhaltig 14) koffeinhaltig 15) Stärke 16) Eiklar 17) Sojaeiweiß 18) mit Milcheweiß",
+                footer_allergens_title: "Allergene:",
+                footer_allergens_text: "A) enthält Weizen B) enthält Krebstiere C) enthält Eier D) enthält Fisch E) enthält Erdnüsse F) enthält Soja G) enthält Milch/Laktose H) enthält Pistazien I) enthält Sellerie J) enthält Senf K) enthält Sesamsamen L) enthält Schwefeldioxid und Sulfite M) enthält Lupine N) enthält Weichtiere und Weichtiererzeugnisse",
+                footer_disclaimer: "Alle Preise inkl. MwSt.. Änderungen, Irrtümer, Druckfehler vorbehalten. Es kann keine Garantie für eine 100% Vollständigkeit der Angaben übernommen werden.",
+                footer_imprint: "Impressum",
+                footer_privacy: "Datenschutz",
+                footer_rights: "© 2025 Zafran Delight."
+            },
+            en: {
+                nav_home: "Home",
+                select_table_title: "Please select your table number",
+                footer_additives_title: "Additives:",
+                footer_additives_text: "1) with coloring 2) blackening agent 3) with preservatives 4) sulfur oxide 5) with phosphate 6) with antioxidants 7) with flavor enhancers 8) waxed 9) with sweeteners 10) with sugars 11) contains phenylalanine 12) excessive consumption may have laxative effects 13) contains quinine 14) caffeine 15) starch 16) egg white 17) soy protein 18) with milk protein",
+                footer_allergens_title: "Allergens:",
+                footer_allergens_text: "A) contains Wheat B) contains Crustaceans C) contains Eggs D) contains Fish E) contains Peanuts F) contains Soy G) contains Milk/Lactose H) contains Pistachios I) contains Celery J) contains Mustard K) contains Sesame seeds L) contains Sulfur dioxide M) contains Lupins N) contains Molluscs",
+                footer_disclaimer: "All prices incl. VAT. Subject to changes, errors, and misprints. No guarantee for 100% completeness of information.",
+                footer_imprint: "Imprint",
+                footer_privacy: "Privacy Policy",
+                footer_rights: "© 2025 Zafran Delight."
+            }
+        };
+
+        function setLang(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) el.textContent = translations[lang][key];
+            });
+            
+            // Sync all lang buttons (Header and Footer)
+            const allBtns = document.querySelectorAll('.lang-btn');
+            allBtns.forEach(btn => {
+                btn.classList.remove('active');
+                // Check if button text matches chosen lang
+                if(btn.textContent.trim().toUpperCase() === lang.toUpperCase()) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
