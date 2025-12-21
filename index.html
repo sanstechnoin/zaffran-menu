@@ -22,7 +22,18 @@
             box-shadow: none !important;
         }
 
-        /* 2. HEADER (Fixed Overlay) */
+        /* 2. REMOVE HEADER LINES (Borders) */
+        h2 {
+            border-bottom: none !important; 
+            padding-bottom: 0 !important;
+        }
+        
+        .contact-col h3, .contact-block h3 {
+            border-bottom: none !important; 
+            padding-bottom: 0 !important;
+        }
+
+        /* 3. HEADER (Fixed Overlay) */
         header { 
             position: fixed !important; 
             top: 0; 
@@ -32,7 +43,7 @@
             z-index: 1000;
         }
 
-        /* 3. HERO SECTION */
+        /* 4. HERO SECTION */
         .hero { 
             height: 100vh; 
             background: linear-gradient(rgba(0,0,0,0.6), rgba(18, 10, 10, 1)), url('hero-bg.png'); 
@@ -61,7 +72,7 @@
             margin-right: auto; 
         }
 
-        /* 4. UTILS */
+        /* 5. UTILS */
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .section-padding { padding: 80px 0; }
         .text-center { text-align: center; }
@@ -72,20 +83,34 @@
         .btn-red { background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff; }
         .btn-red:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); }
 
-        /* 5. ABOUT & FEATURES */
+        /* 6. ABOUT & FEATURES */
         .about-text-container { max-width: 900px; margin: 0 auto 50px auto; text-align: center; }
         .story-text { font-size: 1.1rem; line-height: 1.8; color: #ddd; margin-bottom: 20px; }
         .highlight { color: var(--spice-orange); font-weight: 700; }
         
-        .features-wrapper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
-        .feature-box { background: var(--bg-panel); padding: 35px 25px; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.1); text-align: center; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; height: 100%; }
+        .features-wrapper { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; 
+            margin-top: 50px; 
+        }
+        .feature-box { 
+            background: var(--bg-panel); 
+            padding: 35px 25px; 
+            border-radius: 8px; 
+            border: 1px solid rgba(212, 175, 55, 0.1); 
+            text-align: center; 
+            transition: all 0.3s ease; 
+            display: flex; flex-direction: column; align-items: center; 
+            height: 100%; 
+        }
         .feature-box:hover { background: #2a1818; transform: translateY(-5px); border-color: var(--gold-primary); }
         .feature-icon { width: 45px; height: 45px; margin-bottom: 15px; }
         .icon-gold { fill: var(--gold-primary); } .icon-orange { fill: var(--spice-orange); } .icon-red { fill: var(--spice-red); }
         .feature-box h4 { margin-bottom: 10px; font-size: 1.25rem; color: var(--text-light); }
         .feature-box p { font-size: 0.95rem; color: #ccc; margin-bottom: 0; }
 
-        /* 6. MENU BOOK */
+        /* 7. MENU BOOK */
         .menu-book-section { background: url('hero-bg.png') no-repeat center center/cover; position: relative; padding: 100px 0; }
         .menu-book-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(18, 10, 10, 0.95); }
         .book-wrapper { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 15px; }
@@ -95,7 +120,7 @@
         .book-page.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .menu-category-title { font-family: var(--font-head); color: #8e0000; border-bottom: 2px solid var(--gold-muted); padding-bottom: 10px; margin-bottom: 20px; text-align: center; font-size: 1.8rem; }
+        .menu-category-title { font-family: var(--font-head); color: #8e0000; border-bottom: 2px solid var(--gold-muted) !important; padding-bottom: 10px !important; margin-bottom: 20px; text-align: center; font-size: 1.8rem; }
         .menu-item { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dotted #ccc; padding-bottom: 4px; }
         .menu-item h5 { margin: 0; font-size: 0.95rem; font-weight: 700; color: #1a0505; }
         .menu-item span { font-weight: 700; color: #8e0000; font-size: 0.95rem; min-width: 60px; text-align: right; }
@@ -106,7 +131,7 @@
         .nav-btn:disabled { background: #333; color: #777; cursor: not-allowed; }
         .page-num { text-align: center; font-size: 0.8rem; margin-top: auto; color: #aaa; padding-top: 20px; }
 
-        /* 7. OFFERS SECTION */
+        /* 8. OFFERS SECTION */
         .offers-section { background: var(--bg-panel); padding: 80px 0; border-top: 1px solid var(--border-color); }
         .offers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
         .offer-card { border-radius: 12px; padding: 30px 20px; text-align: center; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.6); transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; align-items: center; min-height: 350px; }
@@ -125,89 +150,45 @@
         .lunch-price { font-size: 1.8rem; color: var(--fresh-green); font-family: var(--font-head); font-weight: bold; }
         .code-box { background: #fff; color: #800000; padding: 8px 20px; font-weight: 800; font-size: 1.2rem; border-radius: 6px; display: inline-block; margin-top: 15px; }
 
-        /* 8. CONTACT SECTION (3 COLUMNS) */
+        /* 9. CONTACT SECTION */
         .contact-section { background: var(--bg-dark); padding: 80px 0; border-top: 1px solid var(--gold-muted); }
+        .contact-container-grid { display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 30px; align-items: start; }
         
-        .contact-container-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1.3fr; /* 3 Columns: Info | Hours | Map */
-            gap: 30px;
-            align-items: start;
-        }
-
         .contact-col h3 {
             font-size: 1.5rem;
             color: var(--gold-primary);
-            border-bottom: 1px solid var(--gold-muted);
-            padding-bottom: 10px;
             margin-bottom: 20px;
             display: inline-block;
         }
 
-        /* Contact Info Column */
         .contact-list { list-style: none; padding: 0; }
         .contact-list li { display: flex; align-items: flex-start; margin-bottom: 20px; }
         .contact-icon-box { 
-            min-width: 40px; height: 40px; 
-            background: rgba(212, 175, 55, 0.1); 
-            border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            margin-right: 15px; 
-            border: 1px solid var(--gold-muted); 
+            min-width: 40px; height: 40px; background: rgba(212, 175, 55, 0.1); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            margin-right: 15px; border: 1px solid var(--gold-muted); 
         }
         .contact-icon-box svg { width: 20px; height: 20px; fill: var(--gold-bright); }
         .contact-details span { display: block; font-size: 0.8rem; text-transform: uppercase; color: var(--spice-orange); font-weight: bold; margin-bottom: 3px; }
         .contact-details p, .contact-details a { color: #ddd; font-size: 1.05rem; line-height: 1.4; display: block; }
 
-        /* Hours Column */
-        .hours-table {
-            background: var(--bg-panel);
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
+        .hours-table { background: var(--bg-panel); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); }
         .hours-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); color: #ccc; }
         .hours-row:last-child { border-bottom: none; }
         .hours-row span:last-child { color: var(--gold-bright); font-weight: 600; }
 
-        /* Map Column */
-        .map-col {
-            height: 100%;
-            min-height: 350px;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 2px solid var(--gold-primary);
-        }
+        .map-col { height: 100%; min-height: 350px; border-radius: 8px; overflow: hidden; border: 2px solid var(--gold-primary); }
         .map-col iframe { width: 100%; height: 100%; border: 0; filter: contrast(1.1); }
 
-        /* QR Section */
         .qr-section { margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap; }
         .qr-item { background: #fff; padding: 10px; border-radius: 6px; text-align: center; width: 100px; }
         .qr-item img { width: 100%; display: block; }
         .qr-item span { color: #000; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; display: block; margin-top: 5px; }
 
-        /* 9. COMPACT FOOTER */
-        footer {
-            background-color: #080404 !important;
-            padding: 20px 0 !important; /* Reduced Padding */
-            border-top: 1px solid #222 !important;
-            color: #888;
-            margin-top: 0 !important;
-        }
-        .footer-logo {
-            max-width: 100px; /* Smaller Logo */
-            height: auto;
-            margin-bottom: 10px;
-            display: inline-block;
-        }
-        .site-credit-footer {
-            background-color: transparent !important;
-            padding: 10px 0 0 0;
-            border-top: 1px solid #1a1a1a;
-            margin-top: 15px;
-            font-size: 0.8rem;
-            color: #666;
-        }
+        /* 10. FOOTER */
+        footer { background-color: #080404 !important; padding: 20px 0 !important; border-top: 1px solid #222 !important; color: #888; margin-top: 0 !important; }
+        .footer-logo { max-width: 100px; height: auto; margin-bottom: 10px; display: inline-block; }
+        .site-credit-footer { background-color: transparent !important; padding: 10px 0 0 0; border-top: 1px solid #1a1a1a; margin-top: 15px; font-size: 0.8rem; color: #666; }
         footer h5 { margin: 0 0 5px 0; font-size: 1rem; }
         footer p { margin: 5px 0; font-size: 0.85rem; }
 
@@ -224,7 +205,7 @@
             .offers-grid { grid-template-columns: 1fr; }
         }
         
-        /* Modal Styles */
+        /* Modal */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 3000; display: none; justify-content: center; align-items: center; }
         .modal-overlay.open { display: flex; }
         .modal-box { background: #fdfbf7; color: #222; padding: 40px; border-radius: 8px; width: 90%; max-width: 500px; border: 4px solid var(--gold-primary); position: relative; }
@@ -300,6 +281,21 @@
                         <h4 data-i18n="feat_dining">Essen</h4>
                         <p data-i18n="feat_dining_desc">Mittag- & Abendessen</p>
                     </div>
+                    <div class="feature-box">
+                        <svg class="feature-icon icon-red" viewBox="0 0 24 24"><path d="M5 19.5h2v-14H5v14zm8-14h-2v14h2v-14zm6 14h2v-14h-2v14zM3 3v19h18V3H3zm16 17H5V5h14v15zM7 17h2v-2H7v2zm8 0h2v-2h-2v2z"/></svg>
+                        <h4 data-i18n="feat_amenities">Ausstattung</h4>
+                        <p data-i18n="feat_amenities_desc">Außenbereich & Nichtraucher</p>
+                    </div>
+                    <div class="feature-box">
+                        <svg class="feature-icon icon-orange" viewBox="0 0 24 24"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-8 4c0 .55-.45 1-1 1s-1-.45-1-1V8h2v2zm2-6c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm4 6c0 .55-.45 1-1 1s-1-.45-1-1V8h2v2z"/></svg>
+                        <h4 data-i18n="feat_takeaway">Abholung</h4>
+                        <p data-i18n="feat_takeaway_desc">Einfache Online-Bestellung</p>
+                    </div>
+                    <div class="feature-box">
+                        <svg class="feature-icon icon-gold" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66.95-2.3c.48.17.98.3 1.34.4C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/></svg>
+                        <h4 data-i18n="feat_vegetarian">Vegetarisch</h4>
+                        <p data-i18n="feat_vegetarian_desc">Frische pflanzliche Optionen</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -319,6 +315,14 @@
                     <div class="menu-item"><h5 class="item-num">2.</h5><h5>Daal Linsensuppe</h5><span>5,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">3.</h5><h5>Hähnchen Suppe</h5><span>6,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">4.</h5><h5>Mulligatawny Suppe</h5><span>6,50 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">103.</h5><h5>Gemischter Salat</h5><span>6,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">104.</h5><h5>Chicken Salat</h5><span>7,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">105.</h5><h5>Zafrani Chicken Salat</h5><span>8,50 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">97.</h5><h5>Gemüse-Frühlingsrollen</h5><span>5,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">98.</h5><h5>Pommes frites</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">99.</h5><h5>Chicken Nuggets (6 Stk.)</h5><span>4,50 €</span></div>
                     <div class="page-num">- 1 -</div>
                 </div>
                 <div class="book-page active" data-page="2">
@@ -328,6 +332,11 @@
                     <div class="menu-item"><h5 class="item-num">7.</h5><h5>Aloo Tiki</h5><span>5,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">8.</h5><h5>Mix Pakora</h5><span>5,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">9.</h5><h5>Paneer Pakora</h5><span>6,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">10.</h5><h5>Aloo Pakora</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">11.</h5><h5>Gobi Pakora</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">12.</h5><h5>Mashroom Pakora</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">13.</h5><h5>Chicken Pakora</h5><span>6,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">14.</h5><h5>Prawn Pakora</h5><span>7,50 €</span></div>
                     <div class="page-num">- 2 -</div>
                 </div>
                 <div class="book-page" data-page="3">
@@ -336,6 +345,11 @@
                     <div class="menu-item"><h5 class="item-num">16.</h5><h5>Palak Aallu</h5><span>13,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">17.</h5><h5>Saag Aallu</h5><span>13,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">18.</h5><h5>Tarka Daal</h5><span>12,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">19.</h5><h5>Bhindi Masala</h5><span>13,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">20.</h5><h5>Baingen Aallu</h5><span>13,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">21.</h5><h5>Mushroom Aallu</h5><span>13,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">22.</h5><h5>Gobi Aallu</h5><span>13,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">23.</h5><h5>Channa Masala</h5><span>12,50 €</span></div>
                     <div class="page-num">- 3 -</div>
                 </div>
                 <div class="book-page" data-page="4">
@@ -343,6 +357,11 @@
                     <div class="menu-item"><h5 class="item-num">24.</h5><h5>Veg. Korma</h5><span>13,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">25.</h5><h5>Nauratan Korma</h5><span>14,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">26.</h5><h5>Shahi Paneer</h5><span>14,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">27.</h5><h5>Paneer Tikka Masala</h5><span>14,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">28.</h5><h5>Paneer Jalfrezi</h5><span>14,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">29.</h5><h5>Paneer Bhunna Masala</h5><span>14,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">30.</h5><h5>Palak Paneer</h5><span>14,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">31.</h5><h5>Paneer Muttar Aallu</h5><span>14,50 €</span></div>
                     <div class="page-num">- 4 -</div>
                 </div>
                 <div class="book-page" data-page="5">
@@ -351,12 +370,20 @@
                     <div class="menu-item"><h5 class="item-num">33.</h5><h5>Chicken Tikka Masala</h5><span>15,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">34.</h5><h5>Chicken Korma</h5><span>15,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">35.</h5><h5>Butter Chicken</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">36.</h5><h5>Kashmiri Chicken</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">37.</h5><h5>Chicken Goan Curry</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">38.</h5><h5>Chicken Jalfrezi</h5><span>15,50 €</span></div>
                     <div class="page-num">- 5 -</div>
                 </div>
                 <div class="book-page" data-page="6">
                     <h3 class="menu-category-title">Hähnchen (Forts.)</h3>
                     <div class="menu-item"><h5 class="item-num">39.</h5><h5>Chicken Kadai</h5><span>15,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">40.</h5><h5>Chicken Bhuna</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">41.</h5><h5>Vegi Chicken</h5><span>15,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">42.</h5><h5>Chicken Palak</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">43.</h5><h5>Chicken Dhansik</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">44.</h5><h5>Chicken Madras</h5><span>15,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">45.</h5><h5>Chicken Vindalo</h5><span>15,50 €</span></div>
                     <div class="page-num">- 6 -</div>
                 </div>
                 <div class="book-page" data-page="7">
@@ -364,6 +391,10 @@
                     <div class="menu-item"><h5 class="item-num">46.</h5><h5>Lamb Curry</h5><span>17,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">47.</h5><h5>Lamb Tikka Masala</h5><span>17,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">48.</h5><h5>Lamb Korma</h5><span>17,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">49.</h5><h5>Butter Lamb</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">50.</h5><h5>Kashmiri Lamb</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">51.</h5><h5>Lamb Goan Curry</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">52.</h5><h5>Lamb Jalfrezi</h5><span>17,50 €</span></div>
                     <div class="page-num">- 7 -</div>
                 </div>
                 <div class="book-page" data-page="8">
@@ -371,32 +402,85 @@
                     <div class="menu-item"><h5 class="item-num">53.</h5><h5>Lamb Kadai</h5><span>17,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">54.</h5><h5>Lamb Bhuna</h5><span>17,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">55.</h5><h5>Vegi Lamb</h5><span>17,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">56.</h5><h5>Lamb Palak</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">57.</h5><h5>Lamb Dhansik</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">58.</h5><h5>Lamb Madras</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">59.</h5><h5>Lamb Vindalo</h5><span>17,50 €</span></div>
                     <div class="page-num">- 8 -</div>
                 </div>
                 <div class="book-page" data-page="9">
                     <h3 class="menu-category-title">Seafood</h3>
                     <div class="menu-item"><h5 class="item-num">60.</h5><h5>Prawn Curry</h5><span>18,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">61.</h5><h5>Prawn Korma</h5><span>18,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">62.</h5><h5>Prawn Tikka Masala</h5><span>18,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">63.</h5><h5>Fish Curry</h5><span>18,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">64.</h5><h5>Fish Tikka Masala</h5><span>18,50 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">65.</h5><h5>Chicken Tikka</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">66.</h5><h5>Tandoori Chicken</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">67.</h5><h5>Malai Tikka</h5><span>17,50 €</span></div>
                     <div class="page-num">- 9 -</div>
                 </div>
                 <div class="book-page" data-page="10">
                     <h3 class="menu-category-title">Tandoori</h3>
-                    <div class="menu-item"><h5 class="item-num">65.</h5><h5>Chicken Tikka</h5><span>17,50 €</span></div>
-                    <div class="menu-item"><h5 class="item-num">66.</h5><h5>Tandoori Chicken</h5><span>17,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">68.</h5><h5>Haryali Tikka</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">69.</h5><h5>Lamb Tikka</h5><span>18,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">70.</h5><h5>Lamb Chops</h5><span>20,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">71.</h5><h5>Seekh Kabab</h5><span>19,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">72.</h5><h5>Prawn Tikka</h5><span>20,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">73.</h5><h5>Paneer Tikka</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">74.</h5><h5>Fish Tawa Fry</h5><span>20,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">75.</h5><h5>Zafrani Mix Grill</h5><span>24,00 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">76.</h5><h5>Vegi Biryani</h5><span>14,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">77.</h5><h5>Chicken Bombay Biryani</h5><span>16,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">78.</h5><h5>Lamb Karachi Biryani</h5><span>17,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">79.</h5><h5>Prawn Zafran Biryani</h5><span>20,50 €</span></div>
                     <div class="page-num">- 10 -</div>
                 </div>
                 <div class="book-page" data-page="11">
                     <h3 class="menu-category-title">Brot & Beilagen</h3>
                     <div class="menu-item"><h5 class="item-num">80.</h5><h5>Frisches Tandoori Brot</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">81.</h5><h5>Chapati Roti</h5><span>3,50 €</span></div>
                     <div class="menu-item"><h5 class="item-num">82.</h5><h5>Naan</h5><span>3,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">83.</h5><h5>Allo Naan</h5><span>4,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">84.</h5><h5>Cheese Naan</h5><span>5,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">85.</h5><h5>Butter Naan</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">86.</h5><h5>Garlic Naan</h5><span>4,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">87.</h5><h5>Tandoori Parantha</h5><span>4,50 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">88.</h5><h5>Mint Sauce</h5><span>3,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">89.</h5><h5>Natur Joghurt</h5><span>2,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">90.</h5><h5>Raita</h5><span>4,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">91.</h5><h5>Mango Chutney</h5><span>3,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">92.</h5><h5>Imli (Tamarind) Chutney</h5><span>3,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">93.</h5><h5>Laal Chutney</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">94.</h5><h5>Green Chutney</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">95.</h5><h5>Pickles</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">96.</h5><h5>Soße nach Wahl</h5><span>5,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">100.</h5><h5>Basmati - Reis</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">101.</h5><h5>Zeera - Reis</h5><span>4,00 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">102.</h5><h5>Zafrani - Reis</h5><span>5,50 €</span></div>
                     <div class="page-num">- 11 -</div>
                 </div>
                 <div class="book-page" data-page="12">
                     <h3 class="menu-category-title">Dessert & Drinks</h3>
                     <div class="menu-item"><h5 class="item-num">106.</h5><h5>Mango Kulfi</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">107.</h5><h5>Almond Kulfi</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">108.</h5><h5>Pista Kulfi</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">109.</h5><h5>Gulab Jamun</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">110.</h5><h5>Ras Malai</h5><span>5,50 €</span></div>
+                    <br>
+                    <div class="menu-item"><h5 class="item-num">111.</h5><h5>Lassi</h5><span>4,00 €</span></div>
                     <div class="menu-item"><h5 class="item-num">112.</h5><h5>Mango Lassi</h5><span>4,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">113.</h5><h5>Rosé Lassi</h5><span>4,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">114.</h5><h5>Coca Cola</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">115.</h5><h5>Cola Zero</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">116.</h5><h5>Sprite</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">117.</h5><h5>Fanta</h5><span>3,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">118.</h5><h5>Pinacolada</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">119.</h5><h5>Mint-Margarita</h5><span>5,50 €</span></div>
+                    <div class="menu-item"><h5 class="item-num">120.</h5><h5>Ipanema</h5><span>5,50 €</span></div>
                     <div class="page-num">- 12 -</div>
                 </div>
             </div>
@@ -510,10 +594,10 @@
 
     <footer>
         <div class="container text-center">
-            <img src="logo.png" class="footer-logo" alt="Zafran">
+            <img src="logo.png" class="footer-logo" alt="Zafran" style="max-width: 100px;">
             
             <div style="margin-bottom: 15px;">
-                <h5 style="color: var(--gold-primary);" data-i18n="footer_imprint_title">Impressum</h5>
+                <h5 style="color: var(--gold-primary); font-size: 1rem;" data-i18n="footer_imprint_title">Impressum</h5>
                 <p style="font-size: 0.8rem;" data-i18n="footer_imprint_text">Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen</p>
             </div>
             
