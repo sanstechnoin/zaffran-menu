@@ -6,48 +6,107 @@
     <title>Zafran Delight - Abholung</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" type="image/png" href="favlogo.png"> 
-    <link rel="stylesheet" href="style.css?v=32">
+    <link rel="stylesheet" href="style.css?v=33">
+    
+    <style>
+        /* ADDED STYLES FOR HEADER/FOOTER CONSISTENCY */
+        
+        /* 1. New Fixed Header Styles */
+        body { padding-top: 80px; } /* Prevent content from hiding behind fixed header */
+        
+        header.main-header { 
+            position: fixed !important; top: 0; width: 100%; 
+            background: rgba(18, 10, 10, 0.98) !important; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3); z-index: 2000;
+            padding: 15px 0;
+        }
+
+        /* 2. Category Nav (Sticky below main header) */
+        nav.category-nav {
+            position: sticky;
+            top: 75px; /* Height of main header approx */
+            z-index: 1900;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        /* 3. Footer Updates */
+        footer.main-footer { 
+            background-color: #080404 !important; 
+            padding: 20px 0 !important; 
+            border-top: 1px solid #222 !important; 
+            color: #888; 
+            margin-top: 50px !important; 
+        }
+        .footer-logo { max-width: 100px; height: auto; margin-bottom: 10px; display: inline-block; }
+        
+        .allergen-section {
+            font-size: 0.75rem;
+            color: #666;
+            text-align: center;
+            padding: 20px;
+            background: #0f0808;
+            border-bottom: 1px solid #222;
+        }
+        
+        /* Mobile Menu Fixes */
+        @media (max-width: 900px) {
+            .nav-links { top: 70px; background: rgba(18,10,10,0.98); }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="header-content-wrapper">
-            <div class="header-content">
-               <a href="https://sanstechnoin.github.io/zaffran-menu/"><img src="logo.png" alt="Zaffran Logo" class="logo"></a>
-                <div class="contact-info">
-                    <strong>Zafran Delight</strong>
-                    <p>Kessenicher Straße 9<br>53879 Euskirchen</p>
-                    <a href="tel:+4922511290950" class="phone-link">
-                    <i class="fa fa-phone"></i> +49 2251 1290950
-                    </a>
+
+    <header class="main-header">
+        <div class="header-content-wrapper navbar">
+            <a href="index.html" class="logo"><img src="logo.png" alt="Zafran Delight"></a>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html" data-i18n="nav_home">Startseite</a>
+                <a href="index.html#about" data-i18n="nav_story">Über Uns</a>
+                <a href="index.html#menu" data-i18n="nav_menu">Speisekarte</a>
+                <a href="index.html#offers" data-i18n="nav_offers">Angebote</a>
+                <a href="index.html#visit" data-i18n="nav_contact">Kontakt</a>
+                <div class="header-actions">
+                    <div class="lang-switch">
+                        <button class="lang-btn active" onclick="setLang('de')">DE</button>
+                        <button class="lang-btn" onclick="setLang('en')">EN</button>
+                    </div>
+                    <a href="pickup.html" class="order-link-header" style="color: var(--gold-bright) !important;">Bestellen</a>
                 </div>
+            </nav>
+            <div class="hamburger" onclick="toggleMenu()">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             </div>
         </div>
-        <div id="marquee-container" class="hidden">
-            <p id="marquee-text"></p>
-        </div>
-        <nav>
-            <div class="nav-wrapper">
-                <div class="nav-links-container" id="nav-links-container">
-                    <a href="#suppen">Suppen</a>
-                    <a href="#vorspeisen">Vorspeisen</a>
-                    <a href="#veganes">Veganes</a>
-                    <a href="#vegetarisches">Vegetarisches</a>
-                    <a href="#chicken">Chicken</a>
-                    <a href="#lamm">Lamm</a>
-                    <a href="#fisch-garnelen">Fisch & Garnelen</a>
-                    <a href="#tandoori">Tandoori</a>
-                    <a href="#biryani">Biryani</a>
-                    <a href="#brot">Brot</a>
-                    <a href="#beilagen">Beilagen</a>
-                    <a href="#kinder">Kinder</a>
-                    <a href="#reis">Reis</a>
-                    <a href="#salate">Salate</a>
-                    <a href="#dessert">Dessert</a>
-                    <a href="#getraenke">Getränke</a>
-                </div>
-            </div>
-        </nav>
     </header>
+
+    <div id="marquee-container" class="hidden" style="margin-top: 0;">
+        <p id="marquee-text"></p>
+    </div>
+
+    <nav class="category-nav">
+        <div class="nav-wrapper">
+            <div class="nav-links-container" id="nav-links-container">
+                <a href="#suppen">Suppen</a>
+                <a href="#vorspeisen">Vorspeisen</a>
+                <a href="#veganes">Veganes</a>
+                <a href="#vegetarisches">Vegetarisches</a>
+                <a href="#chicken">Chicken</a>
+                <a href="#lamm">Lamm</a>
+                <a href="#fisch-garnelen">Fisch & Garnelen</a>
+                <a href="#tandoori">Tandoori</a>
+                <a href="#biryani">Biryani</a>
+                <a href="#brot">Brot</a>
+                <a href="#beilagen">Beilagen</a>
+                <a href="#kinder">Kinder</a>
+                <a href="#reis">Reis</a>
+                <a href="#salate">Salate</a>
+                <a href="#dessert">Dessert</a>
+                <a href="#getraenke">Getränke</a>
+            </div>
+        </div>
+    </nav>
 
     <main id="main">
         
@@ -1473,22 +1532,26 @@
         
     </main>
     
-    <footer>
+    <div class="allergen-section">
         <p><strong>Zusatzstoffe:</strong> 1) mit Farbstoffen 2) Schwärzungsmittel 3) mit Konservierungsstoffen 4) Schwefeloxid 5) mit Phosphat 6) mit Antioxidationsmittel 7) mit Geschmacksverstärkern 8) gewachst 9) mit Süßungsmittel 10) mit Zuckerart(en) 11) enthält eine Phenylalaninquelle 12) kann bei übermäßigem Verzehr abführend wirken 13) chininhaltig 14) koffeinhaltig 15) Stärke 16) Eiklar 17) Sojaeiweiß 18) mit Milcheweiß</p>
         <p><strong>Allergene:</strong> A) enthält Weizen B) enthält Krebstiere C) enthält Eier D) enthält Fisch E) enthält Erdnüsse F) enthält Soja G) enthält Milch/Laktose H) enthält Pistazien I) enthält Sellerie J) enthält Senf K) enthält Sesamsamen I) enthält Schwefeldioxid und Sulfite M) enthält Lupine N) enthält Weichtiere und Weichtiererzeugnisse</p>
-        <p class="disclaimer">Alle Preise inkl. MwSt.. Änderungen, Irrtümer, Druckfehler vorbehalten. Es kann keine Garantie für eine 100% Vollständigkeit der Angaben übernommen werden.</p>
-    </footer>
-
-    <div class="site-credit-footer">
-        <p>
-            <a href="imprint.html" target="_blank">Impressum (Imprint)</a> | 
-            <a href="privacy.html" target="_blank">Datenschutzerklärung (Privacy)</a>
-        </p>
-        <p>&copy; Zafran Delight, Euskirchen 2025</p>
-        <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank" rel="noopener">Shri Avinash Narendhran S V</a> +49 162 3757839</p>
+        <p class="disclaimer">Alle Preise inkl. MwSt.. Änderungen, Irrtümer, Druckfehler vorbehalten.</p>
     </div>
 
-    <!-- ADDED ALL THE CART HTML HERE -->
+    <footer class="main-footer">
+        <div class="container text-center" style="text-align: center;">
+            <img src="logo.png" class="footer-logo" alt="Zafran">
+            <div class="site-credit-footer" style="background: transparent; border: none; padding-top: 0;">
+                <p>
+                    <a href="imprint.html" target="_blank" data-i18n="footer_imprint">Impressum</a> | 
+                    <a href="privacy.html" target="_blank" data-i18n="footer_privacy">Datenschutz</a>
+                </p>
+                <p data-i18n="footer_rights">© 2025 Zafran Delight. All Rights Reserved.</p>
+                <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank">Shri Avinash Narendhran S V</a> +49 162 3757839</p>
+            </div>
+        </div>
+    </footer>
+
     <button id="cart-toggle-btn" class="hidden">
         <span class="cart-icon">🛒</span>
         <span id="cart-item-count">0</span>
@@ -1503,8 +1566,7 @@
                 <p>Zahlung im Restaurant (Bar oder Karte).</p>
                 
                 <div id="cart-items-container">
-                    <!-- Cart items here -->
-                </div>
+                    </div>
                 
                 <div id="cart-summary">
                     <div class="summary-line" id="summary-total">
@@ -1535,7 +1597,6 @@
                         </label>
                     </div>
 
-                    <!-- NEW BUTTON LAYOUT - FORMBOLD IS REMOVED -->
                     <div class="checkout-buttons">
                         <button type="button" id="firebase-btn" class="checkout-kitchen">
                             An Küche senden (Live)
@@ -1553,18 +1614,46 @@
                 <p>Danke, Ihre Bestellung ist eingegangen.</p>
                 <h3>Ihre Bestellübersicht:</h3>
                 <div id="confirmation-summary">
-                    <!-- Summary here -->
-                </div>
+                    </div>
                 <button type="button" id="confirmation-close-btn" class="checkout-email">Close</button>
             </div>
 
         </div>
     </div>
 
-    <!-- Firebase Scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
     
-    <script src="script.js?v=1"></script> <!-- New script file -->
+    <script src="script.js?v=1"></script> 
+    
+    <script>
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+        const translations = {
+            de: {
+                nav_home: "Startseite", nav_story: "Über Uns", nav_menu: "Speisekarte", nav_offers: "Angebote", nav_contact: "Kontakt",
+                footer_rights: "© 2025 Zafran Delight. All Rights Reserved.", footer_imprint: "Impressum", footer_privacy: "Datenschutz"
+            },
+            en: {
+                nav_home: "Home", nav_story: "Our Story", nav_menu: "Menu", nav_offers: "Offers", nav_contact: "Contact",
+                footer_rights: "© 2025 Zafran Delight. All Rights Reserved.", footer_imprint: "Imprint", footer_privacy: "Privacy Policy"
+            }
+        };
+
+        function setLang(lang) {
+            // Only update text present in the header/footer since main content is static in this file
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) el.textContent = translations[lang][key];
+            });
+            const allBtns = document.querySelectorAll('.lang-btn');
+            allBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.trim().toUpperCase() === lang.toUpperCase()) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
