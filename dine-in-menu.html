@@ -13,20 +13,30 @@
            HEADER & SCROLL FIXES (DINE-IN)
         =============================================== */
         
-        body { padding-top: 80px; } /* Prevent content from hiding behind fixed header */
+        body { padding-top: 140px; } /* Prevent content from hiding behind fixed header */
         
         /* 1. Fixed Main Header */
         header.main-header { 
-            position: fixed !important; top: 0; width: 100%; 
+             position: fixed !important; 
+
+            top: 0; 
+
+            width: 100%; 
+
             background: rgba(18, 10, 10, 0.98) !important; 
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3); z-index: 2000;
-            padding: 15px 0;
+
+            z-index: 2000;
+
+            padding: 0;
+
+            border-bottom: none; /* Border is now on marquee */
+
         }
 
         /* 2. Sticky Category Nav */
         nav.category-nav {
             position: sticky;
-            top: 75px; /* Sticks exactly below the main header */
+            top: 135px; /* Sticks exactly below the main header */
             z-index: 1900;
             background-color: var(--bg-panel);
             border-bottom: 1px solid var(--border-color);
@@ -35,7 +45,7 @@
 
         /* 3. SCROLL OFFSET FIX */
         section {
-            scroll-margin-top: 160px; /* Header (80) + Nav (60) + Buffer */
+            scroll-margin-top: 200px; 
         }
 
         /* 4. Footer Styles */
@@ -58,7 +68,11 @@
         }
 
         @media (max-width: 900px) {
-            .nav-links { top: 70px; background: rgba(18,10,10,0.98); }
+             body { padding-top: 130px; }
+
+            nav.category-nav { top: 125px; }
+
+            .nav-links { top: 80px; }
         }
     </style>
 </head>
@@ -111,7 +125,7 @@
         </div>
     </nav>
 
-     <main>
+     <main id="main">
         <section id="suppen">
             <h2 data-i18n="cat_soups">Suppen</h2>
             <ul>
