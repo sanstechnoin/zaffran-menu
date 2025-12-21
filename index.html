@@ -22,7 +22,7 @@
             box-shadow: none !important;
         }
 
-        /* 2. REMOVE HEADER LINES (Borders) */
+        /* 2. REMOVE HEADER LINES */
         h2 { border-bottom: none !important; padding-bottom: 0 !important; }
         .contact-col h3, .contact-block h3 { border-bottom: none !important; padding-bottom: 0 !important; }
 
@@ -125,11 +125,10 @@
         .contact-col h3 { font-size: 1.5rem; color: var(--gold-primary); margin-bottom: 20px; display: inline-block; }
 
         .contact-list { list-style: none; padding: 0; }
-        /* FIXED ALIGNMENT: Gap instead of margin, center vertically */
         .contact-list li { 
             display: flex; 
             align-items: center; 
-            gap: 15px; /* Use gap for spacing between icon and text */
+            gap: 15px; 
             margin-bottom: 20px; 
         }
         .contact-icon-box { 
@@ -139,7 +138,6 @@
             flex-shrink: 0;
         }
         .contact-icon-box svg { width: 20px; height: 20px; fill: var(--gold-bright); }
-        /* Remove default margins for tight alignment */
         .contact-details span { display: block; font-size: 0.8rem; text-transform: uppercase; color: var(--spice-orange); font-weight: bold; margin: 0 0 2px 0; }
         .contact-details p, .contact-details a { color: #ddd; font-size: 1.05rem; line-height: 1.4; display: block; margin: 0; }
 
@@ -156,12 +154,10 @@
         .qr-item img { width: 100%; display: block; }
         .qr-item span { color: #000; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; display: block; margin-top: 5px; }
 
-        /* 10. FOOTER */
+        /* 10. COMPACT FOOTER */
         footer { background-color: #080404 !important; padding: 20px 0 !important; border-top: 1px solid #222 !important; color: #888; margin-top: 0 !important; }
         .footer-logo { max-width: 100px; height: auto; margin-bottom: 10px; display: inline-block; }
         .site-credit-footer { background-color: transparent !important; padding: 10px 0 0 0; border-top: 1px solid #1a1a1a; margin-top: 15px; font-size: 0.8rem; color: #666; }
-        footer h5 { margin: 0 0 5px 0; font-size: 1rem; }
-        footer p { margin: 5px 0; font-size: 0.85rem; }
         footer a { color: #888; text-decoration: none; transition: color 0.2s; }
         footer a:hover { color: var(--gold-primary); }
 
@@ -564,10 +560,6 @@
     <footer>
         <div class="container text-center">
             <img src="logo.png" class="footer-logo" alt="Zafran" style="max-width: 100px;">
-            <div style="margin-bottom: 15px;">
-                <h5 style="color: var(--gold-primary); font-size: 1rem;" data-i18n="footer_imprint_title">Impressum</h5>
-                <p style="font-size: 0.8rem;" data-i18n="footer_imprint_text">Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen</p>
-            </div>
             
             <div class="site-credit-footer">
                 <p>
