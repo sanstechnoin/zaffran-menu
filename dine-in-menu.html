@@ -4,211 +4,259 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Speisekarte - Zaffran Delight</title>
-    <!-- We will use v=33 for the style to make sure it's fresh -->
-    <link rel="stylesheet" href="style.css?v=33">
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css?v=34">
+    <link rel="icon" type="image/png" href="favlogo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <style>
+        /* ===============================================
+           HEADER & SCROLL FIXES (DINE-IN)
+        =============================================== */
+        
+        body { padding-top: 80px; } /* Prevent content from hiding behind fixed header */
+        
+        /* 1. Fixed Main Header */
+        header.main-header { 
+            position: fixed !important; top: 0; width: 100%; 
+            background: rgba(18, 10, 10, 0.98) !important; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3); z-index: 2000;
+            padding: 15px 0;
+        }
+
+        /* 2. Sticky Category Nav */
+        nav.category-nav {
+            position: sticky;
+            top: 75px; /* Sticks exactly below the main header */
+            z-index: 1900;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        /* 3. SCROLL OFFSET FIX */
+        section {
+            scroll-margin-top: 160px; /* Header (80) + Nav (60) + Buffer */
+        }
+
+        /* 4. Footer Styles */
+        footer.main-footer { 
+            background-color: #080404 !important; 
+            padding: 20px 0 !important; 
+            border-top: 1px solid #222 !important; 
+            color: #888; 
+            margin-top: 50px !important; 
+        }
+        .footer-logo { max-width: 100px; height: auto; margin-bottom: 10px; display: inline-block; }
+        
+        .allergen-section {
+            font-size: 0.75rem;
+            color: #666;
+            text-align: center;
+            padding: 20px;
+            background: #0f0808;
+            border-bottom: 1px solid #222;
+        }
+
+        @media (max-width: 900px) {
+            .nav-links { top: 70px; background: rgba(18,10,10,0.98); }
+        }
+    </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-content-wrapper">
-            <div class="header-content">
-                <a href="index.html"><img src="logo.png" alt="Zaffran Logo" class="logo"></a>
-                <div class="contact-info">
-                    <strong>Zafran Delight</strong>
-                    <p>Kessenicher Straße 9<br>53879 Euskirchen</p>
-                    <a href="tel:+4922511290950" class="phone-link"><i class="fa fa-phone"></i> 02251 1290950</a>
+    <header class="main-header">
+        <div class="header-content-wrapper navbar">
+            <a href="index.html" class="logo"><img src="logo.png" alt="Zafran Delight"></a>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html" data-i18n="nav_home">Startseite</a>
+                <a href="index.html#about" data-i18n="nav_story">Über Uns</a>
+                <a href="index.html#menu" data-i18n="nav_menu">Speisekarte</a>
+                <a href="index.html#offers" data-i18n="nav_offers">Angebote</a>
+                <a href="index.html#visit" data-i18n="nav_contact">Kontakt</a>
+                <div class="header-actions">
+                    <div class="lang-switch">
+                        <button class="lang-btn active" onclick="setLang('de')">DE</button>
+                        <button class="lang-btn" onclick="setLang('en')">EN</button>
+                    </div>
                 </div>
+            </nav>
+            <div class="hamburger" onclick="toggleMenu()">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             </div>
         </div>
-        
-        <nav>
-            <div class="nav-wrapper">
-                <button id="scroll-left-btn" class="scroll-arrow hidden">&lt;</button>
-                <div class="nav-links-container" id="nav-links-container">
-                    <a href="#suppen">Suppen</a>
-                    <a href="#vorspeisen">Vorspeisen</a>
-                    <a href="#veganes">Veganes</a>
-                    <a href="#vegetarisches">Vegetarisches</a>
-                    <a href="#chicken">Chicken</a>
-                    <a href="#lamm">Lamm</a>
-                    <a href="#fisch-garnelen">Fisch & Garnelen</a>
-                    <a href="#tandoori">Tandoori</a>
-                    <a href="#biryani">Biryani</a>
-                    <a href="#brot">Brot</a>
-                    <a href="#beilagen">Beilagen</a>
-                    <a href="#kinder">Kinder</a>
-                    <a href="#reis">Reis</a>
-                    <a href="#salate">Salate</a>
-                    <a href="#dessert">Dessert</a>
-                    <a href="#getraenke">Getränke</a>
-                </div>
-                <button id="scroll-right-btn" class="scroll-arrow hidden">&gt;</button>
-            </div>
-        </nav>
     </header>
+
+    <nav class="category-nav">
+        <div class="nav-wrapper">
+            <button id="scroll-left-btn" class="scroll-arrow hidden">&lt;</button>
+            <div class="nav-links-container" id="nav-links-container">
+                <a href="#suppen" data-i18n="cat_soups">Suppen</a>
+                <a href="#vorspeisen" data-i18n="cat_starters">Vorspeisen</a>
+                <a href="#veganes" data-i18n="cat_vegan">Veganes</a>
+                <a href="#vegetarisches" data-i18n="cat_vegetarian">Vegetarisches</a>
+                <a href="#chicken" data-i18n="cat_chicken">Chicken</a>
+                <a href="#lamm" data-i18n="cat_lamb">Lamm</a>
+                <a href="#fisch-garnelen" data-i18n="cat_seafood">Fisch & Garnelen</a>
+                <a href="#tandoori" data-i18n="cat_tandoori">Tandoori</a>
+                <a href="#biryani" data-i18n="cat_biryani">Biryani</a>
+                <a href="#brot" data-i18n="cat_bread">Brot</a>
+                <a href="#beilagen" data-i18n="cat_sides">Beilagen</a>
+                <a href="#kinder" data-i18n="cat_kids">Kinder</a>
+                <a href="#reis" data-i18n="cat_rice">Reis</a>
+                <a href="#salate" data-i18n="cat_salads">Salate</a>
+                <a href="#dessert" data-i18n="cat_dessert">Dessert</a>
+                <a href="#getraenke" data-i18n="cat_drinks">Getränke</a>
+            </div>
+            <button id="scroll-right-btn" class="scroll-arrow hidden">&gt;</button>
+        </div>
+    </nav>
 
      <main>
         <section id="suppen">
-            <h2>Suppen</h2>
+            <h2 data-i18n="cat_soups">Suppen</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>1. Tomatensuppe</strong><span class="description">Nach indischer Art</span></span>
+                    <span class="item"><strong data-i18n="item_1">1. Tomatensuppe</strong><span class="description">Nach indischer Art</span></span>
                     <div class="price-action">
                         <span class="price">5,00 €</span>
-                        <!-- THIS IS THE FIX: Added quantity-controls -->
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="1" data-name="Tomatensuppe" data-price="5.00" data-category="suppen">-</button>
-                            <span class="item-qty" data-id="1">1</span>
+                            <button class="menu-btn-minus" data-id="1">-</button><span class="item-qty" data-id="1">1</span>
                         </div>
                         <button class="add-btn" data-id="1" data-name="Tomatensuppe" data-price="5.00" data-category="suppen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>2. Daal Linsensuppe</strong><span class="description">Nach indischer Art</span></span>
+                    <span class="item"><strong data-i18n="item_2">2. Daal Linsensuppe</strong><span class="description">Nach indischer Art</span></span>
                     <div class="price-action">
                         <span class="price">5,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="2" data-name="Daal Linsensuppe" data-price="5.00" data-category="suppen">-</button>
-                            <span class="item-qty" data-id="2">1</span>
+                            <button class="menu-btn-minus" data-id="2">-</button><span class="item-qty" data-id="2">1</span>
                         </div>
                         <button class="add-btn" data-id="2" data-name="Daal Linsensuppe" data-price="5.00" data-category="suppen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>3. Hähnchen Suppe</strong><span class="description">Nach indischer Art</span></span>
+                    <span class="item"><strong data-i18n="item_3">3. Hähnchen Suppe</strong><span class="description">Nach indischer Art</span></span>
                     <div class="price-action">
                         <span class="price">6,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="3" data-name="Hähnchen Suppe" data-price="6.00" data-category="suppen">-</button>
-                            <span class="item-qty" data-id="3">1</span>
+                            <button class="menu-btn-minus" data-id="3">-</button><span class="item-qty" data-id="3">1</span>
                         </div>
                         <button class="add-btn" data-id="3" data-name="Hähnchen Suppe" data-price="6.00" data-category="suppen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>4. Mulligatawny Suppe</strong><span class="description">Linsensuppe mit Hähnchen...</span></span>
+                    <span class="item"><strong data-i18n="item_4">4. Mulligatawny Suppe</strong><span class="description">Linsensuppe mit Hähnchen</span></span>
                     <div class="price-action">
                         <span class="price">6,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="4" data-name="Mulligatawny Suppe" data-price="6.50" data-category="suppen">-</button>
-                            <span class="item-qty" data-id="4">1</span>
+                            <button class="menu-btn-minus" data-id="4">-</button><span class="item-qty" data-id="4">1</span>
                         </div>
                         <button class="add-btn" data-id="4" data-name="Mulligatawny Suppe" data-price="6.50" data-category="suppen">+</button>
                     </div>
                 </li>
             </ul>
         </section>
+
         <section id="vorspeisen">
-            <h2>Vorspeisen</h2>
+            <h2 data-i18n="cat_starters">Vorspeisen</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>5. Veg. Samosa</strong><span class="description">Zwei Teigtaschen gefüllt mit...</span></span>
+                    <span class="item"><strong data-i18n="item_5">5. Veg. Samosa</strong><span class="description">Zwei Teigtaschen gefüllt mit Kartoffeln</span></span>
                     <div class="price-action">
                         <span class="price">5,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="5" data-name="Veg. Samosa" data-price="5.00" data-category="vorspeisen">-</button>
-                            <span class="item-qty" data-id="5">1</span>
+                            <button class="menu-btn-minus" data-id="5">-</button><span class="item-qty" data-id="5">1</span>
                         </div>
                         <button class="add-btn" data-id="5" data-name="Veg. Samosa" data-price="5.00" data-category="vorspeisen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>6. Chicken Samosa</strong><span class="description">Zwei Teigtaschen gefüllt mit...</span></span>
+                    <span class="item"><strong data-i18n="item_6">6. Chicken Samosa</strong><span class="description">Zwei Teigtaschen gefüllt mit Hähnchen</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="6" data-name="Chicken Samosa" data-price="5.50" data-category="vorspeisen">-</button>
-                            <span class="item-qty" data-id="6">1</span>
+                            <button class="menu-btn-minus" data-id="6">-</button><span class="item-qty" data-id="6">1</span>
                         </div>
                         <button class="add-btn" data-id="6" data-name="Chicken Samosa" data-price="5.50" data-category="vorspeisen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>7. Aloo Tiki</strong><span class="description">Zwei frittierte Kartoffeln...</span></span>
+                    <span class="item"><strong data-i18n="item_7">7. Aloo Tiki</strong><span class="description">Zwei frittierte Kartoffelpuffer</span></span>
                     <div class="price-action">
                         <span class="price">5,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="7" data-name="Aloo Tiki" data-price="5.00" data-category="vorspeisen">-</button>
-                            <span class="item-qty" data-id="7">1</span>
+                            <button class="menu-btn-minus" data-id="7">-</button><span class="item-qty" data-id="7">1</span>
                         </div>
                         <button class="add-btn" data-id="7" data-name="Aloo Tiki" data-price="5.00" data-category="vorspeisen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>8. Mix Pakora*</strong><span class="description">Zwiebeln, Kartoffeln...</span></span>
+                    <span class="item"><strong data-i18n="item_8">8. Mix Pakora*</strong><span class="description">Gemischtes Gemüse frittiert</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="8" data-name="Mix Pakora" data-price="5.50" data-category="vorspeisen">-</button>
-                            <span class="item-qty" data-id="8">1</span>
+                            <button class="menu-btn-minus" data-id="8">-</button><span class="item-qty" data-id="8">1</span>
                         </div>
                         <button class="add-btn" data-id="8" data-name="Mix Pakora" data-price="5.50" data-category="vorspeisen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>9. Paneer Pakora</strong><span class="description">Frittierter indischer Frischkäse...</span></span>
+                    <span class="item"><strong data-i18n="item_9">9. Paneer Pakora</strong><span class="description">Frittierter indischer Frischkäse</span></span>
                     <div class="price-action">
                         <span class="price">6,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="9" data-name="Paneer Pakora" data-price="6.00" data-category="vorspeisen">-</button>
-                            <span class="item-qty" data-id="9">1</span>
+                            <button class="menu-btn-minus" data-id="9">-</button><span class="item-qty" data-id="9">1</span>
                         </div>
                         <button class="add-btn" data-id="9" data-name="Paneer Pakora" data-price="6.00" data-category="vorspeisen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>10. Aloo Pakora</strong><span class="description">Frittierte Kartoffeln in Reismehl...</span></span>
+                    <span class="item"><strong data-i18n="item_10">10. Aloo Pakora</strong><span class="description">Frittierte Kartoffeln in Reismehl</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="10" data-name="Aloo Pakora" data-price="5.50" data-category="vorspeisen">-</button>
-                            <span class="item-qty" data-id="10">1</span>
+                            <button class="menu-btn-minus" data-id="10">-</button><span class="item-qty" data-id="10">1</span>
                         </div>
                         <button class="add-btn" data-id="10" data-name="Aloo Pakora" data-price="5.50" data-category="vorspeisen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>11. Gobi Pakora</strong><span class="description">Frittierter Blumenkohl in Reismehl...</span></span>
+                    <span class="item"><strong data-i18n="item_11">11. Gobi Pakora</strong><span class="description">Frittierter Blumenkohl in Reismehl</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="11" data-name="Gobi Pakora" data-price="5.50" data-category="vorspeisen">-</button>
-                            <span class="item-qty" data-id="11">1</span>
+                            <button class="menu-btn-minus" data-id="11">-</button><span class="item-qty" data-id="11">1</span>
                         </div>
                         <button class="add-btn" data-id="11" data-name="Gobi Pakora" data-price="5.50" data-category="vorspeisen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>12. Mashroom Pakora</strong><span class="description">Frittierte Champignons in Reismehl...</span></span>
+                    <span class="item"><strong data-i18n="item_12">12. Mashroom Pakora</strong><span class="description">Frittierte Champignons in Reismehl</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="12" data-name="Mashroom Pakora" data-price="5.50" data-category="vorspeisen">-</button>
-                            <span class="item-qty" data-id="12">1</span>
+                            <button class="menu-btn-minus" data-id="12">-</button><span class="item-qty" data-id="12">1</span>
                         </div>
                         <button class="add-btn" data-id="12" data-name="Mashroom Pakora" data-price="5.50" data-category="vorspeisen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>13. Chicken Pakora</strong><span class="description">Frittiertes Hähnchenfleisch in Reismehl...</span></span>
+                    <span class="item"><strong data-i18n="item_13">13. Chicken Pakora</strong><span class="description">Frittiertes Hähnchenfleisch in Reismehl</span></span>
                     <div class="price-action">
                         <span class="price">6,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="13" data-name="Chicken Pakora" data-price="6.00" data-category="vorspeisen">-</button>
-                            <span class="item-qty" data-id="13">1</span>
+                            <button class="menu-btn-minus" data-id="13">-</button><span class="item-qty" data-id="13">1</span>
                         </div>
                         <button class="add-btn" data-id="13" data-name="Chicken Pakora" data-price="6.00" data-category="vorspeisen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>14. Prawn Pakora</strong><span class="description">Frittierte Garnelen in...</span></span>
+                    <span class="item"><strong data-i18n="item_14">14. Prawn Pakora</strong><span class="description">Frittierte Garnelen</span></span>
                     <div class="price-action">
                         <span class="price">7,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="14" data-name="Prawn Pakora" data-price="7.50" data-category="vorspeisen">-</button>
-                            <span class="item-qty" data-id="14">1</span>
+                            <button class="menu-btn-minus" data-id="14">-</button><span class="item-qty" data-id="14">1</span>
                         </div>
                         <button class="add-btn" data-id="14" data-name="Prawn Pakora" data-price="7.50" data-category="vorspeisen">+</button>
                     </div>
@@ -217,103 +265,94 @@
         </section>
         
         <section id="veganes">
-            <h2>Veganes</h2>
+            <h2 data-i18n="cat_vegan">Veganes</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>15. Vegi Mix</strong><span class="description">Mischgemüse in indischer Currysoße</span></span>
+                    <span class="item"><strong data-i18n="item_15">15. Vegi Mix</strong><span class="description">Mischgemüse in indischer Currysoße</span></span>
                     <div class="price-action">
                         <span class="price">13,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="15" data-name="Vegi Mix" data-price="13.00" data-category="veganes">-</button>
-                            <span class="item-qty" data-id="15">1</span>
+                            <button class="menu-btn-minus" data-id="15">-</button><span class="item-qty" data-id="15">1</span>
                         </div>
                         <button class="add-btn" data-id="15" data-name="Vegi Mix" data-price="13.00" data-category="veganes">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>16. Palak Aallu</strong><span class="description">Spinat und Kartoffeln mit...</span></span>
+                    <span class="item"><strong data-i18n="item_16">16. Palak Aallu</strong><span class="description">Spinat und Kartoffeln</span></span>
                     <div class="price-action">
                         <span class="price">13,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="16" data-name="Palak Aallu" data-price="13.00" data-category="veganes">-</button>
-                            <span class="item-qty" data-id="16">1</span>
+                            <button class="menu-btn-minus" data-id="16">-</button><span class="item-qty" data-id="16">1</span>
                         </div>
                         <button class="add-btn" data-id="16" data-name="Palak Aallu" data-price="13.00" data-category="veganes">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>17. Saag Aallu</strong><span class="description">Raps und Kartoffeln mit...</span></span>
+                    <span class="item"><strong data-i18n="item_17">17. Saag Aallu</strong><span class="description">Raps und Kartoffeln</span></span>
                     <div class="price-action">
                         <span class="price">13,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="17" data-name="Saag Aallu" data-price="13.00" data-category="veganes">-</button>
-                            <span class="item-qty" data-id="17">1</span>
+                            <button class="menu-btn-minus" data-id="17">-</button><span class="item-qty" data-id="17">1</span>
                         </div>
                         <button class="add-btn" data-id="17" data-name="Saag Aallu" data-price="13.00" data-category="veganes">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>18. Tarka Daal</strong><span class="description">Linsencurry mit indischen Kräutern</span></span>
+                    <span class="item"><strong data-i18n="item_18">18. Tarka Daal</strong><span class="description">Linsencurry mit indischen Kräutern</span></span>
                     <div class="price-action">
                         <span class="price">12,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="18" data-name="Tarka Daal" data-price="12.50" data-category="veganes">-</button>
-                            <span class="item-qty" data-id="18">1</span>
+                            <button class="menu-btn-minus" data-id="18">-</button><span class="item-qty" data-id="18">1</span>
                         </div>
                         <button class="add-btn" data-id="18" data-name="Tarka Daal" data-price="12.50" data-category="veganes">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>19. Bhindi Masala</strong><span class="description">Okra in Zwiebel - Tomaten - Curry</span></span>
+                    <span class="item"><strong data-i18n="item_19">19. Bhindi Masala</strong><span class="description">Okra in Zwiebel - Tomaten - Curry</span></span>
                     <div class="price-action">
                         <span class="price">13,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="19" data-name="Bhindi Masala" data-price="13.00" data-category="veganes">-</button>
-                            <span class="item-qty" data-id="19">1</span>
+                            <button class="menu-btn-minus" data-id="19">-</button><span class="item-qty" data-id="19">1</span>
                         </div>
                         <button class="add-btn" data-id="19" data-name="Bhindi Masala" data-price="13.00" data-category="veganes">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>20. Baingen Aallu</strong><span class="description">Aubergine und Kartoffeln in...</span></span>
+                    <span class="item"><strong data-i18n="item_20">20. Baingen Aallu</strong><span class="description">Aubergine und Kartoffeln</span></span>
                     <div class="price-action">
                         <span class="price">13,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="20" data-name="Baingen Aallu" data-price="13.00" data-category="veganes">-</button>
-                            <span class="item-qty" data-id="20">1</span>
+                            <button class="menu-btn-minus" data-id="20">-</button><span class="item-qty" data-id="20">1</span>
                         </div>
                         <button class="add-btn" data-id="20" data-name="Baingen Aallu" data-price="13.00" data-category="veganes">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>21. Mushroom Aallu</strong><span class="description">Champignons und Kartoffeln in...</span></span>
+                    <span class="item"><strong data-i18n="item_21">21. Mushroom Aallu</strong><span class="description">Champignons und Kartoffeln</span></span>
                     <div class="price-action">
                         <span class="price">13,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="21" data-name="Mushroom Aallu" data-price="13.00" data-category="veganes">-</button>
-                            <span class="item-qty" data-id="21">1</span>
+                            <button class="menu-btn-minus" data-id="21">-</button><span class="item-qty" data-id="21">1</span>
                         </div>
                         <button class="add-btn" data-id="21" data-name="Mushroom Aallu" data-price="13.00" data-category="veganes">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>22. Gobi Aallu</strong><span class="description">Blumenkohl und Kartoffeln in...</span></span>
+                    <span class="item"><strong data-i18n="item_22">22. Gobi Aallu</strong><span class="description">Blumenkohl und Kartoffeln</span></span>
                     <div class="price-action">
                         <span class="price">13,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="22" data-name="Gobi Aallu" data-price="13.00" data-category="veganes">-</button>
-                            <span class="item-qty" data-id="22">1</span>
+                            <button class="menu-btn-minus" data-id="22">-</button><span class="item-qty" data-id="22">1</span>
                         </div>
                         <button class="add-btn" data-id="22" data-name="Gobi Aallu" data-price="13.00" data-category="veganes">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>23. Channa Masala</strong><span class="description">Kichererbsen in Zwiebel...</span></span>
+                    <span class="item"><strong data-i18n="item_23">23. Channa Masala</strong><span class="description">Kichererbsen in Zwiebel-Curry</span></span>
                     <div class="price-action">
                         <span class="price">12,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="23" data-name="Channa Masala" data-price="12.50" data-category="veganes">-</button>
-                            <span class="item-qty" data-id="23">1</span>
+                            <button class="menu-btn-minus" data-id="23">-</button><span class="item-qty" data-id="23">1</span>
                         </div>
                         <button class="add-btn" data-id="23" data-name="Channa Masala" data-price="12.50" data-category="veganes">+</button>
                     </div>
@@ -322,92 +361,84 @@
         </section>
 
         <section id="vegetarisches">
-            <h2>Vegetarisches</h2>
+            <h2 data-i18n="cat_vegetarian">Vegetarisches</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>24. Veg. Korma</strong><span class="description">Mischgemüse, Tomaten-Sahne...</span></span>
+                    <span class="item"><strong data-i18n="item_24">24. Veg. Korma</strong><span class="description">Mischgemüse, Tomaten-Sahne-Curry</span></span>
                     <div class="price-action">
                         <span class="price">13,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="24" data-name="Veg. Korma" data-price="13.50" data-category="vegetarisches">-</button>
-                            <span class="item-qty" data-id="24">1</span>
+                            <button class="menu-btn-minus" data-id="24">-</button><span class="item-qty" data-id="24">1</span>
                         </div>
                         <button class="add-btn" data-id="24" data-name="Veg. Korma" data-price="13.50" data-category="vegetarisches">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>25. Nauratan Korma</strong><span class="description">Mischgemüse und Cocktailfrüchte...</span></span>
+                    <span class="item"><strong data-i18n="item_25">25. Nauratan Korma</strong><span class="description">Mischgemüse und Cocktailfrüchte</span></span>
                     <div class="price-action">
                         <span class="price">14,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="25" data-name="Nauratan Korma" data-price="14.00" data-category="vegetarisches">-</button>
-                            <span class="item-qty" data-id="25">1</span>
+                            <button class="menu-btn-minus" data-id="25">-</button><span class="item-qty" data-id="25">1</span>
                         </div>
                         <button class="add-btn" data-id="25" data-name="Nauratan Korma" data-price="14.00" data-category="vegetarisches">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>26. Shahi Paneer</strong><span class="description">Indischer Frischkäse in Tomaten...</span></span>
+                    <span class="item"><strong data-i18n="item_26">26. Shahi Paneer</strong><span class="description">Indischer Frischkäse in Tomaten-Sahne</span></span>
                     <div class="price-action">
                         <span class="price">14,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="26" data-name="Shahi Paneer" data-price="14.00" data-category="vegetarisches">-</button>
-                            <span class="item-qty" data-id="26">1</span>
+                            <button class="menu-btn-minus" data-id="26">-</button><span class="item-qty" data-id="26">1</span>
                         </div>
                         <button class="add-btn" data-id="26" data-name="Shahi Paneer" data-price="14.00" data-category="vegetarisches">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>27. Paneer Tikka Masala</strong><span class="description">Indischer Frischkäse in Zwiebel...</span></span>
+                    <span class="item"><strong data-i18n="item_27">27. Paneer Tikka Masala</strong><span class="description">Indischer Frischkäse in Zwiebel-Curry</span></span>
                     <div class="price-action">
                         <span class="price">14,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="27" data-name="Paneer Tikka Masala" data-price="14.50" data-category="vegetarisches">-</button>
-                            <span class="item-qty" data-id="27">1</span>
+                            <button class="menu-btn-minus" data-id="27">-</button><span class="item-qty" data-id="27">1</span>
                         </div>
                         <button class="add-btn" data-id="27" data-name="Paneer Tikka Masala" data-price="14.50" data-category="vegetarisches">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>28. Paneer Jalfrezi</strong><span class="description">Indischer Frischkäse in Tomaten...</span></span>
+                    <span class="item"><strong data-i18n="item_28">28. Paneer Jalfrezi</strong><span class="description">Indischer Frischkäse in Tomaten-Curry</span></span>
                     <div class="price-action">
                         <span class="price">14,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="28" data-name="Paneer Jalfrezi" data-price="14.00" data-category="vegetarisches">-</button>
-                            <span class="item-qty" data-id="28">1</span>
+                            <button class="menu-btn-minus" data-id="28">-</button><span class="item-qty" data-id="28">1</span>
                         </div>
                         <button class="add-btn" data-id="28" data-name="Paneer Jalfrezi" data-price="14.00" data-category="vegetarisches">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>29. Paneer Bhunna Masala</strong><span class="description">Indischer Frischkäse in Tomaten...</span></span>
+                    <span class="item"><strong data-i18n="item_29">29. Paneer Bhunna Masala</strong><span class="description">Indischer Frischkäse in Tomaten-Zwiebel</span></span>
                     <div class="price-action">
                         <span class="price">14,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="29" data-name="Paneer Bhunna Masala" data-price="14.00" data-category="vegetarisches">-</button>
-                            <span class="item-qty" data-id="29">1</span>
+                            <button class="menu-btn-minus" data-id="29">-</button><span class="item-qty" data-id="29">1</span>
                         </div>
                         <button class="add-btn" data-id="29" data-name="Paneer Bhunna Masala" data-price="14.00" data-category="vegetarisches">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>30. Palak Paneer</strong><span class="description">Indischer Frischkäse und Spinat...</span></span>
+                    <span class="item"><strong data-i18n="item_30">30. Palak Paneer</strong><span class="description">Indischer Frischkäse und Spinat</span></span>
                     <div class="price-action">
                         <span class="price">14,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="30" data-name="Palak Paneer" data-price="14.00" data-category="vegetarisches">-</button>
-                            <span class="item-qty" data-id="30">1</span>
+                            <button class="menu-btn-minus" data-id="30">-</button><span class="item-qty" data-id="30">1</span>
                         </div>
                         <button class="add-btn" data-id="30" data-name="Palak Paneer" data-price="14.00" data-category="vegetarisches">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>31. Paneer Muttar Aallu</strong><span class="description">Indischer Frischkäse mit grünen Erbsen...</span></span>
+                    <span class="item"><strong data-i18n="item_31">31. Paneer Muttar Aallu</strong><span class="description">Indischer Frischkäse mit grünen Erbsen</span></span>
                     <div class="price-action">
                         <span class="price">14,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="31" data-name="Paneer Muttar Aallu" data-price="14.50" data-category="vegetarisches">-</button>
-                            <span class="item-qty" data-id="31">1</span>
+                            <button class="menu-btn-minus" data-id="31">-</button><span class="item-qty" data-id="31">1</span>
                         </div>
                         <button class="add-btn" data-id="31" data-name="Paneer Muttar Aallu" data-price="14.50" data-category="vegetarisches">+</button>
                     </div>
@@ -416,158 +447,144 @@
         </section>
 
         <section id="chicken">
-            <h2>Chicken</h2>
+            <h2 data-i18n="cat_chicken">Chicken</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>32. Chicken Curry</strong><span class="description">Hähnchenfleisch in Zwiebel...</span></span>
+                    <span class="item"><strong data-i18n="item_32">32. Chicken Curry</strong><span class="description">Hähnchenfleisch in Zwiebel-Curry</span></span>
                     <div class="price-action">
                         <span class="price">14,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="32" data-name="Chicken Curry" data-price="14.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="32">1</span>
+                            <button class="menu-btn-minus" data-id="32">-</button><span class="item-qty" data-id="32">1</span>
                         </div>
                         <button class="add-btn" data-id="32" data-name="Chicken Curry" data-price="14.50" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>33. Chicken Tikka Masala</strong><span class="description">Gegrilltes Hähnchenfilet in...</span></span>
+                    <span class="item"><strong data-i18n="item_33">33. Chicken Tikka Masala</strong><span class="description">Gegrilltes Hähnchenfilet in Curry</span></span>
                     <div class="price-action">
                         <span class="price">15,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="33" data-name="Chicken Tikka Masala" data-price="15.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="33">1</span>
+                            <button class="menu-btn-minus" data-id="33">-</button><span class="item-qty" data-id="33">1</span>
                         </div>
                         <button class="add-btn" data-id="33" data-name="Chicken Tikka Masala" data-price="15.50" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>34. Chicken Korma</strong><span class="description">Hähnchenfleisch, Tomaten-Sahne...</span></span>
+                    <span class="item"><strong data-i18n="item_34">34. Chicken Korma</strong><span class="description">Hähnchenfleisch, Tomaten-Sahne</span></span>
                     <div class="price-action">
                         <span class="price">15,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="34" data-name="Chicken Korma" data-price="15.00" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="34">1</span>
+                            <button class="menu-btn-minus" data-id="34">-</button><span class="item-qty" data-id="34">1</span>
                         </div>
                         <button class="add-btn" data-id="34" data-name="Chicken Korma" data-price="15.00" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>35. Butter Chicken</strong><span class="description">Gegrilltes Hähnchenfilet in...</span></span>
+                    <span class="item"><strong data-i18n="item_35">35. Butter Chicken</strong><span class="description">Gegrilltes Hähnchenfilet in Buttersoße</span></span>
                     <div class="price-action">
                         <span class="price">15,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="35" data-name="Butter Chicken" data-price="15.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="35">1</span>
+                            <button class="menu-btn-minus" data-id="35">-</button><span class="item-qty" data-id="35">1</span>
                         </div>
                         <button class="add-btn" data-id="35" data-name="Butter Chicken" data-price="15.50" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>36. Kashmiri Chicken</strong><span class="description">Hähnchenfleisch mit Früchten in...</span></span>
+                    <span class="item"><strong data-i18n="item_36">36. Kashmiri Chicken</strong><span class="description">Hähnchenfleisch mit Früchten</span></span>
                     <div class="price-action">
                         <span class="price">15,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="36" data-name="Kashmiri Chicken" data-price="15.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="36">1</span>
+                            <button class="menu-btn-minus" data-id="36">-</button><span class="item-qty" data-id="36">1</span>
                         </div>
                         <button class="add-btn" data-id="36" data-name="Kashmiri Chicken" data-price="15.50" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>37. Chicken Goan Curry</strong><span class="description">Hähnchenfleisch mit Mango in...</span></span>
+                    <span class="item"><strong data-i18n="item_37">37. Chicken Goan Curry</strong><span class="description">Hähnchenfleisch mit Mango</span></span>
                     <div class="price-action">
                         <span class="price">15,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="37" data-name="Chicken Goan Curry" data-price="15.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="37">1</span>
+                            <button class="menu-btn-minus" data-id="37">-</button><span class="item-qty" data-id="37">1</span>
                         </div>
                         <button class="add-btn" data-id="37" data-name="Chicken Goan Curry" data-price="15.50" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>38. Chicken Jalfrezi</strong><span class="description">Hähnchenfleisch in Tomaten...</span></span>
+                    <span class="item"><strong data-i18n="item_38">38. Chicken Jalfrezi</strong><span class="description">Hähnchenfleisch in Tomaten-Curry</span></span>
                     <div class="price-action">
                         <span class="price">15,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="38" data-name="Chicken Jalfrezi" data-price="15.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="38">1</span>
+                            <button class="menu-btn-minus" data-id="38">-</button><span class="item-qty" data-id="38">1</span>
                         </div>
                         <button class="add-btn" data-id="38" data-name="Chicken Jalfrezi" data-price="15.50" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>39. Chicken Kadai</strong><span class="description">Hähnchenfleisch in Tomaten...</span></span>
+                    <span class="item"><strong data-i18n="item_39">39. Chicken Kadai</strong><span class="description">Hähnchenfleisch in Tomaten-Joghurt</span></span>
                     <div class="price-action">
                         <span class="price">15,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="39" data-name="Chicken Kadai" data-price="15.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="39">1</span>
+                            <button class="menu-btn-minus" data-id="39">-</button><span class="item-qty" data-id="39">1</span>
                         </div>
                         <button class="add-btn" data-id="39" data-name="Chicken Kadai" data-price="15.50" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>40. Chicken Bhuna</strong><span class="description">Hähnchenfleisch in Zwiebel...</span></span>
+                    <span class="item"><strong data-i18n="item_40">40. Chicken Bhuna</strong><span class="description">Hähnchenfleisch in Zwiebel-Tomaten</span></span>
                     <div class="price-action">
                         <span class="price">15,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="40" data-name="Chicken Bhuna" data-price="15.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="40">1</span>
+                            <button class="menu-btn-minus" data-id="40">-</button><span class="item-qty" data-id="40">1</span>
                         </div>
                         <button class="add-btn" data-id="40" data-name="Chicken Bhuna" data-price="15.50" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>41. Vegi Chicken</strong><span class="description">Hähnchenfleisch in Zwiebel...</span></span>
+                    <span class="item"><strong data-i18n="item_41">41. Vegi Chicken</strong><span class="description">Hähnchenfleisch mit Gemüse</span></span>
                     <div class="price-action">
                         <span class="price">15,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="41" data-name="Vegi Chicken" data-price="15.00" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="41">1</span>
+                            <button class="menu-btn-minus" data-id="41">-</button><span class="item-qty" data-id="41">1</span>
                         </div>
                         <button class="add-btn" data-id="41" data-name="Vegi Chicken" data-price="15.00" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>42. Chicken Palak</strong><span class="description">Hähnchenfleisch mit Spinat...</span></span>
+                    <span class="item"><strong data-i18n="item_42">42. Chicken Palak</strong><span class="description">Hähnchenfleisch mit Spinat</span></span>
                     <div class="price-action">
                         <span class="price">15,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="42" data-name="Chicken Palak" data-price="15.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="42">1</span>
+                            <button class="menu-btn-minus" data-id="42">-</button><span class="item-qty" data-id="42">1</span>
                         </div>
                         <button class="add-btn" data-id="42" data-name="Chicken Palak" data-price="15.50" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>43. Chicken Dhansik</strong><span class="description">Hähnchenfleisch mit Linsen</span></span>
+                    <span class="item"><strong data-i18n="item_43">43. Chicken Dhansik</strong><span class="description">Hähnchenfleisch mit Linsen</span></span>
                     <div class="price-action">
                         <span class="price">15,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="43" data-name="Chicken Dhansik" data-price="15.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="43">1</span>
+                            <button class="menu-btn-minus" data-id="43">-</button><span class="item-qty" data-id="43">1</span>
                         </div>
                         <button class="add-btn" data-id="43" data-name="Chicken Dhansik" data-price="15.50" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>44. Chicken Madras</strong><span class="description">Hähnchenfleisch in pikantem...</span></span>
+                    <span class="item"><strong data-i18n="item_44">44. Chicken Madras</strong><span class="description">Hähnchenfleisch in pikantem Curry</span></span>
                     <div class="price-action">
                         <span class="price">15,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="44" data-name="Chicken Madras" data-price="15.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="44">1</span>
+                            <button class="menu-btn-minus" data-id="44">-</button><span class="item-qty" data-id="44">1</span>
                         </div>
                         <button class="add-btn" data-id="44" data-name="Chicken Madras" data-price="15.50" data-category="chicken">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>45. Chicken Vindalo</strong><span class="description">Hähnchenfleisch in sehr pikantem...</span></span>
+                    <span class="item"><strong data-i18n="item_45">45. Chicken Vindalo</strong><span class="description">Hähnchenfleisch in sehr pikantem Curry</span></span>
                     <div class="price-action">
                         <span class="price">15,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="45" data-name="Chicken Vindalo" data-price="15.50" data-category="chicken">-</button>
-                            <span class="item-qty" data-id="45">1</span>
+                            <button class="menu-btn-minus" data-id="45">-</button><span class="item-qty" data-id="45">1</span>
                         </div>
                         <button class="add-btn" data-id="45" data-name="Chicken Vindalo" data-price="15.50" data-category="chicken">+</button>
                     </div>
@@ -576,158 +593,144 @@
         </section>
 
         <section id="lamm">
-            <h2>Lamm</h2>
+            <h2 data-i18n="cat_lamb">Lamm</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>46. Lamb Curry</strong><span class="description">Lammfleisch in Zwiebel...</span></span>
+                    <span class="item"><strong data-i18n="item_46">46. Lamb Curry</strong><span class="description">Lammfleisch in Zwiebel-Curry</span></span>
                     <div class="price-action">
                         <span class="price">17,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="46" data-name="Lamb Curry" data-price="17.00" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="46">1</span>
+                            <button class="menu-btn-minus" data-id="46">-</button><span class="item-qty" data-id="46">1</span>
                         </div>
                         <button class="add-btn" data-id="46" data-name="Lamb Curry" data-price="17.00" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>47. Lamb Tikka Masala</strong><span class="description">Gegrilltes Lammfilet in...</span></span>
+                    <span class="item"><strong data-i18n="item_47">47. Lamb Tikka Masala</strong><span class="description">Gegrilltes Lammfilet in Curry</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="47" data-name="Lamb Tikka Masala" data-price="17.50" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="47">1</span>
+                            <button class="menu-btn-minus" data-id="47">-</button><span class="item-qty" data-id="47">1</span>
                         </div>
                         <button class="add-btn" data-id="47" data-name="Lamb Tikka Masala" data-price="17.50" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>48. Lamb Korma</strong><span class="description">Lammfleisch in Tomaten-Sahne...</span></span>
+                    <span class="item"><strong data-i18n="item_48">48. Lamb Korma</strong><span class="description">Lammfleisch in Tomaten-Sahne</span></span>
                     <div class="price-action">
                         <span class="price">17,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="48" data-name="Lamb Korma" data-price="17.00" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="48">1</span>
+                            <button class="menu-btn-minus" data-id="48">-</button><span class="item-qty" data-id="48">1</span>
                         </div>
                         <button class="add-btn" data-id="48" data-name="Lamb Korma" data-price="17.00" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>49. Butter Lamb</strong><span class="description">Gegrilltes Lammfilet in...</span></span>
+                    <span class="item"><strong data-i18n="item_49">49. Butter Lamb</strong><span class="description">Gegrilltes Lammfilet in Buttersoße</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="49" data-name="Butter Lamb" data-price="17.50" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="49">1</span>
+                            <button class="menu-btn-minus" data-id="49">-</button><span class="item-qty" data-id="49">1</span>
                         </div>
                         <button class="add-btn" data-id="49" data-name="Butter Lamb" data-price="17.50" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>50. Kashmiri Lamb</strong><span class="description">Lammfleisch mit Früchten in...</span></span>
+                    <span class="item"><strong data-i18n="item_50">50. Kashmiri Lamb</strong><span class="description">Lammfleisch mit Früchten</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="50" data-name="Kashmiri Lamb" data-price="17.50" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="50">1</span>
+                            <button class="menu-btn-minus" data-id="50">-</button><span class="item-qty" data-id="50">1</span>
                         </div>
                         <button class="add-btn" data-id="50" data-name="Kashmiri Lamb" data-price="17.50" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>51. Lamb Goan Curry</strong><span class="description">Lammfleisch mit Mango in...</span></span>
+                    <span class="item"><strong data-i18n="item_51">51. Lamb Goan Curry</strong><span class="description">Lammfleisch mit Mango</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="51" data-name="Lamb Goan Curry" data-price="17.50" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="51">1</span>
+                            <button class="menu-btn-minus" data-id="51">-</button><span class="item-qty" data-id="51">1</span>
                         </div>
                         <button class="add-btn" data-id="51" data-name="Lamb Goan Curry" data-price="17.50" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>52. Lamb Jalfrezi</strong><span class="description">Lammfleisch in Tomaten-Curry...</span></span>
+                    <span class="item"><strong data-i18n="item_52">52. Lamb Jalfrezi</strong><span class="description">Lammfleisch in Tomaten-Curry</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="52" data-name="Lamb Jalfrezi" data-price="17.50" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="52">1</span>
+                            <button class="menu-btn-minus" data-id="52">-</button><span class="item-qty" data-id="52">1</span>
                         </div>
                         <button class="add-btn" data-id="52" data-name="Lamb Jalfrezi" data-price="17.50" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>53. Lamb Kadai</strong><span class="description">Lammfleisch in Tomaten-Joghurt...</span></span>
+                    <span class="item"><strong data-i18n="item_53">53. Lamb Kadai</strong><span class="description">Lammfleisch in Tomaten-Joghurt</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="53" data-name="Lamb Kadai" data-price="17.50" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="53">1</span>
+                            <button class="menu-btn-minus" data-id="53">-</button><span class="item-qty" data-id="53">1</span>
                         </div>
                         <button class="add-btn" data-id="53" data-name="Lamb Kadai" data-price="17.50" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>54. Lamb Bhuna</strong><span class="description">Lammfleisch in Zwiebel-Tomaten...</span></span>
+                    <span class="item"><strong data-i18n="item_54">54. Lamb Bhuna</strong><span class="description">Lammfleisch in Zwiebel-Tomaten</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="54" data-name="Lamb Bhuna" data-price="17.50" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="54">1</span>
+                            <button class="menu-btn-minus" data-id="54">-</button><span class="item-qty" data-id="54">1</span>
                         </div>
                         <button class="add-btn" data-id="54" data-name="Lamb Bhuna" data-price="17.50" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>55. Vegi Lamb</strong><span class="description">Lammfleisch in Zwiebeln...</span></span>
+                    <span class="item"><strong data-i18n="item_55">55. Vegi Lamb</strong><span class="description">Lammfleisch in Zwiebeln & Gemüse</span></span>
                     <div class="price-action">
                         <span class="price">17,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="55" data-name="Vegi Lamb" data-price="17.00" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="55">1</span>
+                            <button class="menu-btn-minus" data-id="55">-</button><span class="item-qty" data-id="55">1</span>
                         </div>
                         <button class="add-btn" data-id="55" data-name="Vegi Lamb" data-price="17.00" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>56. Lamb Palak</strong><span class="description">Lammfleisch mit Spinat...</span></span>
+                    <span class="item"><strong data-i18n="item_56">56. Lamb Palak</strong><span class="description">Lammfleisch mit Spinat</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="56" data-name="Lamb Palak" data-price="17.50" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="56">1</span>
+                            <button class="menu-btn-minus" data-id="56">-</button><span class="item-qty" data-id="56">1</span>
                         </div>
                         <button class="add-btn" data-id="56" data-name="Lamb Palak" data-price="17.50" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>57. Lamb Dhansik</strong><span class="description">Lammfleisch mit Linsen</span></span>
+                    <span class="item"><strong data-i18n="item_57">57. Lamb Dhansik</strong><span class="description">Lammfleisch mit Linsen</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="57" data-name="Lamb Dhansik" data-price="17.50" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="57">1</span>
+                            <button class="menu-btn-minus" data-id="57">-</button><span class="item-qty" data-id="57">1</span>
                         </div>
                         <button class="add-btn" data-id="57" data-name="Lamb Dhansik" data-price="17.50" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>58. Lamb Madras</strong><span class="description">Lammfleisch in pikantem Zwiebel...</span></span>
+                    <span class="item"><strong data-i18n="item_58">58. Lamb Madras</strong><span class="description">Lammfleisch in pikantem Curry</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="58" data-name="Lamb Madras" data-price="17.50" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="58">1</span>
+                            <button class="menu-btn-minus" data-id="58">-</button><span class="item-qty" data-id="58">1</span>
                         </div>
                         <button class="add-btn" data-id="58" data-name="Lamb Madras" data-price="17.50" data-category="lamm">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>59. Lamb Vindalo</strong><span class="description">Lammfleisch in sehr pikantem...</span></span>
+                    <span class="item"><strong data-i18n="item_59">59. Lamb Vindalo</strong><span class="description">Lammfleisch in sehr pikantem Curry</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="59" data-name="Lamb Vindalo" data-price="17.50" data-category="lamm">-</button>
-                            <span class="item-qty" data-id="59">1</span>
+                            <button class="menu-btn-minus" data-id="59">-</button><span class="item-qty" data-id="59">1</span>
                         </div>
                         <button class="add-btn" data-id="59" data-name="Lamb Vindalo" data-price="17.50" data-category="lamm">+</button>
                     </div>
@@ -736,59 +739,54 @@
         </section>
 
         <section id="fisch-garnelen">
-            <h2>Fisch & Garnelen</h2>
+            <h2 data-i18n="cat_seafood">Fisch & Garnelen</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>60. Prawn Curry</strong><span class="description">Tigergarnelen gekocht in...</span></span>
+                    <span class="item"><strong data-i18n="item_60">60. Prawn Curry</strong><span class="description">Tigergarnelen in Currysoße</span></span>
                     <div class="price-action">
                         <span class="price">18,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="60" data-name="Prawn Curry" data-price="18.50" data-category="fisch-garnelen">-</button>
-                            <span class="item-qty" data-id="60">1</span>
+                            <button class="menu-btn-minus" data-id="60">-</button><span class="item-qty" data-id="60">1</span>
                         </div>
                         <button class="add-btn" data-id="60" data-name="Prawn Curry" data-price="18.50" data-category="fisch-garnelen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>61. Prawn Korma</strong><span class="description">Tigergarnelen in Tomaten...</span></span>
+                    <span class="item"><strong data-i18n="item_61">61. Prawn Korma</strong><span class="description">Tigergarnelen in Tomaten-Sahne</span></span>
                     <div class="price-action">
                         <span class="price">18,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="61" data-name="Prawn Korma" data-price="18.50" data-category="fisch-garnelen">-</button>
-                            <span class="item-qty" data-id="61">1</span>
+                            <button class="menu-btn-minus" data-id="61">-</button><span class="item-qty" data-id="61">1</span>
                         </div>
                         <button class="add-btn" data-id="61" data-name="Prawn Korma" data-price="18.50" data-category="fisch-garnelen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>62. Prawn Tikka Masala</strong><span class="description">Marinierte Tigergarnelen...</span></span>
+                    <span class="item"><strong data-i18n="item_62">62. Prawn Tikka Masala</strong><span class="description">Marinierte Tigergarnelen in Curry</span></span>
                     <div class="price-action">
                         <span class="price">18,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="62" data-name="Prawn Tikka Masala" data-price="18.50" data-category="fisch-garnelen">-</button>
-                            <span class="item-qty" data-id="62">1</span>
+                            <button class="menu-btn-minus" data-id="62">-</button><span class="item-qty" data-id="62">1</span>
                         </div>
                         <button class="add-btn" data-id="62" data-name="Prawn Tikka Masala" data-price="18.50" data-category="fisch-garnelen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>63. Fish Curry</strong><span class="description">Lachsfilet gekocht in...</span></span>
+                    <span class="item"><strong data-i18n="item_63">63. Fish Curry</strong><span class="description">Lachsfilet in Currysoße</span></span>
                     <div class="price-action">
                         <span class="price">18,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="63" data-name="Fish Curry" data-price="18.50" data-category="fisch-garnelen">-</button>
-                            <span class="item-qty" data-id="63">1</span>
+                            <button class="menu-btn-minus" data-id="63">-</button><span class="item-qty" data-id="63">1</span>
                         </div>
                         <button class="add-btn" data-id="63" data-name="Fish Curry" data-price="18.50" data-category="fisch-garnelen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>64. Fish Tikka Masala</strong><span class="description">Mariniertes Lachsfilet...</span></span>
+                    <span class="item"><strong data-i18n="item_64">64. Fish Tikka Masala</strong><span class="description">Mariniertes Lachsfilet in Curry</span></span>
                     <div class="price-action">
                         <span class="price">18,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="64" data-name="Fish Tikka Masala" data-price="18.50" data-category="fisch-garnelen">-</button>
-                            <span class="item-qty" data-id="64">1</span>
+                            <button class="menu-btn-minus" data-id="64">-</button><span class="item-qty" data-id="64">1</span>
                         </div>
                         <button class="add-btn" data-id="64" data-name="Fish Tikka Masala" data-price="18.50" data-category="fisch-garnelen">+</button>
                     </div>
@@ -797,125 +795,114 @@
         </section>
 
         <section id="tandoori">
-            <h2>Tandoori</h2>
+            <h2 data-i18n="cat_tandoori">Tandoori</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>65. Chicken Tikka</strong><span class="description">Mariniertes Hähnchenfilet...</span></span>
+                    <span class="item"><strong data-i18n="item_65">65. Chicken Tikka</strong><span class="description">Mariniertes Hähnchenfilet</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="65" data-name="Chicken Tikka" data-price="17.50" data-category="tandoori">-</button>
-                            <span class="item-qty" data-id="65">1</span>
+                            <button class="menu-btn-minus" data-id="65">-</button><span class="item-qty" data-id="65">1</span>
                         </div>
                         <button class="add-btn" data-id="65" data-name="Chicken Tikka" data-price="17.50" data-category="tandoori">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>66. Tandoori Chicken</strong><span class="description">Hähnchenschenkel mariniert...</span></span>
+                    <span class="item"><strong data-i18n="item_66">66. Tandoori Chicken</strong><span class="description">Hähnchenschenkel mariniert</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="66" data-name="Tandoori Chicken" data-price="17.50" data-category="tandoori">-</button>
-                            <span class="item-qty" data-id="66">1</span>
+                            <button class="menu-btn-minus" data-id="66">-</button><span class="item-qty" data-id="66">1</span>
                         </div>
                         <button class="add-btn" data-id="66" data-name="Tandoori Chicken" data-price="17.50" data-category="tandoori">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>67. Malai Tikka</strong><span class="description">Hähnchenfilet mariniert in...</span></span>
+                    <span class="item"><strong data-i18n="item_67">67. Malai Tikka</strong><span class="description">Hähnchenfilet mariniert in Joghurt</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="67" data-name="Malai Tikka" data-price="17.50" data-category="tandoori">-</button>
-                            <span class="item-qty" data-id="67">1</span>
+                            <button class="menu-btn-minus" data-id="67">-</button><span class="item-qty" data-id="67">1</span>
                         </div>
                         <button class="add-btn" data-id="67" data-name="Malai Tikka" data-price="17.50" data-category="tandoori">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>68. Haryali Tikka</strong><span class="description">Hähnchenfilet mariniert in...</span></span>
+                    <span class="item"><strong data-i18n="item_68">68. Haryali Tikka</strong><span class="description">Hähnchenfilet mariniert in Minze</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="68" data-name="Haryali Tikka" data-price="17.50" data-category="tandoori">-</button>
-                            <span class="item-qty" data-id="68">1</span>
+                            <button class="menu-btn-minus" data-id="68">-</button><span class="item-qty" data-id="68">1</span>
                         </div>
                         <button class="add-btn" data-id="68" data-name="Haryali Tikka" data-price="17.50" data-category="tandoori">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>69. Lamb Tikka</strong><span class="description">Lammfleisch mariniert in...</span></span>
+                    <span class="item"><strong data-i18n="item_69">69. Lamb Tikka</strong><span class="description">Lammfleisch mariniert</span></span>
                     <div class="price-action">
                         <span class="price">18,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="69" data-name="Lamb Tikka" data-price="18.50" data-category="tandoori">-</button>
-                            <span class="item-qty" data-id="69">1</span>
+                            <button class="menu-btn-minus" data-id="69">-</button><span class="item-qty" data-id="69">1</span>
                         </div>
                         <button class="add-btn" data-id="69" data-name="Lamb Tikka" data-price="18.50" data-category="tandoori">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>70. Lamb Chops</strong><span class="description">Lammkotelett mariniert in...</span></span>
+                    <span class="item"><strong data-i18n="item_70">70. Lamb Chops</strong><span class="description">Lammkotelett mariniert</span></span>
                     <div class="price-action">
                         <span class="price">20,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="70" data-name="Lamb Chops" data-price="20.50" data-category="tandoori">-</button>
-                            <span class="item-qty" data-id="70">1</span>
+                            <button class="menu-btn-minus" data-id="70">-</button><span class="item-qty" data-id="70">1</span>
                         </div>
                         <button class="add-btn" data-id="70" data-name="Lamb Chops" data-price="20.50" data-category="tandoori">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>71. Seekh Kabab</strong><span class="description">Lammhackspieß mit Zwiebeln...</span></span>
+                    <span class="item"><strong data-i18n="item_71">71. Seekh Kabab</strong><span class="description">Lammhackspieß mit Zwiebeln</span></span>
                     <div class="price-action">
                         <span class="price">19,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="71" data-name="Seekh Kabab" data-price="19.50" data-category="tandoori">-</button>
-                            <span class="item-qty" data-id="71">1</span>
+                            <button class="menu-btn-minus" data-id="71">-</button><span class="item-qty" data-id="71">1</span>
                         </div>
                         <button class="add-btn" data-id="71" data-name="Seekh Kabab" data-price="19.50" data-category="tandoori">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>72. Prawn Tikka</strong><span class="description">Tigergarnelen mariniert in...</span></span>
+                    <span class="item"><strong data-i18n="item_72">72. Prawn Tikka</strong><span class="description">Tigergarnelen mariniert</span></span>
                     <div class="price-action">
                         <span class="price">20,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="72" data-name="Prawn Tikka" data-price="20.50" data-category="tandoori">-</button>
-                            <span class="item-qty" data-id="72">1</span>
+                            <button class="menu-btn-minus" data-id="72">-</button><span class="item-qty" data-id="72">1</span>
                         </div>
                         <button class="add-btn" data-id="72" data-name="Prawn Tikka" data-price="20.50" data-category="tandoori">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>73. Paneer Tikka</strong><span class="description">Indischer Frischkäse mariniert...</span></span>
+                    <span class="item"><strong data-i18n="item_73">73. Paneer Tikka</strong><span class="description">Indischer Frischkäse mariniert</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="73" data-name="Paneer Tikka" data-price="17.50" data-category="tandoori">-</button>
-                            <span class="item-qty" data-id="73">1</span>
+                            <button class="menu-btn-minus" data-id="73">-</button><span class="item-qty" data-id="73">1</span>
                         </div>
                         <button class="add-btn" data-id="73" data-name="Paneer Tikka" data-price="17.50" data-category="tandoori">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>74. Fish Tawa Fry</strong><span class="description">Lachsfilet in indischen Gewürzen...</span></span>
+                    <span class="item"><strong data-i18n="item_74">74. Fish Tawa Fry</strong><span class="description">Lachsfilet in indischen Gewürzen</span></span>
                     <div class="price-action">
                         <span class="price">20,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="74" data-name="Fish Tawa Fry" data-price="20.50" data-category="tandoori">-</button>
-                            <span class="item-qty" data-id="74">1</span>
+                            <button class="menu-btn-minus" data-id="74">-</button><span class="item-qty" data-id="74">1</span>
                         </div>
                         <button class="add-btn" data-id="74" data-name="Fish Tawa Fry" data-price="20.50" data-category="tandoori">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>75. Zafrani Mix Grill</strong><span class="description">Spezieller Grillteller mit...</span></span>
+                    <span class="item"><strong data-i18n="item_75">75. Zafrani Mix Grill</strong><span class="description">Spezieller Grillteller</span></span>
                     <div class="price-action">
                         <span class="price">24,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="75" data-name="Zafrani Mix Grill" data-price="24.00" data-category="tandoori">-</button>
-                            <span class="item-qty" data-id="75">1</span>
+                            <button class="menu-btn-minus" data-id="75">-</button><span class="item-qty" data-id="75">1</span>
                         </div>
                         <button class="add-btn" data-id="75" data-name="Zafrani Mix Grill" data-price="24.00" data-category="tandoori">+</button>
                     </div>
@@ -924,49 +911,45 @@
         </section>
 
         <section id="biryani">
-            <h2>Biryani</h2>
+            <h2 data-i18n="cat_biryani">Biryani</h2>
             <p class="section-note">Alle Biryanis werden mit einer milden Currysoße serviert.</p>
             <ul>
                 <li>
-                    <span class="item"><strong>76. Vegi Biryani</strong><span class="description">Basmatireis mit Mischgemüse...</span></span>
+                    <span class="item"><strong data-i18n="item_76">76. Vegi Biryani</strong><span class="description">Basmatireis mit Mischgemüse</span></span>
                     <div class="price-action">
                         <span class="price">14,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="76" data-name="Vegi Biryani" data-price="14.50" data-category="biryani">-</button>
-                            <span class="item-qty" data-id="76">1</span>
+                            <button class="menu-btn-minus" data-id="76">-</button><span class="item-qty" data-id="76">1</span>
                         </div>
                         <button class="add-btn" data-id="76" data-name="Vegi Biryani" data-price="14.50" data-category="biryani">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>77. Chicken Bombay Biryani</strong><span class="description">Basmatireis mit Hähnchenfleisch...</span></span>
+                    <span class="item"><strong data-i18n="item_77">77. Chicken Bombay Biryani</strong><span class="description">Basmatireis mit Hähnchenfleisch</span></span>
                     <div class="price-action">
                         <span class="price">16,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="77" data-name="Chicken Bombay Biryani" data-price="16.50" data-category="biryani">-</button>
-                            <span class="item-qty" data-id="77">1</span>
+                            <button class="menu-btn-minus" data-id="77">-</button><span class="item-qty" data-id="77">1</span>
                         </div>
                         <button class="add-btn" data-id="77" data-name="Chicken Bombay Biryani" data-price="16.50" data-category="biryani">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>78. Lamb Karachi Biryani</strong><span class="description">Basmatireis mit Lammfleisch...</span></span>
+                    <span class="item"><strong data-i18n="item_78">78. Lamb Karachi Biryani</strong><span class="description">Basmatireis mit Lammfleisch</span></span>
                     <div class="price-action">
                         <span class="price">17,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="78" data-name="Lamb Karachi Biryani" data-price="17.50" data-category="biryani">-</button>
-                            <span class="item-qty" data-id="78">1</span>
+                            <button class="menu-btn-minus" data-id="78">-</button><span class="item-qty" data-id="78">1</span>
                         </div>
                         <button class="add-btn" data-id="78" data-name="Lamb Karachi Biryani" data-price="17.50" data-category="biryani">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>79. Prawn Zafran Biryani</strong><span class="description">Basmatireis mit Tigergarnelen...</span></span>
+                    <span class="item"><strong data-i18n="item_79">79. Prawn Zafran Biryani</strong><span class="description">Basmatireis mit Tigergarnelen</span></span>
                     <div class="price-action">
                         <span class="price">20,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="79" data-name="Prawn Zafran Biryani" data-price="20.50" data-category="biryani">-</button>
-                            <span class="item-qty" data-id="79">1</span>
+                            <button class="menu-btn-minus" data-id="79">-</button><span class="item-qty" data-id="79">1</span>
                         </div>
                         <button class="add-btn" data-id="79" data-name="Prawn Zafran Biryani" data-price="20.50" data-category="biryani">+</button>
                     </div>
@@ -975,92 +958,84 @@
         </section>
 
         <section id="brot">
-            <h2>Tandoori Naan</h2>
+            <h2 data-i18n="cat_bread">Tandoori Naan</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>80. Frisches Tandoori Brot</strong><span class="description">Indisches Brot aus Vollkornmehl...</span></span>
+                    <span class="item"><strong data-i18n="item_80">80. Frisches Tandoori Brot</strong><span class="description">Indisches Brot aus Vollkornmehl</span></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="80" data-name="Frisches Tandoori Brot" data-price="3.50" data-category="brot">-</button>
-                            <span class="item-qty" data-id="80">1</span>
+                            <button class="menu-btn-minus" data-id="80">-</button><span class="item-qty" data-id="80">1</span>
                         </div>
                         <button class="add-btn" data-id="80" data-name="Frisches Tandoori Brot" data-price="3.50" data-category="brot">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>81. Chapati Roti</strong><span class="description">Dünnes indisches Fladenbrot...</span></span>
+                    <span class="item"><strong data-i18n="item_81">81. Chapati Roti</strong><span class="description">Dünnes indisches Fladenbrot</span></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="81" data-name="Chapati Roti" data-price="3.50" data-category="brot">-</button>
-                            <span class="item-qty" data-id="81">1</span>
+                            <button class="menu-btn-minus" data-id="81">-</button><span class="item-qty" data-id="81">1</span>
                         </div>
                         <button class="add-btn" data-id="81" data-name="Chapati Roti" data-price="3.50" data-category="brot">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>82. Naan</strong><span class="description">Brotsorte nach indischer Art...</span></span>
+                    <span class="item"><strong data-i18n="item_82">82. Naan</strong><span class="description">Brotsorte nach indischer Art</span></span>
                     <div class="price-action">
                         <span class="price">3,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="82" data-name="Naan" data-price="3.00" data-category="brot">-</button>
-                            <span class="item-qty" data-id="82">1</span>
+                            <button class="menu-btn-minus" data-id="82">-</button><span class="item-qty" data-id="82">1</span>
                         </div>
                         <button class="add-btn" data-id="82" data-name="Naan" data-price="3.00" data-category="brot">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>83. Allo Naan</strong><span class="description">Naanbrot gefüllt mit gewürzten...</span></span>
+                    <span class="item"><strong data-i18n="item_83">83. Allo Naan</strong><span class="description">Naanbrot gefüllt mit Kartoffeln</span></span>
                     <div class="price-action">
                         <span class="price">4,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="83" data-name="Allo Naan" data-price="4.50" data-category="brot">-</button>
-                            <span class="item-qty" data-id="83">1</span>
+                            <button class="menu-btn-minus" data-id="83">-</button><span class="item-qty" data-id="83">1</span>
                         </div>
                         <button class="add-btn" data-id="83" data-name="Allo Naan" data-price="4.50" data-category="brot">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>84. Cheese Naan</strong><span class="description">Naanbrot gefüllt mit Käse</span></span>
+                    <span class="item"><strong data-i18n="item_84">84. Cheese Naan</strong><span class="description">Naanbrot gefüllt mit Käse</span></span>
                     <div class="price-action">
                         <span class="price">5,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="84" data-name="Cheese Naan" data-price="5.00" data-category="brot">-</button>
-                            <span class="item-qty" data-id="84">1</span>
+                            <button class="menu-btn-minus" data-id="84">-</button><span class="item-qty" data-id="84">1</span>
                         </div>
                         <button class="add-btn" data-id="84" data-name="Cheese Naan" data-price="5.00" data-category="brot">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>85. Butter Naan</strong><span class="description">Naanbrot mit Butter bestrichen</span></span>
+                    <span class="item"><strong data-i18n="item_85">85. Butter Naan</strong><span class="description">Naanbrot mit Butter bestrichen</span></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="85" data-name="Butter Naan" data-price="3.50" data-category="brot">-</button>
-                            <span class="item-qty" data-id="85">1</span>
+                            <button class="menu-btn-minus" data-id="85">-</button><span class="item-qty" data-id="85">1</span>
                         </div>
                         <button class="add-btn" data-id="85" data-name="Butter Naan" data-price="3.50" data-category="brot">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>86. Garlic Naan</strong><span class="description">Naanbrot gefüllt mit Knoblauch...</span></span>
+                    <span class="item"><strong data-i18n="item_86">86. Garlic Naan</strong><span class="description">Naanbrot gefüllt mit Knoblauch</span></span>
                     <div class="price-action">
                         <span class="price">4,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="86" data-name="Garlic Naan" data-price="4.50" data-category="brot">-</button>
-                            <span class="item-qty" data-id="86">1</span>
+                            <button class="menu-btn-minus" data-id="86">-</button><span class="item-qty" data-id="86">1</span>
                         </div>
                         <button class="add-btn" data-id="86" data-name="Garlic Naan" data-price="4.50" data-category="brot">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>87. Tandoori Parantha</strong><span class="description">Mehrlagiges knuspriges...</span></span>
+                    <span class="item"><strong data-i18n="item_87">87. Tandoori Parantha</strong><span class="description">Mehrlagiges knuspriges Brot</span></span>
                     <div class="price-action">
                         <span class="price">4,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="87" data-name="Tandoori Parantha" data-price="4.50" data-category="brot">-</button>
-                            <span class="item-qty" data-id="87">1</span>
+                            <button class="menu-btn-minus" data-id="87">-</button><span class="item-qty" data-id="87">1</span>
                         </div>
                         <button class="add-btn" data-id="87" data-name="Tandoori Parantha" data-price="4.50" data-category="brot">+</button>
                     </div>
@@ -1069,103 +1044,94 @@
         </section>
 
         <section id="beilagen">
-            <h2>Soßen & Beilagen</h2>
+            <h2 data-i18n="cat_sides">Soßen & Beilagen</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>88. Mint Sauce</strong><span class="description">Joghurt und Minze</span></span>
+                    <span class="item"><strong data-i18n="item_88">88. Mint Sauce</strong><span class="description">Joghurt und Minze</span></span>
                     <div class="price-action">
                         <span class="price">3,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="88" data-name="Mint Sauce" data-price="3.00" data-category="beilagen">-</button>
-                            <span class="item-qty" data-id="88">1</span>
+                            <button class="menu-btn-minus" data-id="88">-</button><span class="item-qty" data-id="88">1</span>
                         </div>
                         <button class="add-btn" data-id="88" data-name="Mint Sauce" data-price="3.00" data-category="beilagen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>89. Natur Joghurt</strong></span>
+                    <span class="item"><strong data-i18n="item_89">89. Natur Joghurt</strong></span>
                     <div class="price-action">
                         <span class="price">2,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="89" data-name="Natur Joghurt" data-price="2.50" data-category="beilagen">-</button>
-                            <span class="item-qty" data-id="89">1</span>
+                            <button class="menu-btn-minus" data-id="89">-</button><span class="item-qty" data-id="89">1</span>
                         </div>
                         <button class="add-btn" data-id="89" data-name="Natur Joghurt" data-price="2.50" data-category="beilagen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>90. Raita</strong><span class="description">Joghurt mit Zwiebeln...</span></span>
+                    <span class="item"><strong data-i18n="item_90">90. Raita</strong><span class="description">Joghurt mit Zwiebeln & Gurken</span></span>
                     <div class="price-action">
                         <span class="price">4,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="90" data-name="Raita" data-price="4.00" data-category="beilagen">-</button>
-                            <span class="item-qty" data-id="90">1</span>
+                            <button class="menu-btn-minus" data-id="90">-</button><span class="item-qty" data-id="90">1</span>
                         </div>
                         <button class="add-btn" data-id="90" data-name="Raita" data-price="4.00" data-category="beilagen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>91. Mango Chutney</strong></span>
+                    <span class="item"><strong data-i18n="item_91">91. Mango Chutney</strong></span>
                     <div class="price-action">
                         <span class="price">3,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="91" data-name="Mango Chutney" data-price="3.00" data-category="beilagen">-</button>
-                            <span class="item-qty" data-id="91">1</span>
+                            <button class="menu-btn-minus" data-id="91">-</button><span class="item-qty" data-id="91">1</span>
                         </div>
                         <button class="add-btn" data-id="91" data-name="Mango Chutney" data-price="3.00" data-category="beilagen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>92. Imli (Tamarind) Chutney</strong></span>
+                    <span class="item"><strong data-i18n="item_92">92. Imli (Tamarind) Chutney</strong></span>
                     <div class="price-action">
                         <span class="price">3,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="92" data-name="Imli (Tamarind) Chutney" data-price="3.00" data-category="beilagen">-</button>
-                            <span class="item-qty" data-id="92">1</span>
+                            <button class="menu-btn-minus" data-id="92">-</button><span class="item-qty" data-id="92">1</span>
                         </div>
                         <button class="add-btn" data-id="92" data-name="Imli (Tamarind) Chutney" data-price="3.00" data-category="beilagen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>93. Laal Chutney (scharfe...)</strong><span class="description">Mit roten Chilischoten...</span></span>
+                    <span class="item"><strong data-i18n="item_93">93. Laal Chutney</strong><span class="description">Mit roten Chilischoten (Scharf)</span></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="93" data-name="Laal Chutney" data-price="3.50" data-category="beilagen">-</button>
-                            <span class="item-qty" data-id="93">1</span>
+                            <button class="menu-btn-minus" data-id="93">-</button><span class="item-qty" data-id="93">1</span>
                         </div>
                         <button class="add-btn" data-id="93" data-name="Laal Chutney" data-price="3.50" data-category="beilagen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>94. Green Chutney</strong><span class="description">Mit Minze, Koriander...</span></span>
+                    <span class="item"><strong data-i18n="item_94">94. Green Chutney</strong><span class="description">Mit Minze, Koriander</span></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="94" data-name="Green Chutney" data-price="3.50" data-category="beilagen">-</button>
-                            <span class="item-qty" data-id="94">1</span>
+                            <button class="menu-btn-minus" data-id="94">-</button><span class="item-qty" data-id="94">1</span>
                         </div>
                         <button class="add-btn" data-id="94" data-name="Green Chutney" data-price="3.50" data-category="beilagen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>95. Pickles</strong></span>
+                    <span class="item"><strong data-i18n="item_95">95. Pickles</strong></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="95" data-name="Pickles" data-price="3.50" data-category="beilagen">-</button>
-                            <span class="item-qty" data-id="95">1</span>
+                            <button class="menu-btn-minus" data-id="95">-</button><span class="item-qty" data-id="95">1</span>
                         </div>
                         <button class="add-btn" data-id="95" data-name="Pickles" data-price="3.50" data-category="beilagen">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>96. Soße nach Wahl</strong><span class="description">Butter-, Curry-, Korma...</span></span>
+                    <span class="item"><strong data-i18n="item_96">96. Soße nach Wahl</strong><span class="description">Butter-, Curry-, Korma-Soße...</span></span>
                     <div class="price-action">
                         <span class="price">5,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="96" data-name="Soße nach Wahl" data-price="5.00" data-category="beilagen">-</button>
-                            <span class="item-qty" data-id="96">1</span>
+                            <button class="menu-btn-minus" data-id="96">-</button><span class="item-qty" data-id="96">1</span>
                         </div>
                         <button class="add-btn" data-id="96" data-name="Soße nach Wahl" data-price="5.00" data-category="beilagen">+</button>
                     </div>
@@ -1174,37 +1140,34 @@
         </section>
 
         <section id="kinder">
-            <h2>Kinder Menüs</h2>
+            <h2 data-i18n="cat_kids">Kinder Menüs</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>97. Gemüse-Frühlingsrollen</strong><span class="description">Zwei knusprige Frühlingsrollen...</span></span>
+                    <span class="item"><strong data-i18n="item_97">97. Gemüse-Frühlingsrollen</strong><span class="description">Zwei knusprige Frühlingsrollen</span></span>
                     <div class="price-action">
                         <span class="price">5,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="97" data-name="Gemüse-Frühlingsrollen" data-price="5.00" data-category="kinder">-</button>
-                            <span class="item-qty" data-id="97">1</span>
+                            <button class="menu-btn-minus" data-id="97">-</button><span class="item-qty" data-id="97">1</span>
                         </div>
                         <button class="add-btn" data-id="97" data-name="Gemüse-Frühlingsrollen" data-price="5.00" data-category="kinder">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>98. Pommes frites</strong></span>
+                    <span class="item"><strong data-i18n="item_98">98. Pommes frites</strong></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="98" data-name="Pommes frites" data-price="3.50" data-category="kinder">-</button>
-                            <span class="item-qty" data-id="98">1</span>
+                            <button class="menu-btn-minus" data-id="98">-</button><span class="item-qty" data-id="98">1</span>
                         </div>
                         <button class="add-btn" data-id="98" data-name="Pommes frites" data-price="3.50" data-category="kinder">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>99. Chicken Nuggets (6 Stk.)</strong></span>
+                    <span class="item"><strong data-i18n="item_99">99. Chicken Nuggets (6 Stk.)</strong></span>
                     <div class="price-action">
                         <span class="price">4,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="99" data-name="Chicken Nuggets (6 Stk.)" data-price="4.50" data-category="kinder">-</button>
-                            <span class="item-qty" data-id="99">1</span>
+                            <button class="menu-btn-minus" data-id="99">-</button><span class="item-qty" data-id="99">1</span>
                         </div>
                         <button class="add-btn" data-id="99" data-name="Chicken Nuggets (6 Stk.)" data-price="4.50" data-category="kinder">+</button>
                     </div>
@@ -1213,37 +1176,34 @@
         </section>
 
         <section id="reis">
-            <h2>Reis</h2>
+            <h2 data-i18n="cat_rice">Reis</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>100. Basmati - Reis</strong></span>
+                    <span class="item"><strong data-i18n="item_100">100. Basmati - Reis</strong></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="100" data-name="Basmati - Reis" data-price="3.50" data-category="reis">-</button>
-                            <span class="item-qty" data-id="100">1</span>
+                            <button class="menu-btn-minus" data-id="100">-</button><span class="item-qty" data-id="100">1</span>
                         </div>
                         <button class="add-btn" data-id="100" data-name="Basmati - Reis" data-price="3.50" data-category="reis">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>101. Zeera - Reis</strong><span class="description">Reis mit Kreuzkümmel</span></span>
+                    <span class="item"><strong data-i18n="item_101">101. Zeera - Reis</strong><span class="description">Reis mit Kreuzkümmel</span></span>
                     <div class="price-action">
                         <span class="price">4,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="101" data-name="Zeera - Reis" data-price="4.00" data-category="reis">-</button>
-                            <span class="item-qty" data-id="101">1</span>
+                            <button class="menu-btn-minus" data-id="101">-</button><span class="item-qty" data-id="101">1</span>
                         </div>
                         <button class="add-btn" data-id="101" data-name="Zeera - Reis" data-price="4.00" data-category="reis">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>102. Zafrani - Reis</strong><span class="description">Reis mit Safran</span></span>
+                    <span class="item"><strong data-i18n="item_102">102. Zafrani - Reis</strong><span class="description">Reis mit Safran</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="102" data-name="Zafrani - Reis" data-price="5.50" data-category="reis">-</button>
-                            <span class="item-qty" data-id="102">1</span>
+                            <button class="menu-btn-minus" data-id="102">-</button><span class="item-qty" data-id="102">1</span>
                         </div>
                         <button class="add-btn" data-id="102" data-name="Zafrani - Reis" data-price="5.50" data-category="reis">+</button>
                     </div>
@@ -1252,37 +1212,34 @@
         </section>
 
         <section id="salate">
-            <h2>Salate</h2>
+            <h2 data-i18n="cat_salads">Salate</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>103. Gemischter Salat</strong><span class="description">Zwiebeln, Tomaten, Gurken...</span></span>
+                    <span class="item"><strong data-i18n="item_103">103. Gemischter Salat</strong><span class="description">Zwiebeln, Tomaten, Gurken</span></span>
                     <div class="price-action">
                         <span class="price">6,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="103" data-name="Gemischter Salat" data-price="6.00" data-category="salate">-</button>
-                            <span class="item-qty" data-id="103">1</span>
+                            <button class="menu-btn-minus" data-id="103">-</button><span class="item-qty" data-id="103">1</span>
                         </div>
                         <button class="add-btn" data-id="103" data-name="Gemischter Salat" data-price="6.00" data-category="salate">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>104. Chicken Salat</strong><span class="description">Zwiebeln, Tomaten, Gurken...</span></span>
+                    <span class="item"><strong data-i18n="item_104">104. Chicken Salat</strong><span class="description">Zwiebeln, Tomaten, Gurken, Hähnchen</span></span>
                     <div class="price-action">
                         <span class="price">7,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="104" data-name="Chicken Salat" data-price="7.50" data-category="salate">-</button>
-                            <span class="item-qty" data-id="104">1</span>
+                            <button class="menu-btn-minus" data-id="104">-</button><span class="item-qty" data-id="104">1</span>
                         </div>
                         <button class="add-btn" data-id="104" data-name="Chicken Salat" data-price="7.50" data-category="salate">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>105. Zafrani Chicken Salat</strong><span class="description">Rote und weiße Zwiebeln...</span></span>
+                    <span class="item"><strong data-i18n="item_105">105. Zafrani Chicken Salat</strong><span class="description">Rote und weiße Zwiebeln, Hähnchen</span></span>
                     <div class="price-action">
                         <span class="price">8,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="105" data-name="Zafrani Chicken Salat" data-price="8.50" data-category="salate">-</button>
-                            <span class="item-qty" data-id="105">1</span>
+                            <button class="menu-btn-minus" data-id="105">-</button><span class="item-qty" data-id="105">1</span>
                         </div>
                         <button class="add-btn" data-id="105" data-name="Zafrani Chicken Salat" data-price="8.50" data-category="salate">+</button>
                     </div>
@@ -1291,59 +1248,54 @@
         </section>
 
         <section id="dessert">
-            <h2>Dessert</h2>
+            <h2 data-i18n="cat_dessert">Dessert</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>106. Mango Kulfi</strong><span class="description">Mango Fruchteis</span></span>
+                    <span class="item"><strong data-i18n="item_106">106. Mango Kulfi</strong><span class="description">Mango Fruchteis</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="106" data-name="Mango Kulfi" data-price="5.50" data-category="dessert">-</button>
-                            <span class="item-qty" data-id="106">1</span>
+                            <button class="menu-btn-minus" data-id="106">-</button><span class="item-qty" data-id="106">1</span>
                         </div>
                         <button class="add-btn" data-id="106" data-name="Mango Kulfi" data-price="5.50" data-category="dessert">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>107. Almond Kulfi</strong><span class="description">Milcheis mit Mandeln...</span></span>
+                    <span class="item"><strong data-i18n="item_107">107. Almond Kulfi</strong><span class="description">Milcheis mit Mandeln</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="107" data-name="Almond Kulfi" data-price="5.50" data-category="dessert">-</button>
-                            <span class="item-qty" data-id="107">1</span>
+                            <button class="menu-btn-minus" data-id="107">-</button><span class="item-qty" data-id="107">1</span>
                         </div>
                         <button class="add-btn" data-id="107" data-name="Almond Kulfi" data-price="5.50" data-category="dessert">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>108. Pista Kulfi</strong><span class="description">Milcheis mit Pistazien...</span></span>
+                    <span class="item"><strong data-i18n="item_108">108. Pista Kulfi</strong><span class="description">Milcheis mit Pistazien</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="108" data-name="Pista Kulfi" data-price="5.50" data-category="dessert">-</button>
-                            <span class="item-qty" data-id="108">1</span>
+                            <button class="menu-btn-minus" data-id="108">-</button><span class="item-qty" data-id="108">1</span>
                         </div>
                         <button class="add-btn" data-id="108" data-name="Pista Kulfi" data-price="5.50" data-category="dessert">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>109. Gulab Jamun</strong><span class="description">Zwei Milchbällchen mit...</span></span>
+                    <span class="item"><strong data-i18n="item_109">109. Gulab Jamun</strong><span class="description">Zwei Milchbällchen in Sirup</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="109" data-name="Gulab Jamun" data-price="5.50" data-category="dessert">-</button>
-                            <span class="item-qty" data-id="109">1</span>
+                            <button class="menu-btn-minus" data-id="109">-</button><span class="item-qty" data-id="109">1</span>
                         </div>
                         <button class="add-btn" data-id="109" data-name="Gulab Jamun" data-price="5.50" data-category="dessert">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>110. Ras Malai</strong><span class="description">Weiche Käsebällchen in...</span></span>
+                    <span class="item"><strong data-i18n="item_110">110. Ras Malai</strong><span class="description">Weiche Käsebällchen in Milch</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="110" data-name="Ras Malai" data-price="5.50" data-category="dessert">-</button>
-                            <span class="item-qty" data-id="110">1</span>
+                            <button class="menu-btn-minus" data-id="110">-</button><span class="item-qty" data-id="110">1</span>
                         </div>
                         <button class="add-btn" data-id="110" data-name="Ras Malai" data-price="5.50" data-category="dessert">+</button>
                     </div>
@@ -1352,81 +1304,74 @@
         </section>
 
         <section id="getraenke">
-            <h2>Getränke</h2>
+            <h2 data-i18n="cat_drinks">Getränke</h2>
             <ul>
                 <li>
-                    <span class="item"><strong>111. Lassi</strong><span class="description">0,3l</span></span>
+                    <span class="item"><strong data-i18n="item_111">111. Lassi</strong><span class="description">0,3l</span></span>
                     <div class="price-action">
                         <span class="price">4,00 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="111" data-name="Lassi" data-price="4.00" data-category="getraenke">-</button>
-                            <span class="item-qty" data-id="111">1</span>
+                            <button class="menu-btn-minus" data-id="111">-</button><span class="item-qty" data-id="111">1</span>
                         </div>
                         <button class="add-btn" data-id="111" data-name="Lassi" data-price="4.00" data-category="getraenke">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>112. Mango Lassi</strong><span class="description">0,3l</span></span>
+                    <span class="item"><strong data-i18n="item_112">112. Mango Lassi</strong><span class="description">0,3l</span></span>
                     <div class="price-action">
                         <span class="price">4,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="112" data-name="Mango Lassi" data-price="4.50" data-category="getraenke">-</button>
-                            <span class="item-qty" data-id="112">1</span>
+                            <button class="menu-btn-minus" data-id="112">-</button><span class="item-qty" data-id="112">1</span>
                         </div>
                         <button class="add-btn" data-id="112" data-name="Mango Lassi" data-price="4.50" data-category="getraenke">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>113. Rosé Lassi</strong><span class="description">0,3l</span></span>
+                    <span class="item"><strong data-i18n="item_113">113. Rosé Lassi</strong><span class="description">0,3l</span></span>
                     <div class="price-action">
                         <span class="price">4,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="113" data-name="Rosé Lassi" data-price="4.50" data-category="getraenke">-</button>
-                            <span class="item-qty" data-id="113">1</span>
+                            <button class="menu-btn-minus" data-id="113">-</button><span class="item-qty" data-id="113">1</span>
                         </div>
                         <button class="add-btn" data-id="113" data-name="Rosé Lassi" data-price="4.50" data-category="getraenke">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>114. Coca Cola</strong><span class="description">0,33l</span></span>
+                    <span class="item"><strong data-i18n="item_114">114. Coca Cola</strong><span class="description">0,33l</span></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="114" data-name="Coca Cola" data-price="3.50" data-category="getraenke">-</button>
-                            <span class="item-qty" data-id="114">1</span>
+                            <button class="menu-btn-minus" data-id="114">-</button><span class="item-qty" data-id="114">1</span>
                         </div>
                         <button class="add-btn" data-id="114" data-name="Coca Cola" data-price="3.50" data-category="getraenke">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>115. Cola Zero</strong><span class="description">0,33l</span></span>
+                    <span class="item"><strong data-i18n="item_115">115. Cola Zero</strong><span class="description">0,33l</span></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="115" data-name="Cola Zero" data-price="3.50" data-category="getraenke">-</button>
-                            <span class="item-qty" data-id="115">1</span>
+                            <button class="menu-btn-minus" data-id="115">-</button><span class="item-qty" data-id="115">1</span>
                         </div>
                         <button class="add-btn" data-id="115" data-name="Cola Zero" data-price="3.50" data-category="getraenke">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>116. Sprite</strong><span class="description">0,33l</span></span>
+                    <span class="item"><strong data-i18n="item_116">116. Sprite</strong><span class="description">0,33l</span></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="116" data-name="Sprite" data-price="3.50" data-category="getraenke">-</button>
-                            <span class="item-qty" data-id="116">1</span>
+                            <button class="menu-btn-minus" data-id="116">-</button><span class="item-qty" data-id="116">1</span>
                         </div>
                         <button class="add-btn" data-id="116" data-name="Sprite" data-price="3.50" data-category="getraenke">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>117. Fanta</strong><span class="description">0,33l</span></span>
+                    <span class="item"><strong data-i18n="item_117">117. Fanta</strong><span class="description">0,33l</span></span>
                     <div class="price-action">
                         <span class="price">3,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="117" data-name="Fanta" data-price="3.50" data-category="getraenke">-</button>
-                            <span class="item-qty" data-id="117">1</span>
+                            <button class="menu-btn-minus" data-id="117">-</button><span class="item-qty" data-id="117">1</span>
                         </div>
                         <button class="add-btn" data-id="117" data-name="Fanta" data-price="3.50" data-category="getraenke">+</button>
                     </div>
@@ -1435,34 +1380,31 @@
             <h3>Cocktails (alkoholfrei)</h3>
             <ul>
                 <li>
-                    <span class="item"><strong>118. Pinacolada</strong><span class="description">0,5l</span></span>
+                    <span class="item"><strong data-i18n="item_118">118. Pinacolada</strong><span class="description">0,5l</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="118" data-name="Pinacolada" data-price="5.50" data-category="getraenke">-</button>
-                            <span class="item-qty" data-id="118">1</span>
+                            <button class="menu-btn-minus" data-id="118">-</button><span class="item-qty" data-id="118">1</span>
                         </div>
                         <button class="add-btn" data-id="118" data-name="Pinacolada" data-price="5.50" data-category="getraenke">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>119. Mint-Margarita</strong><span class="description">0,5l</span></span>
+                    <span class="item"><strong data-i18n="item_119">119. Mint-Margarita</strong><span class="description">0,5l</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="119" data-name="Mint-Margarita" data-price="5.50" data-category="getraenke">-</button>
-                            <span class="item-qty" data-id="119">1</span>
+                            <button class="menu-btn-minus" data-id="119">-</button><span class="item-qty" data-id="119">1</span>
                         </div>
                         <button class="add-btn" data-id="119" data-name="Mint-Margarita" data-price="5.50" data-category="getraenke">+</button>
                     </div>
                 </li>
                 <li>
-                    <span class="item"><strong>120. Ipanema</strong><span class="description">0,5l</span></span>
+                    <span class="item"><strong data-i18n="item_120">120. Ipanema</strong><span class="description">0,5l</span></span>
                     <div class="price-action">
                         <span class="price">5,50 €</span>
                         <div class="quantity-controls hidden">
-                            <button class="menu-btn-minus" data-id="120" data-name="Ipanema" data-price="5.50" data-category="getraenke">-</button>
-                            <span class="item-qty" data-id="120">1</span>
+                            <button class="menu-btn-minus" data-id="120">-</button><span class="item-qty" data-id="120">1</span>
                         </div>
                         <button class="add-btn" data-id="120" data-name="Ipanema" data-price="5.50" data-category="getraenke">+</button>
                     </div>
@@ -1471,21 +1413,26 @@
         </section>
         
     </main>
-    
-    <footer>
-        <p><strong>Zusatzstoffe:</strong> 1) mit Farbstoffen 2) Schwärzungsmittel 3) mit Konservierungsstoffen 4) Schwefeloxid 5) mit Phosphat 6) mit Antioxidationsmittel 7) mit Geschmacksverstärkern 8) gewachst 9) mit Süßungsmittel 10) mit Zuckerart(en) 11) enthält eine Phenylalaninquelle 12) kann bei übermäßigem Verzehr abführend wirken 13) chininhaltig 14) koffeinhaltig 15) Stärke 16) Eiklar 17) Sojaeiweiß 18) mit Milcheweiß</p>
-        <p><strong>Allergene:</strong> A) enthält Weizen B) enthält Krebstiere C) enthält Eier D) enthält Fisch E) enthält Erdnüsse F) enthält Soja G) enthält Milch/Laktose H) enthält Pistazien I) enthält Sellerie J) enthält Senf K) enthält Sesamsamen I) enthält Schwefeldioxid und Sulfite M) enthält Lupine N) enthält Weichtiere und Weichtiererzeugnisse</p>
-        <p class="disclaimer">Alle Preise inkl. MwSt.. Änderungen, Irrtümer, Druckfehler vorbehalten. Es kann keine Garantie für eine 100% Vollständigkeit der Angaben übernommen werden.</p>
-    </footer>
 
-    <div class="site-credit-footer">
-        <p>
-            <a href="imprint.html" target="_blank">Impressum (Imprint)</a> | 
-            <a href="privacy.html" target="_blank">Datenschutzerklärung (Privacy)</a>
-        </p>
-        <p>&copy; Zafran Delight, Euskirchen 2025</p>
-        <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank" rel="noopener">Shri Avinash Narendhran S V</a> +49 162 3757839</p>
+    <div class="allergen-section">
+        <p><strong data-i18n="additives_title">Zusatzstoffe:</strong> <span data-i18n="additives_list">1) mit Farbstoffen 2) Schwärzungsmittel 3) mit Konservierungsstoffen 4) Schwefeloxid 5) mit Phosphat 6) mit Antioxidationsmittel 7) mit Geschmacksverstärkern 8) gewachst 9) mit Süßungsmittel 10) mit Zuckerart(en) 11) enthält eine Phenylalaninquelle 12) kann bei übermäßigem Verzehr abführend wirken 13) chininhaltig 14) koffeinhaltig 15) Stärke 16) Eiklar 17) Sojaeiweiß 18) mit Milcheweiß</span></p>
+        <p><strong data-i18n="allergens_title">Allergene:</strong> <span data-i18n="allergens_list">A) enthält Weizen B) enthält Krebstiere C) enthält Eier D) enthält Fisch E) enthält Erdnüsse F) enthält Soja G) enthält Milch/Laktose H) enthält Pistazien I) enthält Sellerie J) enthält Senf K) enthält Sesamsamen I) enthält Schwefeldioxid und Sulfite M) enthält Lupine N) enthält Weichtiere und Weichtiererzeugnisse</span></p>
+        <p class="disclaimer" data-i18n="disclaimer">Alle Preise inkl. MwSt.. Änderungen, Irrtümer, Druckfehler vorbehalten. Es kann keine Garantie für eine 100% Vollständigkeit der Angaben übernommen werden.</p>
     </div>
+
+    <footer class="main-footer">
+        <div class="container text-center" style="text-align: center;">
+            <img src="logo.png" class="footer-logo" alt="Zafran">
+            <div class="site-credit-footer" style="background: transparent; border: none; padding-top: 0;">
+                <p>
+                    <a href="imprint.html" target="_blank" data-i18n="footer_imprint">Impressum</a> | 
+                    <a href="privacy.html" target="_blank" data-i18n="footer_privacy">Datenschutz</a>
+                </p>
+                <p data-i18n="footer_rights">© 2025 Zafran Delight. All Rights Reserved.</p>
+                <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank">Shri Avinash Narendhran S V</a> +49 162 3757839</p>
+            </div>
+        </div>
+    </footer>
 
     <button id="cart-toggle-btn" class="hidden">
         <span class="cart-icon">🛒</span>
@@ -1495,64 +1442,173 @@
     <div id="cart-overlay" class="hidden">
         <div id="cart-modal">
             <button id="cart-close-btn">&times;</button>
-            
             <div id="cart-content">
-                <h2 id="cart-title">Your Order</h2>
-                
-                <div id="cart-items-container">
-                    </div>
-                
+                <h2 id="cart-title" data-i18n="cart_title">Your Order</h2>
+                <div id="cart-items-container"></div>
                 <div id="cart-summary">
                     <div class="summary-line" id="summary-total">
                         <span>Total:</span>
                         <span id="total-amount">0,00 €</span>
                     </div>
                 </div>
-                
                 <hr>
-                
                 <form id="order-form">
-                    
                     <h3 id="formbold-table-title" style="margin: 0 0 15px 0; color: var(--gold);"></h3>
-
-                    
-                    <label for="dine-in-notes" style="font-size: 0.9em; margin-bottom: 5px; display: block;">Allergies or Notes (Optional):</label>
+                    <label for="dine-in-notes" style="font-size: 0.9em; margin-bottom: 5px; display: block;" data-i18n="form_notes">Allergies or Notes (Optional):</label>
                     <textarea id="dine-in-notes" rows="2" style="background-color: #0d163d; border-color: var(--border-color); color: var(--text-main); width: 100%; border-radius: 4px; padding: 8px; margin-bottom: 15px;"></textarea>
-                
+                    
                     <input type="hidden" id="table-number-input" name="Table Number">
                     <input type="hidden" id="order-details-input" name="Order Details">
                     <input type="hidden" id="order-total-input" name="Total">
 
                     <div class="checkout-buttons">
-                        <button type="button" id="firebase-btn" class="checkout-kitchen">
-                            An Küche senden (Live)
-                        </button>
+                        <button type="button" id="firebase-btn" class="checkout-kitchen" data-i18n="btn_send_kitchen">An Küche senden (Live)</button>
                     </div>
                 </form>
             </div>
-            
             <div id="order-confirmation" class="hidden">
-                <h2>Bestellung gesendet!</h2>
-                <p>Your order has been sent to the kitchen.</p>
+                <h2 data-i18n="success_title">Bestellung gesendet!</h2>
+                <p data-i18n="success_msg">Your order has been sent to the kitchen.</p>
                 <h3>Your Order Summary:</h3>
-                <div id="confirmation-summary">
-                    </div>
+                <div id="confirmation-summary"></div>
                 <p id="cancel-timer-text" style="color: var(--gold); display: none;"></p>
-                <button type="button" id="cancel-order-btn" class="checkout-kitchen" style="display: none; background-color: #8B0000; border-color: #8B0000; color: white;">
-                    Bestellung stornieren
-                </button>
+                <button type="button" id="cancel-order-btn" class="checkout-kitchen" style="display: none; background-color: #8B0000; border-color: #8B0000; color: white;">Bestellung stornieren</button>
                 <button type="button" id="confirmation-close-btn" class="checkout-email">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- THIS IS THE FIX -->
-    <!-- Add Firebase scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="dine-in-script.js?v=26"></script> 
     
-    <!-- Load the correct, new script version -->
-    <script src="dine-in-script.js?v=26"></script>
-    <!-- END OF FIX -->
+    <script>
+        function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+        const translations = {
+            de: {
+                nav_home: "Startseite", nav_story: "Über Uns", nav_menu: "Speisekarte", nav_offers: "Angebote", nav_contact: "Kontakt",
+                footer_rights: "© 2025 Zafran Delight. All Rights Reserved.", footer_imprint: "Impressum", footer_privacy: "Datenschutz",
+                
+                // Categories
+                cat_soups: "Suppen", cat_starters: "Vorspeisen", cat_vegan: "Veganes", cat_vegetarian: "Vegetarisches",
+                cat_chicken: "Chicken", cat_lamb: "Lamm", cat_seafood: "Fisch & Garnelen", cat_tandoori: "Tandoori",
+                cat_biryani: "Biryani", cat_bread: "Brot", cat_sides: "Beilagen", cat_kids: "Kinder",
+                cat_rice: "Reis", cat_salads: "Salate", cat_dessert: "Dessert", cat_drinks: "Getränke",
+
+                // Footer Allergens
+                additives_title: "Zusatzstoffe:", additives_list: "1) mit Farbstoffen 2) Schwärzungsmittel 3) mit Konservierungsstoffen 4) Schwefeloxid 5) mit Phosphat 6) mit Antioxidationsmittel 7) mit Geschmacksverstärkern 8) gewachst 9) mit Süßungsmittel 10) mit Zuckerart(en) 11) enthält eine Phenylalaninquelle 12) kann bei übermäßigem Verzehr abführend wirken 13) chininhaltig 14) koffeinhaltig 15) Stärke 16) Eiklar 17) Sojaeiweiß 18) mit Milcheweiß",
+                allergens_title: "Allergene:", allergens_list: "A) enthält Weizen B) enthält Krebstiere C) enthält Eier D) enthält Fisch E) enthält Erdnüsse F) enthält Soja G) enthält Milch/Laktose H) enthält Pistazien I) enthält Sellerie J) enthält Senf K) enthält Sesamsamen I) enthält Schwefeldioxid und Sulfite M) enthält Lupine N) enthält Weichtiere und Weichtiererzeugnisse",
+                disclaimer: "Alle Preise inkl. MwSt.. Änderungen, Irrtümer, Druckfehler vorbehalten. Es kann keine Garantie für eine 100% Vollständigkeit der Angaben übernommen werden.",
+
+                // Cart
+                cart_title: "Ihre Bestellung",
+                form_notes: "Anmerkungen (Allergien etc.):",
+                btn_send_kitchen: "An Küche senden (Live)",
+                success_title: "Bestellung gesendet!", success_msg: "Ihre Bestellung wurde an die Küche gesendet.",
+
+                // Item Names (German)
+                item_1: "1. Tomatensuppe", item_2: "2. Daal Linsensuppe", item_3: "3. Hähnchen Suppe", item_4: "4. Mulligatawny Suppe",
+                item_5: "5. Veg. Samosa", item_6: "6. Chicken Samosa", item_7: "7. Aloo Tiki", item_8: "8. Mix Pakora*",
+                item_9: "9. Paneer Pakora", item_10: "10. Aloo Pakora", item_11: "11. Gobi Pakora", item_12: "12. Mashroom Pakora",
+                item_13: "13. Chicken Pakora", item_14: "14. Prawn Pakora", item_15: "15. Vegi Mix", item_16: "16. Palak Aallu",
+                item_17: "17. Saag Aallu", item_18: "18. Tarka Daal", item_19: "19. Bhindi Masala", item_20: "20. Baingen Aallu",
+                item_21: "21. Mushroom Aallu", item_22: "22. Gobi Aallu", item_23: "23. Channa Masala", item_24: "24. Veg. Korma",
+                item_25: "25. Nauratan Korma", item_26: "26. Shahi Paneer", item_27: "27. Paneer Tikka Masala", item_28: "28. Paneer Jalfrezi",
+                item_29: "29. Paneer Bhunna Masala", item_30: "30. Palak Paneer", item_31: "31. Paneer Muttar Aallu", item_32: "32. Chicken Curry",
+                item_33: "33. Chicken Tikka Masala", item_34: "34. Chicken Korma", item_35: "35. Butter Chicken", item_36: "36. Kashmiri Chicken",
+                item_37: "37. Chicken Goan Curry", item_38: "38. Chicken Jalfrezi", item_39: "39. Chicken Kadai", item_40: "40. Chicken Bhuna",
+                item_41: "41. Vegi Chicken", item_42: "42. Chicken Palak", item_43: "43. Chicken Dhansik", item_44: "44. Chicken Madras",
+                item_45: "45. Chicken Vindalo", item_46: "46. Lamb Curry", item_47: "47. Lamb Tikka Masala", item_48: "48. Lamb Korma",
+                item_49: "49. Butter Lamb", item_50: "50. Kashmiri Lamb", item_51: "51. Lamb Goan Curry", item_52: "52. Lamb Jalfrezi",
+                item_53: "53. Lamb Kadai", item_54: "54. Lamb Bhuna", item_55: "55. Vegi Lamb", item_56: "56. Lamb Palak",
+                item_57: "57. Lamb Dhansik", item_58: "58. Lamb Madras", item_59: "59. Lamb Vindalo", item_60: "60. Prawn Curry",
+                item_61: "61. Prawn Korma", item_62: "62. Prawn Tikka Masala", item_63: "63. Fish Curry", item_64: "64. Fish Tikka Masala",
+                item_65: "65. Chicken Tikka", item_66: "66. Tandoori Chicken", item_67: "67. Malai Tikka", item_68: "68. Haryali Tikka",
+                item_69: "69. Lamb Tikka", item_70: "70. Lamb Chops", item_71: "71. Seekh Kabab", item_72: "72. Prawn Tikka",
+                item_73: "73. Paneer Tikka", item_74: "74. Fish Tawa Fry", item_75: "75. Zafrani Mix Grill", item_76: "76. Vegi Biryani",
+                item_77: "77. Chicken Bombay Biryani", item_78: "78. Lamb Karachi Biryani", item_79: "79. Prawn Zafran Biryani", item_80: "80. Frisches Tandoori Brot",
+                item_81: "81. Chapati Roti", item_82: "82. Naan", item_83: "83. Allo Naan", item_84: "84. Cheese Naan",
+                item_85: "85. Butter Naan", item_86: "86. Garlic Naan", item_87: "87. Tandoori Parantha", item_88: "88. Mint Sauce",
+                item_89: "89. Natur Joghurt", item_90: "90. Raita", item_91: "91. Mango Chutney", item_92: "92. Imli (Tamarind) Chutney",
+                item_93: "93. Laal Chutney", item_94: "94. Green Chutney", item_95: "95. Pickles", item_96: "96. Soße nach Wahl",
+                item_97: "97. Gemüse-Frühlingsrollen", item_98: "98. Pommes frites", item_99: "99. Chicken Nuggets (6 Stk.)", item_100: "100. Basmati - Reis",
+                item_101: "101. Zeera - Reis", item_102: "102. Zafrani - Reis", item_103: "103. Gemischter Salat", item_104: "104. Chicken Salat",
+                item_105: "105. Zafrani Chicken Salat", item_106: "106. Mango Kulfi", item_107: "107. Almond Kulfi", item_108: "108. Pista Kulfi",
+                item_109: "109. Gulab Jamun", item_110: "110. Ras Malai", item_111: "111. Lassi", item_112: "112. Mango Lassi",
+                item_113: "113. Rosé Lassi", item_114: "114. Coca Cola", item_115: "115. Cola Zero", item_116: "116. Sprite",
+                item_117: "117. Fanta", item_118: "118. Pinacolada", item_119: "119. Mint-Margarita", item_120: "120. Ipanema"
+            },
+            en: {
+                nav_home: "Home", nav_story: "Our Story", nav_menu: "Menu", nav_offers: "Offers", nav_contact: "Contact",
+                footer_rights: "© 2025 Zafran Delight. All Rights Reserved.", footer_imprint: "Imprint", footer_privacy: "Privacy Policy",
+                
+                // Categories
+                cat_soups: "Soups", cat_starters: "Starters", cat_vegan: "Vegan", cat_vegetarian: "Vegetarian",
+                cat_chicken: "Chicken", cat_lamb: "Lamb", cat_seafood: "Seafood", cat_tandoori: "Tandoori",
+                cat_biryani: "Biryani", cat_bread: "Bread", cat_sides: "Sides", cat_kids: "Kids Menu",
+                cat_rice: "Rice", cat_salads: "Salads", cat_dessert: "Dessert", cat_drinks: "Drinks",
+
+                // Footer Allergens
+                additives_title: "Additives:", additives_list: "1) with coloring 2) blackening agent 3) with preservatives 4) sulfur oxide 5) with phosphate 6) with antioxidants 7) with flavor enhancers 8) waxed 9) with sweeteners 10) with sugar(s) 11) contains phenylalanine 12) may have laxative effect 13) contains quinine 14) contains caffeine 15) starch 16) egg white 17) soy protein 18) milk protein",
+                allergens_title: "Allergens:", allergens_list: "A) contains wheat B) contains crustaceans C) contains eggs D) contains fish E) contains peanuts F) contains soy G) contains milk/lactose H) contains pistachios I) contains celery J) contains mustard K) contains sesame seeds I) contains sulfur dioxide/sulfites M) contains lupin N) contains molluscs",
+                disclaimer: "All prices incl. VAT. Subject to changes, errors, and misprints. No guarantee can be given for 100% completeness of the information.",
+
+                // Cart
+                cart_title: "Your Order",
+                form_notes: "Allergies or Notes (Optional):",
+                btn_send_kitchen: "Send to Kitchen (Live)",
+                success_title: "Order Sent!", success_msg: "Your order has been sent to the kitchen.",
+
+                // Item Names (English)
+                item_1: "1. Tomato Soup", item_2: "2. Daal Lentil Soup", item_3: "3. Chicken Soup", item_4: "4. Mulligatawny Soup",
+                item_5: "5. Veg. Samosa", item_6: "6. Chicken Samosa", item_7: "7. Aloo Tiki", item_8: "8. Mix Pakora*",
+                item_9: "9. Paneer Pakora", item_10: "10. Aloo Pakora", item_11: "11. Gobi Pakora", item_12: "12. Mushroom Pakora",
+                item_13: "13. Chicken Pakora", item_14: "14. Prawn Pakora", item_15: "15. Vegi Mix", item_16: "16. Palak Aloo",
+                item_17: "17. Saag Aloo", item_18: "18. Tarka Daal", item_19: "19. Bhindi Masala", item_20: "20. Baingan Aloo",
+                item_21: "21. Mushroom Aloo", item_22: "22. Gobi Aloo", item_23: "23. Chana Masala", item_24: "24. Veg. Korma",
+                item_25: "25. Navratan Korma", item_26: "26. Shahi Paneer", item_27: "27. Paneer Tikka Masala", item_28: "28. Paneer Jalfrezi",
+                item_29: "29. Paneer Bhuna Masala", item_30: "30. Palak Paneer", item_31: "31. Paneer Matar Aloo", item_32: "32. Chicken Curry",
+                item_33: "33. Chicken Tikka Masala", item_34: "34. Chicken Korma", item_35: "35. Butter Chicken", item_36: "36. Kashmiri Chicken",
+                item_37: "37. Chicken Goan Curry", item_38: "38. Chicken Jalfrezi", item_39: "39. Chicken Kadai", item_40: "40. Chicken Bhuna",
+                item_41: "41. Vegi Chicken", item_42: "42. Chicken Palak", item_43: "43. Chicken Dhansak", item_44: "44. Chicken Madras",
+                item_45: "45. Chicken Vindaloo", item_46: "46. Lamb Curry", item_47: "47. Lamb Tikka Masala", item_48: "48. Lamb Korma",
+                item_49: "49. Butter Lamb", item_50: "50. Kashmiri Lamb", item_51: "51. Lamb Goan Curry", item_52: "52. Lamb Jalfrezi",
+                item_53: "53. Lamb Kadai", item_54: "54. Lamb Bhuna", item_55: "55. Vegi Lamb", item_56: "56. Lamb Palak",
+                item_57: "57. Lamb Dhansak", item_58: "58. Lamb Madras", item_59: "59. Lamb Vindaloo", item_60: "60. Prawn Curry",
+                item_61: "61. Prawn Korma", item_62: "62. Prawn Tikka Masala", item_63: "63. Fish Curry", item_64: "64. Fish Tikka Masala",
+                item_65: "65. Chicken Tikka", item_66: "66. Tandoori Chicken", item_67: "67. Malai Tikka", item_68: "68. Haryali Tikka",
+                item_69: "69. Lamb Tikka", item_70: "70. Lamb Chops", item_71: "71. Seekh Kabab", item_72: "72. Prawn Tikka",
+                item_73: "73. Paneer Tikka", item_74: "74. Fish Tawa Fry", item_75: "75. Zafrani Mix Grill", item_76: "76. Vegi Biryani",
+                item_77: "77. Chicken Bombay Biryani", item_78: "78. Lamb Karachi Biryani", item_79: "79. Prawn Zafran Biryani", item_80: "80. Fresh Tandoori Bread",
+                item_81: "81. Chapati Roti", item_82: "82. Naan", item_83: "83. Aloo Naan", item_84: "84. Cheese Naan",
+                item_85: "85. Butter Naan", item_86: "86. Garlic Naan", item_87: "87. Tandoori Paratha", item_88: "88. Mint Sauce",
+                item_89: "89. Natural Yogurt", item_90: "90. Raita", item_91: "91. Mango Chutney", item_92: "92. Imli (Tamarind) Chutney",
+                item_93: "93. Red Chutney (Hot)", item_94: "94. Green Chutney", item_95: "95. Pickles", item_96: "96. Sauce of Choice",
+                item_97: "97. Veg Spring Rolls", item_98: "98. French Fries", item_99: "99. Chicken Nuggets (6 pcs)", item_100: "100. Basmati Rice",
+                item_101: "101. Jeera Rice", item_102: "102. Zafrani Rice", item_103: "103. Mixed Salad", item_104: "104. Chicken Salad",
+                item_105: "105. Zafrani Chicken Salad", item_106: "106. Mango Kulfi", item_107: "107. Almond Kulfi", item_108: "108. Pista Kulfi",
+                item_109: "109. Gulab Jamun", item_110: "110. Ras Malai", item_111: "111. Lassi", item_112: "112. Mango Lassi",
+                item_113: "113. Rose Lassi", item_114: "114. Coca Cola", item_115: "115. Cola Zero", item_116: "116. Sprite",
+                item_117: "117. Fanta", item_118: "118. Pinacolada", item_119: "119. Mint Margarita", item_120: "120. Ipanema"
+            }
+        };
+
+        function setLang(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            const allBtns = document.querySelectorAll('.lang-btn');
+            allBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.trim().toUpperCase() === lang.toUpperCase()) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
