@@ -3,49 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datenschutz - Jhasvik</title>
+    <title>Datenschutzerklärung - Zafran Delight</title>
     <link rel="icon" type="image/png" href="logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css?v=20">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* FIX: Push content down because Header is Fixed/Overlay */
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+        main {
+            padding-top: 120px; /* Space for Fixed Header */
+            padding-bottom: 50px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* HEADER OVERRIDES (Same as Index) */
+        header { 
+            position: fixed !important; 
+            top: 0; 
+            width: 100%; 
+            background: rgba(18, 10, 10, 0.95) !important; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            z-index: 1000;
+        }
+
+        /* Legal Page Typography */
+        h2 { color: var(--gold-primary); border-bottom: 2px solid var(--gold-muted); padding-bottom: 10px; margin-bottom: 20px; }
+        h3 { color: var(--gold-bright); margin-top: 30px; margin-bottom: 15px; }
+        h4 { color: var(--text-light); margin-top: 20px; text-decoration: underline; text-decoration-color: var(--gold-muted); }
+        p, li { color: #ccc; line-height: 1.6; }
+        strong { color: #fff; }
+        
+        /* Data Points */
+        .data-point {
+            background: var(--bg-panel);
+            padding: 15px;
+            border-left: 3px solid var(--gold-primary);
+            margin-bottom: 10px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        address {
+            font-style: normal;
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Footer Overrides for Consistency */
+        footer { background-color: #080404 !important; padding: 20px 0 !important; border-top: 1px solid #222 !important; margin-top: auto; }
+        .footer-logo { max-width: 100px; height: auto; margin-bottom: 10px; display: inline-block; }
+        .site-credit-footer { background-color: transparent !important; padding: 10px 0 0 0; border-top: 1px solid #1a1a1a; margin-top: 15px; font-size: 0.8rem; color: #666; }
+        footer a { color: #888; text-decoration: none; }
+        footer a:hover { color: var(--gold-primary); }
+    </style>
 </head>
 <body>
+
     <header>
-        <div class="header-content-wrapper">
-            <div class="header-content">
-                <a href="index.html"><img src="logo.png" alt="Zaffran Logo" class="logo"></a>
-                <div class="contact-info">
-                    <strong>Jhasvik - Germany's 1st Authentic South Indian Restaurant</strong>
-                    <p>Kampstraße 46<br>40591 Düsseldorf</p>
-                    <a href="tel:+491624802373" class="phone-link">
-                    <i class="fa fa-phone"></i> +49 162 4802373
-                    </a>
+        <div class="header-content-wrapper navbar">
+            <a href="index.html" class="logo"><img src="logo.png" alt="Zafran Delight"></a>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html" data-i18n="nav_home">Startseite</a>
+                
+                <div class="header-actions">
+                    <div class="lang-switch">
+                        <button class="lang-btn active" onclick="setLang('de')">DE</button>
+                        <button class="lang-btn" onclick="setLang('en')">EN</button>
+                    </div>
                 </div>
+            </nav>
+            
+            <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('active')">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             </div>
         </div>
-        </header>
+    </header>
 
     <main>
         <section class="legal-page">
-            <h2>Datenschutzerklärung (DSGVO & TDDDG)</h2>
+            <h2 data-i18n="privacy_title">Datenschutzerklärung (DSGVO & TDDDG)</h2>
             <p>Stand: November 2025</p>
 
-            <hr style="border-color: var(--border-color);">
-
-            <h3>1. 🧑‍⚖️ Name und Kontaktdaten des Verantwortlichen</h3>
+            <h3 data-i18n="sec_1_title">1. Name und Kontaktdaten des Verantwortlichen</h3>
             <p>Verantwortlich für die Datenverarbeitung auf dieser Website im Sinne der DSGVO ist:</p>
             <address>
-                <strong>Jhasvikt</strong><br>
-                Inhaber: Prakash Mohan<br>
-                Kampstraße 46, 40591 Düsseldorf<br>
-                40591 Düsseldorf
-                Telefon:+49 162 4802373<br>
-                E-Mail: jhasvik@gmail.com
+                <strong>Zafran Delight</strong><br>
+                Inhaber: Syed Hussain Haider Zaidi<br>
+                Kessenicher Straße 9, 53879 Euskirchen<br>
+                Telefon: 02251 1290950<br>
+                E-Mail: delightzafran@gmail.com
             </address>
 
-            <hr style="border-color: var(--border-color);">
-
-            <h3>2. 🍕 Datenverarbeitung zur Durchführung von Abholbestellungen</h3>
-            <p>Wir erheben und verarbeiten personenbezogene Daten **ausschließlich** zum Zweck der Abwicklung Ihrer Bestellung zur Abholung.</p>
+            <h3 data-i18n="sec_2_title">2. Datenverarbeitung zur Durchführung von Abholbestellungen</h3>
+            <p>Wir erheben und verarbeiten personenbezogene Daten <strong>ausschließlich</strong> zum Zweck der Abwicklung Ihrer Bestellung zur Abholung.</p>
 
             <h4>a) Bestell- und Kontaktdaten</h4>
             <div class="data-point">
@@ -75,66 +132,90 @@
                 <strong>Speicherdauer:</strong> Unmittelbar nach der Abholung und Abschluss der Bestellung gelöscht.
             </div>
 
-            <hr style="border-color: var(--border-color);">
-
-            <h3>3. ⚙️ Datenverarbeitung für die Website-Bereitstellung (TDDDG)</h3>
+            <h3 data-i18n="sec_3_title">3. Datenverarbeitung für die Website-Bereitstellung (TDDDG)</h3>
             <p>Beim Aufruf unserer Website werden bestimmte technische Informationen erfasst, um die Funktionsfähigkeit und Sicherheit zu gewährleisten (Server-Logfiles).</p>
             <ul>
                 <li><strong>Verarbeitete Daten:</strong> IP-Adresse, Datum/Uhrzeit des Zugriffs, Browsertyp.</li>
                 <li><strong>Zweck:</strong> Technische Sicherheit und Gewährleistung der Funktionalität unseres Angebots.</li>
                 <li><strong>Rechtsgrundlage:</strong> Art. 6 Abs. 1 lit. f DSGVO (<strong>Berechtigtes Interesse</strong>).</li>
-                <li>**Cookies/Tracking:** Wir verwenden **keine** Tracking-Tools (wie Google Analytics) und setzen nur technisch notwendige Cookies für den Bestellvorgang ein.</li>
+                <li><strong>Cookies/Tracking:</strong> Wir verwenden <strong>keine</strong> Tracking-Tools (wie Google Analytics) und setzen nur technisch notwendige Cookies für den Bestellvorgang ein.</li>
             </ul>
 
-            <hr style="border-color: var(--border-color);">
-
-            <h3>4. 📤 Externe Dienste und Auftragsverarbeiter</h3>
+            <h3 data-i18n="sec_4_title">4. Externe Dienste und Auftragsverarbeiter</h3>
             <p>Ihre Daten werden nur im Rahmen der notwendigen technischen Abwicklung an folgende Dienstleister weitergegeben:</p>
             <ul>
                 <li><strong>Website-Hosting (GitHub Pages):</strong> Der Hostinganbieter stellt die technische Infrastruktur bereit. Es erfolgt hierdurch eine Speicherung der Server-Logfiles auf deren Servern.</li>
-                <li><strong>Bestellformular (Formspree):</strong> Wir nutzen Formspree als Formular-Backend für die sichere Übermittlung Ihrer Bestelldaten an uns.</li>
+                <li><strong>Bestellformular (Formspree/Firebase):</strong> Wir nutzen sichere Backend-Services für die Übermittlung Ihrer Bestelldaten an die Küche.</li>
                 <li><strong>Kommunikation (WhatsApp):</strong> Sofern Sie uns über einen WhatsApp-Link kontaktieren, gelten die Datenschutzbestimmungen von WhatsApp (Meta Platforms).</li>
             </ul>
 
-            <hr style="border-color: var(--border-color);">
-
-            <h3>5. ⚖️ Ihre Rechte als betroffene Person</h3>
+            <h3 data-i18n="sec_5_title">5. Ihre Rechte als betroffene Person</h3>
             <p>Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit, Widerspruch gegen die Verarbeitung und Widerruf der Einwilligung.</p>
-            <p>Zusätzlich haben Sie das **Beschwerderecht** bei der zuständigen Aufsichtsbehörde:</p>
+            <p>Zusätzlich haben Sie das <strong>Beschwerderecht</strong> bei der zuständigen Aufsichtsbehörde:</p>
             
-            <p><strong>Die Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen</strong></p>
             <address>
-                Postfach 20 04 44<br>
-                40102 Düsseldorf<br>
+                <strong>Die Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen</strong><br>
+                Postfach 20 04 44, 40102 Düsseldorf<br>
                 Besucheradresse: Kavalleriestr. 2-4, 40213 Düsseldorf<br>
                 Telefon: 0211 / 38424-0<br>
                 E-Mail: poststelle@ldi.nrw.de
             </address>
             
-            <hr style="border-color: var(--border-color);">
-
-            <a href="index.html" class="checkout-email" style="text-decoration: none; text-align: center; display: block; margin-top: 30px; padding: 10px; border-radius: 5px;">Zurück zur Speisekarte</a>
+            <a href="index.html" class="btn btn-gold" style="text-decoration: none; text-align: center; display: block; margin-top: 40px; max-width: 250px; margin-left: auto; margin-right: auto;">Zurück zur Startseite</a>
         </section>
     </main>
 
     <footer>
-    <div class="site-credit-footer">
-        <div class="footer-line-one">
-            <p class="footer-links">
-                <a href="imprint.html" target="_blank">Impressum (Imprint)</a> | 
-                <a href="privacy.html" target="_blank">Datenschutzerklärung (Privacy)</a>
-            </p>
-            <p class="footer-copyright">
-                &copy; Jhasvik, Düsseldorf 2025
-            </p>
+        <div class="container text-center">
+            <img src="logo.png" class="footer-logo" alt="Zafran" style="max-width: 100px;">
+            <div style="margin-bottom: 15px;">
+                <h5 style="color: var(--gold-primary); font-size: 1rem;" data-i18n="footer_imprint_title">Impressum</h5>
+                <p style="font-size: 0.8rem;" data-i18n="footer_imprint_text">Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen</p>
+            </div>
+            
+            <div class="site-credit-footer">
+                <p>
+                    <a href="imprint.html" target="_blank" data-i18n="footer_imprint">Impressum</a> | 
+                    <a href="privacy.html" target="_blank" data-i18n="footer_privacy">Datenschutz</a>
+                </p>
+                <p data-i18n="footer_rights">© 2025 Zafran Delight. All Rights Reserved.</p>
+                <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank">Shri Avinash Narendhran S V</a></p>
+            </div>
         </div>
-        
-        <p class="footer-developer">
-            Created & Developed by <a href="https://sanstechno.in/" target="_blank" rel="noopener">Shri Avinash Narendhran S V</a> +49 162 3757839
-        </p>
-    </div>
-   </footer>    
-    
-    <script src="script.js?v=18"></script>
+    </footer>
+
+    <script>
+        // Simple Navigation & Language Logic
+        const translations = {
+            de: {
+                nav_home: "Startseite",
+                privacy_title: "Datenschutzerklärung (DSGVO & TDDDG)",
+                footer_imprint_title: "Impressum", footer_imprint_text: "Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
+                footer_rights: "© 2025 Zafran Delight. Alle Rechte vorbehalten.",
+                footer_imprint: "Impressum", footer_privacy: "Datenschutz"
+            },
+            en: {
+                nav_home: "Home",
+                privacy_title: "Privacy Policy (GDPR & TDDDG)",
+                footer_imprint_title: "Imprint", footer_imprint_text: "Owner: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
+                footer_rights: "© 2025 Zafran Delight. All Rights Reserved.",
+                footer_imprint: "Imprint", footer_privacy: "Privacy Policy"
+            }
+        };
+
+        function setLang(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) el.textContent = translations[lang][key];
+            });
+            const allBtns = document.querySelectorAll('.lang-btn');
+            allBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.trim().toUpperCase() === lang.toUpperCase()) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
