@@ -4,74 +4,241 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Impressum - Zafran Delight</title>
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css?v=20">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* ===============================================
+           IMPRINT PAGE OVERRIDES
+        =============================================== */
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+        }
+
+        /* 1. HEADER (Fixed Overlay - Matches Index) */
+        header { 
+            position: fixed !important; 
+            top: 0; 
+            width: 100%; 
+            background: rgba(18, 10, 10, 0.95) !important; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            z-index: 1000;
+        }
+
+        /* 2. MAIN LAYOUT */
+        main {
+            padding-top: 120px; /* Space for Fixed Header */
+            padding-bottom: 80px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        /* 3. TYPOGRAPHY & SECTIONS */
+        .legal-page h2 {
+            font-size: 2.2rem;
+            color: var(--gold-primary);
+            margin-bottom: 10px;
+            border-bottom: none !important;
+            text-align: center;
+        }
+        
+        .legal-page > p { text-align: center; color: var(--text-muted); margin-bottom: 40px; }
+
+        .legal-page h3 {
+            font-size: 1.5rem;
+            color: var(--gold-bright);
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-bottom: none !important;
+        }
+
+        .legal-page h4 {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-top: 25px;
+            margin-bottom: 10px;
+            text-decoration: underline;
+            text-decoration-color: var(--gold-muted);
+        }
+
+        .legal-page p, .legal-page li {
+            color: #ccc;
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        /* 4. ADDRESS BOX */
+        address {
+            font-style: normal;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 1px solid var(--border-color);
+            line-height: 1.6;
+            color: #ddd;
+        }
+        address strong { color: var(--gold-primary); font-size: 1.1em; }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--border-color);
+            margin: 40px 0;
+            opacity: 0.5;
+        }
+
+        /* 5. COMPACT FOOTER */
+        footer { background-color: #080404 !important; padding: 20px 0 !important; border-top: 1px solid #222 !important; color: #888; margin-top: auto; }
+        .footer-logo { max-width: 100px; height: auto; margin-bottom: 10px; display: inline-block; }
+        .site-credit-footer { background-color: transparent !important; padding: 10px 0 0 0; border-top: 1px solid #1a1a1a; margin-top: 15px; font-size: 0.8rem; color: #666; }
+        footer a { color: #888; text-decoration: none; transition: color 0.2s; }
+        footer a:hover { color: var(--gold-primary); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 3rem; }
+        }
+    </style>
 </head>
 <body>
+
     <header>
-        <div class="header-content-wrapper">
-            <div class="header-content">
-                <a href="index.html"><img src="logo.png" alt="ZaffranLogo" class="logo"></a>
-                <div class="contact-info">
-                    <strong>Zafran Delight</strong>
-                    <p>Kessenicher Straße 9<br>53879 Euskirchen</p>
-                    <a href="tel:+4922511290950" class="phone-link">
-                    <i class="fa fa-phone"></i> +49 2251 1290950
-                    </a>
+        <div class="header-content-wrapper navbar">
+            <a href="index.html" class="logo"><img src="logo.png" alt="Zafran Delight"></a>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html" data-i18n="nav_home">Startseite</a>
+                
+                <div class="header-actions">
+                    <div class="lang-switch">
+                        <button class="lang-btn active" onclick="setLang('de')">DE</button>
+                        <button class="lang-btn" onclick="setLang('en')">EN</button>
+                    </div>
                 </div>
+            </nav>
+            
+            <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('active')">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             </div>
         </div>
-        </header>
+    </header>
 
     <main>
         <section class="legal-page">
-            <h2>Impressum</h2>
-            
-            <h3>Angaben gemäß § 5 TMG</h3>
+            <h2 data-i18n="imprint_title">Impressum</h2>
+            <p>Angaben gemäß § 5 TMG</p>
+
+            <hr>
+
+            <h3 data-i18n="sec_1_title">1. Betreiber der Website</h3>
             <address>
                 <strong>Zafran Delight</strong><br>
                 Inhaber: Syed Hussain Haider Zaidi<br>
                 Kessenicher Straße 9<br>
-                53879 Euskirchen
+                53879 Euskirchen<br>
+                Deutschland
             </address>
 
-            <h3>Kontakt</h3>
-            <address>
-                Telefon: 02251 1290950<br>
-                E-Mail: delightzafran@gmail.com
-            </address>
-
-            <h3>Umsatzsteuer-ID (falls vorhanden)</h3>
-            <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br>
-                [IHRE USt-IdNr. HIER EINFÜGEN, FALLS VORHANDEN]
+            <h3 data-i18n="sec_2_title">2. Kontakt</h3>
+            <p>
+                <strong>Telefon:</strong> <a href="tel:022511290950" style="color: var(--gold-bright);">02251 1290950</a><br>
+                <strong>E-Mail:</strong> <a href="mailto:delightzafran@gmail.com" style="color: var(--gold-bright);">delightzafran@gmail.com</a>
             </p>
-            
-            <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h3>
-            <address>
-                Syed Hussain Haider Zaidi<br>
-                Kessenicher Straße 9<br>
-                53879 Euskirchen
-            </address>
-            
-            <hr style="border-color: var(--border-color); margin-top: 30px;">
-            
-            <a href="index.html" class="checkout-email" style="text-decoration: none; text-align: center; display: block; margin-top: 30px; padding: 10px; border-radius: 5px;">Zurück zur Speisekarte</a>
+
+            <h3 data-i18n="sec_3_title">3. Umsatzsteuer-ID</h3>
+            <p>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br>
+            (Bitte hier USt-IdNr. einfügen, falls vorhanden, sonst diesen Abschnitt entfernen)</p>
+
+            <hr>
+
+            <h3 data-i18n="sec_4_title">4. EU-Streitschlichtung</h3>
+            <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr/" target="_blank" style="color: var(--gold-muted);">https://ec.europa.eu/consumers/odr/</a>.<br>
+            Unsere E-Mail-Adresse finden Sie oben im Impressum.</p>
+
+            <h3 data-i18n="sec_5_title">5. Verbraucherstreitbeilegung</h3>
+            <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+            <h3 data-i18n="sec_6_title">6. Haftung für Inhalte</h3>
+            <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+
+            <h3 data-i18n="sec_7_title">7. Urheberrecht</h3>
+            <p>Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.</p>
+
+            <hr>
+
+            <a href="index.html" class="btn btn-gold" style="text-decoration: none; text-align: center; display: block; margin-top: 40px; max-width: 250px; margin-left: auto; margin-right: auto;">Zurück zur Startseite</a>
         </section>
     </main>
 
     <footer>
- 
+        <div class="container text-center">
+            <img src="logo.png" class="footer-logo" alt="Zafran" style="max-width: 100px;">
+            <div style="margin-bottom: 15px;">
+                <h5 style="color: var(--gold-primary); font-size: 1rem;" data-i18n="footer_imprint_title">Impressum</h5>
+                <p style="font-size: 0.8rem;" data-i18n="footer_imprint_text">Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen</p>
+            </div>
+            
+            <div class="site-credit-footer">
+                <p>
+                    <a href="imprint.html" target="_blank" data-i18n="footer_imprint">Impressum</a> | 
+                    <a href="privacy.html" target="_blank" data-i18n="footer_privacy">Datenschutz</a>
+                </p>
+                <p data-i18n="footer_rights">© 2025 Zafran Delight. All Rights Reserved.</p>
+                <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank">Shri Avinash Narendhran S V</a></p>
+            </div>
+        </div>
+    </footer>
 
-    <div class="site-credit-footer">
-        <p>
-            <a href="imprint.html" target="_blank">Impressum (Imprint)</a> | 
-            <a href="privacy.html" target="_blank">Datenschutzerklärung (Privacy)</a>
-        </p>
-        <p>&copy; Zafran Delight, Euskirchen 2025</p>
-        <p>Developed by <a href="#" target="_blank" rel="noopener">Shri Avinash Narendhran S V</a> <a href="tel:+491623757839">+49 162 3757839</a></p>
-    </div>
-   </footer>    
-    <script src="script.js?v=18"></script>
+    <script>
+        const translations = {
+            de: {
+                nav_home: "Startseite",
+                imprint_title: "Impressum",
+                sec_1_title: "1. Betreiber der Website",
+                sec_2_title: "2. Kontakt",
+                sec_3_title: "3. Umsatzsteuer-ID",
+                sec_4_title: "4. EU-Streitschlichtung",
+                sec_5_title: "5. Verbraucherstreitbeilegung",
+                sec_6_title: "6. Haftung für Inhalte",
+                sec_7_title: "7. Urheberrecht",
+                footer_imprint_title: "Impressum", footer_imprint_text: "Inhaber: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
+                footer_rights: "© 2025 Zafran Delight. Alle Rechte vorbehalten.",
+                footer_imprint: "Impressum", footer_privacy: "Datenschutz"
+            },
+            en: {
+                nav_home: "Home",
+                imprint_title: "Imprint (Legal Notice)",
+                sec_1_title: "1. Website Operator",
+                sec_2_title: "2. Contact",
+                sec_3_title: "3. VAT ID",
+                sec_4_title: "4. EU Dispute Resolution",
+                sec_5_title: "5. Consumer Dispute Resolution",
+                sec_6_title: "6. Liability for Contents",
+                sec_7_title: "7. Copyright",
+                footer_imprint_title: "Imprint", footer_imprint_text: "Owner: Syed Hussain Haider Zaidi | Kessenicher Str. 9, 53879 Euskirchen",
+                footer_rights: "© 2025 Zafran Delight. All Rights Reserved.",
+                footer_imprint: "Imprint", footer_privacy: "Privacy Policy"
+            }
+        };
+
+        function setLang(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) el.textContent = translations[lang][key];
+            });
+            const allBtns = document.querySelectorAll('.lang-btn');
+            allBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.trim().toUpperCase() === lang.toUpperCase()) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
