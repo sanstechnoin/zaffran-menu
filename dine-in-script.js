@@ -20,6 +20,23 @@ let lastOrderId = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
     
+    // --- 3. FETCH CONFIG & MARQUEE (ADDED) ---
+    try {
+        const response = await fetch('config.json?v=24'); 
+        const config = await response.json();
+        
+        const marqueeContainer = document.getElementById('marquee-container');
+        const marqueeText = document.getElementById('marquee-text');
+        
+        if (marqueeText && marqueeContainer && config.marqueeLines && config.marqueeLines.length > 0) {
+            marqueeText.innerText = config.marqueeLines.join(" --- ");
+            marqueeContainer.classList.remove('hidden');
+        }
+    } catch (e) { 
+        console.warn("Config/Marquee load failed", e); 
+    }
+    
+    // --- Table & Order Logic ---
     try {
         const urlParams = new URLSearchParams(window.location.search);
         const table = urlParams.get('table');
@@ -30,53 +47,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     if(formboldTableTitleEl) formboldTableTitleEl.innerText = `Table ${tableNumber} Order`;
     const cartTitleEl = document.getElementById('cart-title');
     if(cartTitleEl) cartTitleEl.innerText = `Your Order (Table ${tableNumber})`;
-    const tableNumberInput = document.getElementById('table-number-input');
-    if (tableNumberInput) tableNumberInput.value = tableNumber;
 
-    let config = { marqueeLines: [] };
-    try {
-        const response = await fetch('config.json?v=24'); 
-        config = await response.json();
-    } catch (e) { console.warn("Config not loaded", e); }
-
-    const marqueeContainer = document.getElementById('marquee-container');
-    const marqueeText = document.getElementById('marquee-text');
-    if (marqueeText && marqueeContainer && config.marqueeLines && config.marqueeLines.length > 0) {
-        marqueeText.innerText = config.marqueeLines.join(" --- ");
-        marqueeContainer.classList.remove('hidden');
-    }
-
+    // --- Header Scroll Logic ---
     const header = document.querySelector('header');
-    const headerNav = document.querySelector('header nav');
     function updateScrollPadding() {
         if (header) {
-            const headerHeight = header.offsetHeight;
-            document.documentElement.style.setProperty('scroll-padding-top', `${headerHeight}px`);
-            if (headerNav) {
-                const navHeight = headerNav.offsetHeight;
-                const topPartHeight = headerHeight - navHeight;
-                headerNav.style.top = `${topPartHeight}px`;
-            }
+            document.documentElement.style.setProperty('scroll-padding-top', `${header.offsetHeight}px`);
         }
     }
     updateScrollPadding();
     window.addEventListener('resize', updateScrollPadding);
     
-    const navLinksContainer = document.getElementById('nav-links-container');
-    const scrollLeftBtn = document.getElementById('scroll-left-btn');
-    const scrollRightBtn = document.getElementById('scroll-right-btn');
-    if (navLinksContainer) {
-        const checkScroll = () => {
-            const maxScroll = navLinksContainer.scrollWidth - navLinksContainer.clientWidth;
-            if(scrollLeftBtn) scrollLeftBtn.classList.toggle('hidden', navLinksContainer.scrollLeft <= 0);
-            if(scrollRightBtn) scrollRightBtn.classList.toggle('hidden', navLinksContainer.scrollLeft >= maxScroll - 1);
-        };
-        navLinksContainer.addEventListener('scroll', checkScroll);
-        checkScroll();
-        if(scrollLeftBtn) scrollLeftBtn.addEventListener('click', () => navLinksContainer.scrollBy({ left: -200, behavior: 'smooth' }));
-        if(scrollRightBtn) scrollRightBtn.addEventListener('click', () => navLinksContainer.scrollBy({ left: 200, behavior: 'smooth' }));
-    }
-
+    // --- Cart DOM Elements ---
     const cartToggleBtn = document.getElementById('cart-toggle-btn');
     const cartOverlay = document.getElementById('cart-overlay');
     const cartCloseBtn = document.getElementById('cart-close-btn');
@@ -88,8 +70,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const confirmationSummaryEl = document.getElementById('confirmation-summary');
     const confirmationCloseBtn = document.getElementById('confirmation-close-btn');
     const orderForm = document.getElementById('order-form');
-    const firebaseBtn = document.getElementById('firebase-btn');
+    const firebaseBtn = document.getElementById('firebase-btn'); 
     
+    // --- Cart Event Listeners ---
     if (cartToggleBtn) cartToggleBtn.addEventListener('click', openCart);
     if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCart);
     if (confirmationCloseBtn) confirmationCloseBtn.addEventListener('click', closeCart);
@@ -100,14 +83,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         cartOverlay.classList.remove('hidden');
         updateCart();
     }
-    function closeCart() { 
-        cartOverlay.classList.add('hidden'); 
-        setTimeout(() => {
-            cartContentEl.style.display = 'block';
-            orderConfirmationEl.style.display = 'none';
-        }, 500);
+    function closeCart() {
+        cartOverlay.classList.add('hidden');
     }
 
+    // --- Add/Remove Buttons in Menu ---
     function initItemControls() {
         document.querySelectorAll('.add-btn').forEach(btn => {
             btn.removeEventListener('click', handleAddToCartClick);
@@ -119,25 +99,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
     function handleAddToCartClick() {
-        addToCart(this.dataset.id, this.dataset.name, parseFloat(this.dataset.price), this.dataset.category);
+        addToCart(this.dataset.id, this.dataset.name, parseFloat(this.dataset.price));
     }
     function handleRemoveFromCartClick() {
         adjustQuantity(this.dataset.id, -1);
     }
     initItemControls(); 
-
-    function addToCart(id, name, price, category) {
+    
+    function addToCart(id, name, price) {
         const existingItem = cart.find(item => item.id === id);
-        if (existingItem) existingItem.quantity++;
-        else cart.push({ id, name, price, category, quantity: 1 });
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            cart.push({ id, name, price, quantity: 1 });
+        }
         updateCart();
     }
 
     function updateCart() {
         cartItemsContainer.innerHTML = "";
-        let total = 0;
+        let subtotal = 0;
         let itemCount = 0;
-        
+
+        // Update quantity display on menu items
         document.querySelectorAll('.item-qty').forEach(qtyEl => {
             const item = cart.find(i => i.id === qtyEl.dataset.id);
             const controlsDiv = qtyEl.closest('.quantity-controls');
@@ -145,18 +129,19 @@ document.addEventListener("DOMContentLoaded", async () => {
                 qtyEl.innerText = item.quantity;
                 controlsDiv.classList.remove('hidden');
             } else {
-                qtyEl.innerText = '1'; 
+                qtyEl.innerText = '1';
                 controlsDiv.classList.add('hidden');
             }
         });
 
         if (cart.length === 0) {
-            cartItemsContainer.innerHTML = "<p>Your cart is empty.</p>";
+            cartItemsContainer.innerHTML = "<p>Your order is empty.</p>";
         } else {
             cart.forEach(item => {
                 const itemTotal = item.price * item.quantity;
-                total += itemTotal;
+                subtotal += itemTotal;
                 itemCount += item.quantity;
+                
                 const itemEl = document.createElement('div');
                 itemEl.classList.add('cart-item');
                 itemEl.innerHTML = `
@@ -171,18 +156,21 @@ document.addEventListener("DOMContentLoaded", async () => {
                 cartItemsContainer.appendChild(itemEl);
             });
         }
-        
-        totalAmountEl.innerText = `${total.toFixed(2)} €`;
+        totalAmountEl.innerText = `${subtotal.toFixed(2)} €`;
         cartItemCountEl.innerText = itemCount;
-        cartToggleBtn.classList.toggle('hidden', itemCount === 0);
-        addCartItemControls(); 
+        
+        if (cartToggleBtn) {
+            if (itemCount > 0) cartToggleBtn.classList.remove('hidden');
+            else cartToggleBtn.classList.add('hidden');
+        }
+        addCartItemControls();
     }
 
     function addCartItemControls() {
-        document.querySelectorAll('#cart-items-container .cart-btn-plus').forEach(btn => {
+        document.querySelectorAll('.cart-btn-plus').forEach(btn => {
             btn.addEventListener('click', () => adjustQuantity(btn.dataset.id, 1));
         });
-        document.querySelectorAll('#cart-items-container .cart-btn-minus').forEach(btn => {
+        document.querySelectorAll('.cart-btn-minus').forEach(btn => {
             btn.addEventListener('click', () => adjustQuantity(btn.dataset.id, -1));
         });
     }
@@ -190,93 +178,90 @@ document.addEventListener("DOMContentLoaded", async () => {
     function adjustQuantity(id, amount) {
         const item = cart.find(item => item.id === id);
         if (!item) return;
+        
         item.quantity += amount;
-        if (item.quantity <= 0) cart = cart.filter(item => item.id !== id);
+        if (item.quantity <= 0) {
+            cart = cart.filter(item => item.id !== id);
+        }
         updateCart();
     }
 
-    function generateOrderData() {
-        let itemsOnly = []; 
-        let summaryText = ""; // NEW: build the text string here
-        let total = 0;
-        
-        cart.forEach(item => {
-            const itemTotal = item.price * item.quantity;
-            total += itemTotal;
-            // Build the text summary line
-            summaryText += `${item.quantity}x ${item.name} (${itemTotal.toFixed(2)} €)\n`;
+    // --- Submit to Firebase (Dine-In) ---
+    if(firebaseBtn) {
+        firebaseBtn.addEventListener('click', async () => {
+            const customerNotes = document.getElementById('dine-in-notes').value;
             
-            itemsOnly.push({
-                quantity: item.quantity,
-                name: item.name,
-                price: item.price
+            if (cart.length === 0) {
+                alert("Your cart is empty.");
+                return;
+            }
+
+            let summaryText = "";
+            let itemsOnly = [];
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                summaryText += `${item.quantity}x ${item.name} (${itemTotal.toFixed(2)} €)\n`;
+                total += itemTotal;
+                itemsOnly.push({
+                    quantity: item.quantity,
+                    name: item.name,
+                    price: item.price
+                });
             });
+
+            // Use simple short ID for order
+            const orderId = `order-${tableNumber}-${new Date().getTime().toString().slice(-6)}`;
+            
+            const orderData = {
+                id: orderId,
+                table: `Table ${tableNumber}`,
+                customerName: `Guest (Table ${tableNumber})`, // Placeholder for kitchen view
+                notes: customerNotes || "Dine-In",
+                items: itemsOnly,
+                total: total,
+                status: "new",
+                orderType: "dine-in",
+                createdAt: new Date()
+            };
+
+            firebaseBtn.innerText = "Sending...";
+            firebaseBtn.disabled = true;
+
+            try {
+                await db.collection("orders").doc(orderId).set(orderData);
+                
+                // Show confirmation
+                lastOrderId = orderId; 
+                cartContentEl.style.display = 'none';
+                orderConfirmationEl.style.display = 'block';
+                confirmationSummaryEl.innerText = summaryText + `\nTotal: ${total.toFixed(2)} €\n\nNotes: ${customerNotes}`;
+                
+                startCancelTimer(); 
+
+            } catch (error) {
+                console.error("Error sending order: ", error);
+                alert("Error sending order. Please try again.");
+                firebaseBtn.innerText = "An Küche senden (Live)";
+                firebaseBtn.disabled = false;
+            }
         });
-        return { total, itemsOnly, summaryText };
-    }
-    
-    // --- SEND TO KITCHEN ---
-    firebaseBtn.addEventListener('click', async (e) => {
-        e.preventDefault(); 
         
-        firebaseBtn.innerText = "Senden...";
-        firebaseBtn.disabled = true;
+        // --- Cancel Logic (Optional 30s timer) ---
+        function startCancelTimer() {
+            const cancelBtn = document.getElementById('cancel-order-btn');
+            const cancelText = document.getElementById('cancel-timer-text');
+            if(!cancelBtn) return;
 
-        const { itemsOnly, total, summaryText } = generateOrderData();
-        const orderId = `${tableNumber}-${new Date().getTime()}`;
-        lastOrderId = orderId; 
-        
-        const customerNotes = document.getElementById('dine-in-notes').value;
-
-        const orderData = {
-            id: orderId,
-            table: tableNumber,
-            items: itemsOnly,
-            total: total,
-            status: "new",
-            createdAt: new Date(),
-            orderType: "dine-in",
-            notes: customerNotes || null 
-        };
-
-        try {
-            await db.collection("orders").doc(orderId).set(orderData);
-            showConfirmationScreen(summaryText, total, customerNotes);
-        } catch (error) {
-            console.error("Error sending order to Firebase: ", error);
-            alert("Error sending order. Please try again or call a waiter.");
-        } finally {
-            firebaseBtn.innerText = "An Küche senden (Live)";
-            firebaseBtn.disabled = false;
-        }
-    });
-
-    // --- UPDATED CONFIRMATION SCREEN (TEXT BASED) ---
-    function showConfirmationScreen(summaryText, total, notes) {
-        // Construct the full text block with newlines
-        let finalSummary = `Table: ${tableNumber}\n\n${summaryText}\nTotal: ${total.toFixed(2)} €`;
-        
-        if (notes && notes.trim() !== "") {
-            finalSummary += `\n\nNotes: ${notes}`;
-        }
-        
-        // Use innerText so \n becomes a line break (handled by pre-wrap CSS)
-        confirmationSummaryEl.innerText = finalSummary;
-        
-        cartContentEl.style.display = 'none';
-        orderConfirmationEl.style.display = 'block';
-
-        const cancelBtn = document.getElementById('cancel-order-btn');
-        const cancelText = document.getElementById('cancel-timer-text');
-        
-        if (cancelBtn && cancelText) {
-            cancelBtn.style.display = 'block';
+            cancelBtn.style.display = 'inline-block';
             cancelText.style.display = 'block';
+            
             let secondsLeft = 30;
-            if (window.cancelTimer) clearInterval(window.cancelTimer);
-
             cancelText.innerText = `You can cancel this order within ${secondsLeft} seconds.`;
-
+            
+            if(window.cancelTimer) clearInterval(window.cancelTimer);
+            
             window.cancelTimer = setInterval(() => {
                 secondsLeft--;
                 cancelText.innerText = `You can cancel this order within ${secondsLeft} seconds.`;
