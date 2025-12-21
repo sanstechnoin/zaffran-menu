@@ -5,19 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tisch auswählen - Zaffran Delight</title>
     <link rel="icon" type="image/png" href="logo.png">
-    <link rel="stylesheet" href="style.css?v=26">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <header>
-        <div class="header-content-wrapper">
-            <div class="header-content">
-                <a href="index.html"><img src="logo.png" alt="Zaffran Logo" class="logo"></a>
-                <div class="contact-info">
-                    <strong>Zafran Delight</strong>
-                    <p>Kessenicher Straße 9<br>53879 Euskirchen</p>
-                    <a href="tel:+4922511290950" class="phone-link"><i class="fa fa-phone"></i> +49 2251 1290950</a>
+        <div class="header-content-wrapper navbar">
+            <a href="index.html" class="logo"><img src="logo.png" alt="Zafran Delight"></a>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Startseite</a>
+                <a href="index.html#about">Über Uns</a>
+                <a href="index.html#menu">Speisekarte</a>
+                <div class="header-actions">
+                    <div class="lang-switch">
+                        <button class="lang-btn active">DE</button>
+                        <button class="lang-btn">EN</button>
+                    </div>
                 </div>
+            </nav>
+            
+            <div class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('active')">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             </div>
         </div>
     </header>
@@ -40,15 +49,23 @@
                 <a href="dine-in-menu.html?table=2" class="table-btn selected" style="--angle: 330deg;">2</a>
                 <a href="dine-in-menu.html?table=3" class="table-btn" style="--angle: 0deg;">3</a> 
                 
-                <img src="clock.png" alt="Food" class="center-food-image">
+                <img src="clock.png" alt="Zaffran" class="center-food-image">
             </div>
         </div>
-        </main>
+    </main>
 
-    <footer style="margin-top: auto;">
-        <p><strong>Zusatzstoffe:</strong> 1) mit Farbstoffen 2) Schwärzungsmittel 3) mit Konservierungsstoffen 4) Schwefeloxid 5) mit Phosphat 6) mit Antioxidationsmittel 7) mit Geschmacksverstärkern 8) gewachst 9) mit Süßungsmittel 10) mit Zuckerart(en) 11) enthält eine Phenylalaninquelle 12) kann bei übermäßigem Verzehr abführend wirken 13) chininhaltig 14) koffeinhaltig 15) Stärke 16) Eiklar 17) Sojaeiweiß 18) mit Milcheweiß</p>
-        <p><strong>Allergene:</strong> A) enthält Weizen B) enthält Krebstiere C) enthält Eier D) enthält Fisch E) enthält Erdnüsse F) enthält Soja G) enthält Milch/Laktose H) enthält Pistazien I) enthält Sellerie J) enthält Senf K) enthält Sesamsamen I) enthält Schwefeldioxid und Sulfite M) enthält Lupine N) enthält Weichtiere und Weichtiererzeugnisse</p>
-        <p class="disclaimer">Alle Preise inkl. MwSt.. Änderungen, Irrtümer, Druckfehler vorbehalten. Es kann keine Garantie für eine 100% Vollständigkeit der Angaben übernommen werden.</p>
+    <footer>
+        <div class="container">
+            <p style="font-size: 0.8rem; margin-bottom: 10px; color: #888;">
+                <strong>Zusatzstoffe:</strong> 1) mit Farbstoffen 2) Schwärzungsmittel 3) mit Konservierungsstoffen 4) Schwefeloxid 5) mit Phosphat 6) mit Antioxidationsmittel 7) mit Geschmacksverstärkern 8) gewachst 9) mit Süßungsmittel 10) mit Zuckerart(en) 11) enthält eine Phenylalaninquelle 12) kann bei übermäßigem Verzehr abführend wirken 13) chininhaltig 14) koffeinhaltig 15) Stärke 16) Eiklar 17) Sojaeiweiß 18) mit Milcheweiß
+            </p>
+            <p style="font-size: 0.8rem; margin-bottom: 15px; color: #888;">
+                <strong>Allergene:</strong> A) enthält Weizen B) enthält Krebstiere C) enthält Eier D) enthält Fisch E) enthält Erdnüsse F) enthält Soja G) enthält Milch/Laktose H) enthält Pistazien I) enthält Sellerie J) enthält Senf K) enthält Sesamsamen L) enthält Schwefeldioxid und Sulfite M) enthält Lupine N) enthält Weichtiere und Weichtiererzeugnisse
+            </p>
+            <p class="disclaimer" style="font-style: italic; color: #aaa;">
+                Alle Preise inkl. MwSt.. Änderungen, Irrtümer, Druckfehler vorbehalten. Es kann keine Garantie für eine 100% Vollständigkeit der Angaben übernommen werden.
+            </p>
+        </div>
     </footer>
 
     <div class="site-credit-footer">
@@ -59,7 +76,5 @@
         <p>&copy; Zafran Delight, Euskirchen 2025</p>
         <p>Created & Developed by <a href="https://sanstechno.in/" target="_blank" rel="noopener">Shri Avinash Narendhran S V</a> +49 162 3757839</p>
     </div>
-    
 </body>
 </html>
-        
